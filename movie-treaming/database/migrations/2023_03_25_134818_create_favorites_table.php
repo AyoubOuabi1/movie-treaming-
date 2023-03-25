@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('favorites', function (Blueprint $table) {
+        Schema::create('favorite', function (Blueprint $table) {
             $table->unsignedBigInteger('movie_id');
             $table->unsignedBigInteger('user_id');
             $table->primary('user_id','movie_id');
             $table->foreign('user_id')->references('id')
                 ->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('movie_id')->references('id')
-                ->on('movies')->onDelete('cascade')->onUpdate('cascade');
+                ->on('movie')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('favorites');
+        Schema::dropIfExists('favorite');
     }
 };

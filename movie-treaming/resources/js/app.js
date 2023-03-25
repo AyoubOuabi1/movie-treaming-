@@ -31,7 +31,7 @@ function getVideoByCategory(data){
         }
     });
     console.log(moviesByCategory);
-// Display movies by category in sections
+// Display movie by categoryController in sections
      for (const category in moviesByCategory) {
          const movies = moviesByCategory[category];
 
