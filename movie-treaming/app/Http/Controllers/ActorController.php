@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actor;
 use Illuminate\Http\Request;
 
 class ActorController extends Controller
@@ -10,7 +11,7 @@ class ActorController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api');
+       // $this->middleware('auth:api');
     }
     /**
      * Display a listing of the resource.
@@ -18,8 +19,8 @@ class ActorController extends Controller
     public function index()
     {
         //
-        $genres=Actor::all();
-        return response()->json($genres);
+        $actors=Actor::all();
+        return response()->json($actors);
     }
 
     /**
@@ -28,10 +29,8 @@ class ActorController extends Controller
     public function store(Request $request)
     {
         //
-        $genre=new Genre;
-        $genre->name=$request->input('name');
-        $genre->save();
-        return response()->json($genre);
+        $actor=new Actor;
+        return $this->requestActor($request, $actor);
     }
 
     /**
@@ -40,8 +39,8 @@ class ActorController extends Controller
     public function show(string $id)
     {
         //
-        $genre= Genre::find($id);
-        return response()->json($genre);
+        $actor= Actor::find($id);
+        return response()->json($actor);
     }
 
     /**
@@ -50,10 +49,8 @@ class ActorController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $genre = Genre::find($id);
-        $genre->name= $request->input('name');
-        $genre->save();
-        return response()->json($genre);
+        $actor = Actor::find($id);
+        return $this->requestActor($request, $actor);
     }
 
     /**
@@ -62,8 +59,24 @@ class ActorController extends Controller
     public function destroy(string $id)
     {
         //
-        $genre =  Genre::find($id);
+        $genre =  Actor::find($id);
         $genre->delete();
         return response()->json(['messqge','Genre Deleted']);
+    }
+
+    /**
+     * @param Request $request
+     * @param $actor
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function requestActor(Request $request, $actor): \Illuminate\Http\JsonResponse
+    {
+        $actor->full_name = $request->input('full_name');
+        $actor->born_in = $request->input('born_in');
+        $actor->nationality = $request->input('nationality');
+        $actor->description = $request->input('description');
+        $actor->role = $request->input('role');
+        $actor->save();
+        return response()->json($actor);
     }
 }

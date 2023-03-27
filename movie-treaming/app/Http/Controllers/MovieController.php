@@ -29,9 +29,8 @@ class MovieController extends Controller
     {
         //
         $movie=new Movie;
-        $movie= $this->requestMovie($request, $movie);
-        $movie->save();
-        return response()->json($movie);
+        return $this->requestMovie($request, $movie);
+
     }
 
     /**
@@ -51,9 +50,8 @@ class MovieController extends Controller
     {
         //
         $movie = Movie::find($id);
-        $movie= $this->requestMovie($request, $movie);
-        $movie->save();
-        return response()->json($movie);
+
+        return $this->requestMovie($request, $movie);
     }
 
     /**
@@ -71,7 +69,7 @@ class MovieController extends Controller
      * @param Request $request
      * @param $movie
      */
-    public function requestMovie(Request $request, $movie): Movie
+    public function requestMovie(Request $request, $movie):\Illuminate\Http\JsonResponse
     {
         $movie->name = $request->input('name');
         $movie->realased_date = $request->input('realased_date');
@@ -82,6 +80,7 @@ class MovieController extends Controller
         $movie->cover_image = $request->input('cover_image');
         $movie->trailer_video = $request->input('trailer_video');
         $movie->languages = $request->input('languages');
-       return $movie;
+        $movie->save();
+        return response()->json($movie);
     }
 }
