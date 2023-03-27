@@ -26,7 +26,24 @@ class Movie extends Model
     ];
 
 
-    public function user(){
-        return $this->belongsToMany(User::class);
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function actors()
+    {
+        return $this->belongsToMany(Actor::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }

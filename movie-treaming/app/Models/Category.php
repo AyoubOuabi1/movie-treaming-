@@ -18,4 +18,8 @@ class Category extends Model
         'name',
 
     ];
+    public function movies()
+    {
+        return $this->belongsToMany(Movie::class);
+    }
 }

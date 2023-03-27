@@ -21,4 +21,9 @@ class Actor extends Model
         'role',
 
     ];
+
+    public function movies()
+    {
+        return $this->belongsToMany(Movie::class);
+    }
 }
