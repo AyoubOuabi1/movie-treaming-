@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ratings', function (Blueprint $table) {
+        //
+        Schema::create('actors_movies', function (Blueprint $table) {
             $table->unsignedBigInteger('movie_id');
-            $table->unsignedBigInteger('user_id');
-            $table->integer('starts');
-            $table->primary('user_id','movie_id');
-            $table->foreign('user_id')->references('id')
-                ->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('actor_id');
+            $table->primary('actor_id','movie_id');
+            $table->foreign('actor_id')->references('id')
+                ->on('actors')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('movie_id')->references('id')
                 ->on('movies')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
@@ -29,6 +29,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ratings');
+        //
+        Schema::dropIfExists('actors_movies');
+
     }
 };
