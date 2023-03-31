@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favorite;
+use App\Models\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FavoriteController extends Controller
 {
@@ -19,8 +22,13 @@ class FavoriteController extends Controller
     public function index()
     {
         //
-        $favorite=Favorite::all();
-        return response()->json($favorite);
+        $favorites = Favorite::where('user_id', Auth::id())->get();
+        $movies = collect();
+        foreach ($favorites as $favorite) {
+            $movie = Movie::with('actors', 'categories')->find($favorite->movie_id);
+            $movies->push($movie);
+        }
+        return response()->json($movies);
     }
 
     /**
@@ -37,38 +45,51 @@ class FavoriteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $idOrTitle)
     {
         //
-        $favorite= Favorite::find($id);
-        return response()->json($favorite);
+        $movies = Movie::where('id', $idOrTitle)
+            ->orWhere('title', 'LIKE', '%'.$idOrTitle.'%')
+            ->with(['actors', 'category'])
+            ->get();
+
+        return response()->json($movies);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-        $favorite = Favorite::find($id);
-        return $this->requestFav($request,$favorite);
-    }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): \Illuminate\Http\JsonResponse
     {
-        //
-        $favorite =  Favorite::find($id);
-        $favorite->delete();
-        return response()->json(['messqge','movie has been Deleted from Favorite']);
+        $favorite=DB::table('favorites')->where('movie_id', $id)->where('user_id', Auth::id())->delete();
+
+        if ($favorite) {
+            return response()->json(['message' => 'Movie has been deleted from favorites']);
+        } else {
+            return response()->json(['error' => 'Favorite not found'], 404);
+        }
     }
     public function requestFav(Request $request, $favorite): \Illuminate\Http\JsonResponse
     {
-        $favorite->movie_id = $request->input('movie_id');
-        $favorite->user_id = $request->input('user_id');
-        $favorite->save();
-        return response()->json($favorite);
+        if($this->checkMovie($request->input('movie_id'))){
+            return response()->json(['message' =>'Movie Already added to favorites']);
+        }else {
+            $favorite->movie_id = $request->input('movie_id');
+            $favorite->user_id = Auth::id();
+            $favorite->save();
+            return response()->json($favorite);
+        }
+
+    }
+
+    public function checkMovie(string $id)
+    {
+        $favorite = Favorite::where('movie_id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        return (bool)$favorite;
     }
 }

@@ -48,8 +48,8 @@ Route::delete('/category/{id}', [CategoryController::class, 'delete']);
 // Favorite routes
 Route::get('/favorites', [FavoriteController::class, 'index']);
 Route::get('/favorite/{id}', [FavoriteController::class, 'show']);
-Route::post('/favorites', [FavoriteController::class, 'store']);
-Route::delete('/favorites/{id}', [FavoriteController::class, 'delete']);
+Route::post('/favorite', [FavoriteController::class, 'store']);
+Route::delete('/favorite/{id}', [FavoriteController::class, 'destroy']);
 
 // Home routes
 Route::get('/home', [HomeController::class, 'index']);
@@ -66,4 +66,4 @@ Route::get('/ratings', [RatingController::class, 'index']);
 Route::get('/rating/{id}', [RatingController::class, 'show']);
 Route::post('/ratings', [RatingController::class, 'store']);
 Route::put('/ratings/{id}', [RatingController::class, 'update']);
-Route::delete('/ratings/{id}', [RatingController::class, 'delete']);
+Route::delete('/ratings/{id}', [RatingController::class, 'destroy']);
