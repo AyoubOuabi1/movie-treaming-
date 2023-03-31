@@ -33,18 +33,21 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 // Actor routes
 Route::get('/actors', [ActorController::class, 'index']);
-Route::post('/actors', [ActorController::class, 'store']);
-Route::put('/actors/{id}', [ActorController::class, 'update']);
-Route::delete('/actors/{id}', [ActorController::class, 'delete']);
+Route::get('/actor/{id}', [ActorController::class, 'show']);
+Route::post('/actor', [ActorController::class, 'store']);
+Route::put('/actor/{id}', [ActorController::class, 'update']);
+Route::delete('/actor/{id}', [ActorController::class, 'delete']);
 
 // Category routes
 Route::get('/categories', [CategoryController::class, 'index']);
-Route::post('/categories', [CategoryController::class, 'store']);
-Route::put('/categories/{id}', [CategoryController::class, 'update']);
-Route::delete('/categories/{id}', [CategoryController::class, 'delete']);
+Route::get('/category/{id}', [CategoryController::class, 'show']);
+Route::post('/category', [CategoryController::class, 'store']);
+Route::put('/category/{id}', [CategoryController::class, 'update']);
+Route::delete('/category/{id}', [CategoryController::class, 'delete']);
 
 // Favorite routes
 Route::get('/favorites', [FavoriteController::class, 'index']);
+Route::get('/favorite/{id}', [FavoriteController::class, 'show']);
 Route::post('/favorites', [FavoriteController::class, 'store']);
 Route::delete('/favorites/{id}', [FavoriteController::class, 'delete']);
 
@@ -53,12 +56,14 @@ Route::get('/home', [HomeController::class, 'index']);
 
 // Movie routes
 Route::get('/movies', [MovieController::class, 'index']);
-Route::post('/movies', [MovieController::class, 'store']);
-Route::put('/movies/{id}', [MovieController::class, 'update']);
-Route::delete('/movies/{id}', [MovieController::class, 'delete']);
+Route::get('/movie/{idOrName}', [MovieController::class, 'show']);
+Route::post('/movie', [MovieController::class, 'store']);
+Route::put('/movie/{id}', [MovieController::class, 'update']);
+Route::delete('/movie/{id}', [MovieController::class, 'destroy']);
 
 // Rating routes
 Route::get('/ratings', [RatingController::class, 'index']);
+Route::get('/rating/{id}', [RatingController::class, 'show']);
 Route::post('/ratings', [RatingController::class, 'store']);
 Route::put('/ratings/{id}', [RatingController::class, 'update']);
 Route::delete('/ratings/{id}', [RatingController::class, 'delete']);

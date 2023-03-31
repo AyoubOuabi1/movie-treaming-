@@ -34,8 +34,8 @@ class MovieController extends Controller
             $movie = new Movie;
             $movie = $this->requestMovie($request, $movie);
             $movie->save();
-            $categoryIds = $request->input('categoryIds ');
-            $actorsIds = $request->input('actorsIds ');
+            $categoryIds = $request->input('categoryIds');
+            $actorsIds = $request->input('actorsIds');
 
             DB::transaction(function () use ($movie, $categoryIds, $actorsIds) {
                 $movie->save();
@@ -76,8 +76,8 @@ class MovieController extends Controller
             // Update movie attributes
             $movie = $this->requestMovie($request, $movie);
             $movie->save();
-            $categoriesIds = $request->input('categoryIds ');
-            $actorsIds = $request->input('actorsIds ');
+            $categoriesIds = $request->input('categoryIds');
+            $actorsIds = $request->input('actorsIds');
 
             DB::transaction(function () use ($movie, $categoriesIds, $actorsIds) {
                 $movie->save();
