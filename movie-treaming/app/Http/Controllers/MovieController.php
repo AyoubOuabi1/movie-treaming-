@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MovieController extends Controller
 {
@@ -18,7 +20,7 @@ class MovieController extends Controller
     public function index()
     {
         //
-        $movies=Movie::all();
+        $movies=Movie::with('actors', 'categories')->get();
         return response()->json($movies);
     }
 
@@ -28,18 +30,38 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         //
-        $movie=new Movie;
-        return $this->requestMovie($request, $movie);
+        try {
+            $movie = new Movie;
+            $movie = $this->requestMovie($request, $movie);
+            $movie->save();
+            $categoryIds = $request->input('categoryIds ');
+            $actorsIds = $request->input('actorsIds ');
+
+            DB::transaction(function () use ($movie, $categoryIds, $actorsIds) {
+                $movie->save();
+                $movie->categories()->attach($categoryIds);
+                $movie->actors()->attach($actorsIds);
+            });
+            return response()->json($movie);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $idOrName)
     {
         //
-        $movie= Movie::find($id);
+        $movie = Movie::with('categories', 'actors')
+            ->where(function ($query) use ($idOrName) {
+                $query->where('id', $idOrName)
+                    ->orWhere('name', 'like', '%' . $idOrName . '%');
+            })
+            ->get();
+
         return response()->json($movie);
     }
 
@@ -48,10 +70,25 @@ class MovieController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        $movie = Movie::find($id);
+        try {
+            $movie = Movie::findOrFail($id);
 
-        return $this->requestMovie($request, $movie);
+            // Update movie attributes
+            $movie = $this->requestMovie($request, $movie);
+            $movie->save();
+            $categoriesIds = $request->input('categoryIds ');
+            $actorsIds = $request->input('actorsIds ');
+
+            DB::transaction(function () use ($movie, $categoriesIds, $actorsIds) {
+                $movie->save();
+                $movie->categories()->sync($categoriesIds);
+                $movie->actors()->sync($actorsIds);
+            });
+            return response()->json($movie);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
     }
 
     /**
@@ -59,18 +96,23 @@ class MovieController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $genre =  Movie::find($id);
-        $genre->delete();
-        return response()->json(['messqge','Movie Deleted']);
+        try {
+            $movie = Movie::findOrFail($id);
+            $movie->delete();
+            return response()->json(['message' => 'Movie deleted']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
     }
 
     /**
      * @param Request $request
      * @param $movie
      */
-    public function requestMovie(Request $request, $movie):\Illuminate\Http\JsonResponse
+    public function requestMovie(Request $request, $movie):Movie
     {
+
         $movie->name = $request->input('name');
         $movie->realased_date = $request->input('realased_date');
         $movie->server_link = $request->input('server_link');
@@ -80,7 +122,7 @@ class MovieController extends Controller
         $movie->cover_image = $request->input('cover_image');
         $movie->trailer_video = $request->input('trailer_video');
         $movie->languages = $request->input('languages');
-        $movie->save();
-        return response()->json($movie);
+        $movie->directorId = $request->input('directorId');
+       return $movie;
     }
 }

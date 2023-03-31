@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('cover_image');
             $table->string('trailer_video');
             $table->string('languages');
+            $table->string('directorId');
 
             $table->timestamps();
         });
