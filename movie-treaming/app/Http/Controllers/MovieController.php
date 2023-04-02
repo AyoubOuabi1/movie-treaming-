@@ -33,6 +33,7 @@ class MovieController extends Controller
         try {
             $movie = new Movie;
             $movie = $this->requestMovie($request, $movie);
+            $movie->totalView=0;
             $movie->save();
             $categoryIds = $request->input('categoryIds');
             $actorsIds = $request->input('actorsIds');
@@ -91,6 +92,21 @@ class MovieController extends Controller
 
     }
 
+    public function updateTotalView(string $id)
+    {
+        try {
+            $movie = Movie::findOrFail($id);
+
+            // Update movie attributes
+            $movie->totalView=$movie->totalView+1;
+            $movie->save();
+
+            return response()->json(['success' => 'view has been added']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
     /**
      * Remove the specified resource from storage.
      */
@@ -124,6 +140,7 @@ class MovieController extends Controller
         $movie->trailer_video = $request->input('trailer_video');
         $movie->languages = $request->input('languages');
         $movie->directorId = $request->input('directorId');
+
        return $movie;
     }
 }
