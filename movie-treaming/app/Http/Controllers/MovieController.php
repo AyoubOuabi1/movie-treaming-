@@ -17,12 +17,22 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $movies=Movie::with('actors', 'categories')->get();
-        return response()->json($movies);
+        $movies = Movie::with('actors', 'categories');
+
+        // Set the number of movies to show per page
+        $perPage = 20;
+
+        // Get the movies for the current page
+        $pagedMovies = $movies->paginate($perPage);
+
+        // Return the paginated movies view
+        return view('home', compact('pagedMovies'));
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.
