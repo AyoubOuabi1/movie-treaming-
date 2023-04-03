@@ -1,61 +1,38 @@
 import './bootstrap';
 import carousel from "bootstrap/js/src/carousel";
 //loadMovies();
-function loadMovies() {
+
+loadTopMovies();
+
+function loadTopMovies() {
+    document.getElementById("topMovies").innerHTML="";
     $.ajax({
-        url: "https://ayoubouabi1.github.io/movie-treaming-/movie-treaming/data.js",
+        url: "http://localhost:8000/api/movies",
         dataType: "json",
         success: function(data) {
-            getVideoByCategory(data);
-
-            // Do something with the data returned by the API
+            // Loop through each movie object in the response data
+            data.forEach(function(movie) {
+                // Create a new HTML template literal for this movie
+                var movieHtml = `
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card mb-3">
+                            <img src="${movie.cover_image}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">${movie.name}</h5>
+                                <p class="card-text">${movie.description.substring(0,70)}...</p>
+                                <a href="#" class="btn btn-primary">Watch Now</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                // Add the movie HTML to the topMovies container
+                document.getElementById("topMovies").innerHTML += movieHtml;
+            });
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
             // Handle any errors that occur while making the request
         }
     });
-
 }
 
-
-function getVideoByCategory(data){
-    const moviesByCategory = {};
-
-
-    data.forEach(movie => {
-        if (moviesByCategory[movie.category]) {
-            moviesByCategory[movie.category].push(movie);
-        } else {
-            moviesByCategory[movie.category] = [movie];
-        }
-    });
-    console.log(moviesByCategory);
-// Display movie by categoryController in sections
-     for (const category in moviesByCategory) {
-         const movies = moviesByCategory[category];
-
-
-         movies.forEach(movie => {
-             document.getElementById('categorySection').innerHTML+=category;
-             document.getElementById('movieSection').innerHTML+=`
-                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card">
-                        <img src="${movie.img}" alt="Movie Poster" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">${movie.title}</h5>
-                            <p class="card-text">${movie.description.substring(0,30)}....</p>
-                            <a href="#" class="btn btn-danger">Watch Now</a>
-                        </div>
-                    </div>
-
-                </div>
-       `
-         });
-
-    }
-}
-
-function loadMovie(movies) {
-
-}
