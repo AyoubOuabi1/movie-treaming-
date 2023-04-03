@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [MovieController::class, 'index']);
-
+ Route::get('/', function () {
+    return view('components/movie_page');
+});
 
 
