@@ -78,7 +78,7 @@ class MovieController extends Controller
             ->where('id', $id)
             ->get()->first();
 
-        return view('components/movie_page',compact('movie'));
+        return view('FrontOffice/movie_page',compact('movie'));
     }
     /**
      * Update the specified resource in storage.
