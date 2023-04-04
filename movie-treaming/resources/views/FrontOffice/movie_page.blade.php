@@ -9,7 +9,15 @@
                     {{--
                                     @if (Auth::check())
                     --}}
-                    <a href="#" class="btn btn-success col-8 mt-3">Add to favorite</a>
+
+                    <div id="btnConatiner">
+                        @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
+                        <button href="#" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
+                        @else
+                            <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" id="addToFavBtn">Add to favorite</Button>
+                        @endif
+                    </div>
+
                     {{--
                                     @endif
                     --}}

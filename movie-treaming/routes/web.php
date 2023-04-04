@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActorController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/actor/{id}', [ActorController::class, 'showView']);
 
 Route::get('/movie/{id}', [MovieController::class, 'showView']);
+
+Route::get('favorite', [favoriteController::class, 'showView']);
+
 
  Route::get('/', function () {
     return view('home');

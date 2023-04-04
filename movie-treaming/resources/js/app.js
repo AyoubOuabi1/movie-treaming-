@@ -103,22 +103,79 @@ function printMovies(movie){
     return movieContainer;
 
 }
+///////////////////////Favorite Function////////////////////////
+function addToFav(id){
+    // Clear the container element's contents
 
 
+    $.ajax({
+        url: "http://localhost:8000/api/favorite",
+        type: 'post',
+        data:{
+            'movie_id': id,
+        },
+        dataType: "json",
+        success: function(data) {
 
-//stars
-$("#giveRateBtn").click(function(e){
-    console.log($('.rate:checked').val());
-    giveRate(e.target.dataset.id)
-})
-$("#updateRateBtn").click(function(e){
-    console.log($('.rate:checked').val());
-    updateRate(e.target.dataset.id)
-})
-$("#removeRateBtn").click(function(e){
-    console.log($('.rate:checked').val());
-    deleteRate(e.target.dataset.id)
-})
+            Swal.fire(
+                'Good job!',
+                'Movie has been added!',
+                'success'
+            )
+            $("#btnConatiner").html(" ")
+            const btn=createButton('btn-danger',"Remove from Favorites")
+            btn.onclick = () => removeFromFav(id);
+            $("#btnConatiner").append(btn);
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+            // Handle any errors that occur while making the request
+        }
+    });
+}
+function removeFromFav(id){
+    // Clear the container element's contents
+
+
+    $.ajax({
+        url: "http://localhost:8000/api/favorite/"+id,
+        type: 'delete',
+        data:{
+            'movie_id': id,
+        },
+        dataType: "json",
+        success: function(data) {
+            $("#btnConatiner").html(" ")
+            Swal.fire(
+                'Good job!',
+                'Movie has been Removed from Favorite!',
+                'success'
+            )
+            const btn=createButton('btn-success',"Add into Favorites")
+            btn.onclick = () => addToFav(id);
+            $("#btnConatiner").append(btn);
+
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+            // Handle any errors that occur while making the request
+        }
+    });
+}
+function createButton(btnClass,txt,id){
+    const favBtn = document.createElement('Button');
+    favBtn.classList.add('btn');
+    favBtn.classList.add(btnClass);
+    favBtn.classList.add('col-8');
+    favBtn.classList.add('mt-3');
+    favBtn.textContent = txt;
+    return favBtn
+}
+
+///////////////////////Review Function////////////////////////
+
 function giveRate(id){
 
     // Clear the container element's contents
@@ -199,9 +256,29 @@ function deleteRate(id){
 }
 
 
-
-
-//pagination
+///////////////////////Review Button////////////////////////
+$("#giveRateBtn").click(function(e){
+    console.log($('.rate:checked').val());
+    giveRate(e.target.dataset.id)
+})
+$("#updateRateBtn").click(function(e){
+    console.log($('.rate:checked').val());
+    updateRate(e.target.dataset.id)
+})
+$("#removeRateBtn").click(function(e){
+    console.log($('.rate:checked').val());
+    deleteRate(e.target.dataset.id)
+})
+///////////////////////favorite Button //////////////////
+$("#addToFavBtn").click(function(e){
+    console.log($('.rate:checked').val());
+    addToFav(e.target.dataset.id)
+})
+$("#removeFromFav").click(function(e){
+    console.log($('.rate:checked').val());
+    removeFromFav(e.target.dataset.id)
+})
+///////////////////////pagination Button //////////////////
 document.getElementById("click1").addEventListener('click', function(){
     loadTopMovies(1);
 
