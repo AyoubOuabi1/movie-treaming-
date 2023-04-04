@@ -20,7 +20,8 @@
                     <div class="col-lg-3 col-md-4 col-6">
                         <img class="rounded-circle" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="user image" height="90px" width="90px"/>
                         <div>
-                            {{$actor->full_name}}
+                            <a href="http://localhost:8000/actor/{{$actor->id}}" >{{$actor->full_name}}</a>
+
                         </div>
                     </div>
                     @endforeach

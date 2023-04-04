@@ -42,7 +42,13 @@ class ActorController extends Controller
         $actor= Actor::find($id);
         return response()->json($actor);
     }
+    public function showView(string $id)
+    {
 
+        $actor= Actor::find($id);
+        $movies = Actor::findOrFail($id)->movies;
+        return view('components/actor',compact('actor','movies'));
+    }
     /**
      * Update the specified resource in storage.
      */

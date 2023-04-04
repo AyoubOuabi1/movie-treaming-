@@ -70,6 +70,8 @@ document.getElementById("click2").addEventListener('click', function(){
 
 })
 
+
+
 function printMovies(movie){
     const movieContainer = document.createElement('div');
     movieContainer.classList.add('col-lg-3', 'col-md-3', 'col-6');
