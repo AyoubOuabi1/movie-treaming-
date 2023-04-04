@@ -65,5 +65,5 @@ Route::delete('/movie/{id}', [MovieController::class, 'destroy']);
 Route::get('/ratings', [RatingController::class, 'index']);
 Route::get('/rating/{id}', [RatingController::class, 'show']);
 Route::post('/rating', [RatingController::class, 'store']);
-Route::put('/rating', [RatingController::class, 'update']);
-Route::delete('/ratings/{id}', [RatingController::class, 'destroy']);
+Route::put('/update-rating', [RatingController::class, 'update']);
+Route::delete('/delete-rating/{id}', [RatingController::class, 'destroy']);

@@ -36,11 +36,7 @@ function loadTopMovies(page) {
     // Clear the container element's contents
 
 }
-console.log($("#giveRateBtn"),"text")
-$("#giveRateBtn").click(function(e){
-    console.log($('.rate:checked').val());
-    giveRate(e.target.dataset.id)
-})
+
 function findMovie(){
     const topMoviesContainer = document.getElementById('topMovies');
     // Clear the container element's contents
@@ -108,27 +104,28 @@ function printMovies(movie){
 
 }
 
-//pagination
-document.getElementById("click1").addEventListener('click', function(){
-    loadTopMovies(1);
 
-})
-document.getElementById("click2").addEventListener('click', function(){
-    loadTopMovies(2);
-})
-document.getElementById("searchInput").addEventListener('keyup',function (e) {
-    findMovie();
-})
 
 //stars
-
+$("#giveRateBtn").click(function(e){
+    console.log($('.rate:checked').val());
+    giveRate(e.target.dataset.id)
+})
+$("#updateRateBtn").click(function(e){
+    console.log($('.rate:checked').val());
+    updateRate(e.target.dataset.id)
+})
+$("#removeRateBtn").click(function(e){
+    console.log($('.rate:checked').val());
+    deleteRate(e.target.dataset.id)
+})
 function giveRate(id){
 
     // Clear the container element's contents
      $.ajax({
 
         url: "http://localhost:8000/api/rating",
-         method: "POST",
+         type: 'post',
          data:{
             'movie_id': id,
              'stars':$('.rate:checked').val()
@@ -136,7 +133,63 @@ function giveRate(id){
          },
         dataType: "json",
         success: function(data) {
+            Swal.fire(
+                'Good job!',
+                'Your review has been added!',
+                'success'
+            )
+            setInterval('location.reload()', 2000);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+            // Handle any errors that occur while making the request
+        }
+    });
+}
+function updateRate(id){
+
+    // Clear the container element's contents
+    $.ajax({
+
+        url: "http://localhost:8000/api/update-rating",
+        type: 'put',
+        data:{
+            'movie_id': id,
+            'stars':$('.rate:checked').val()
+
+        },
+        dataType: "json",
+        success: function(data) {
             console.log(data)
+            Swal.fire(
+                'Good job!',
+                'Your review has been updated!',
+                'success'
+            )
+            setInterval('location.reload()', 2000);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+            // Handle any errors that occur while making the request
+        }
+    });
+}
+
+function deleteRate(id){
+
+    // Clear the container element's contents
+    $.ajax({
+
+        url: "http://localhost:8000/api/delete-rating/"+id,
+        type: "delete",
+        dataType: "json",
+        success: function(data) {
+            Swal.fire(
+                'Good job!',
+                'Your review has been deleted!',
+                'success'
+            )
+            setInterval('location.reload()', 2000);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
@@ -148,5 +201,14 @@ function giveRate(id){
 
 
 
+//pagination
+document.getElementById("click1").addEventListener('click', function(){
+    loadTopMovies(1);
 
-
+})
+document.getElementById("click2").addEventListener('click', function(){
+    loadTopMovies(2);
+})
+document.getElementById("searchInput").addEventListener('keyup',function (e) {
+    findMovie();
+})
