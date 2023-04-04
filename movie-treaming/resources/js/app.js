@@ -1,38 +1,45 @@
 //import './bootstrap';
 //import carousel from "bootstrap/js/src/carousel";
 
-
 loadTopMovies(1);
 
 function openMovie(id){
     window.open("http://localhost:8000/movie/"+id);
 }
+//movie section
 function loadTopMovies(page) {
     const topMoviesContainer = document.getElementById('topMovies');
+    if(topMoviesContainer){
+        topMoviesContainer.innerHTML = '';
+        $.ajax({
+            url: "http://localhost:8000/api/movies?page=" + page,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                // Loop through each movie object in the response data
+                data.data.forEach(function(movie) {
+                    // Create a new HTML template literal for this movie
+                    // Create the HTML elements for this movie
+
+                    topMoviesContainer.appendChild(printMovies(movie));
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+                // Handle any errors that occur while making the request
+            }
+        });
+    }else{
+        console.log(topMoviesContainer)
+    }
     // Clear the container element's contents
-    topMoviesContainer.innerHTML = '';
-    $.ajax({
-        url: "http://localhost:8000/api/movies?page=" + page,
-        dataType: "json",
-        success: function(data) {
-            console.log(data);
 
-            // Loop through each movie object in the response data
-            data.data.forEach(function(movie) {
-                // Create a new HTML template literal for this movie
-                // Create the HTML elements for this movie
-
-                topMoviesContainer.appendChild(printMovies(movie));
-            });
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-            // Handle any errors that occur while making the request
-        }
-    });
 }
-document.getElementById("searchInput").addEventListener('keyup',function (e) {
-    findMovie();
+console.log($("#giveRateBtn"),"text")
+$("#giveRateBtn").click(function(e){
+    console.log($('.rate:checked').val());
+    giveRate(e.target.dataset.id)
 })
 function findMovie(){
     const topMoviesContainer = document.getElementById('topMovies');
@@ -60,18 +67,6 @@ function findMovie(){
         }
     });
 }
-
-document.getElementById("click1").addEventListener('click', function(){
-    loadTopMovies(1);
-
-})
-document.getElementById("click2").addEventListener('click', function(){
-    loadTopMovies(2);
-
-})
-
-
-
 function printMovies(movie){
     const movieContainer = document.createElement('div');
     movieContainer.classList.add('col-lg-3', 'col-md-3', 'col-6');
@@ -112,5 +107,46 @@ function printMovies(movie){
     return movieContainer;
 
 }
+
+//pagination
+document.getElementById("click1").addEventListener('click', function(){
+    loadTopMovies(1);
+
+})
+document.getElementById("click2").addEventListener('click', function(){
+    loadTopMovies(2);
+})
+document.getElementById("searchInput").addEventListener('keyup',function (e) {
+    findMovie();
+})
+
+//stars
+
+function giveRate(id){
+
+    // Clear the container element's contents
+     $.ajax({
+
+        url: "http://localhost:8000/api/rating",
+         method: "POST",
+         data:{
+            'movie_id': id,
+             'stars':$('.rate:checked').val()
+
+         },
+        dataType: "json",
+        success: function(data) {
+            console.log(data)
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+            // Handle any errors that occur while making the request
+        }
+    });
+}
+
+
+
+
 
 

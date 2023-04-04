@@ -14,10 +14,13 @@
         </div>
     </div>
     <nav>
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#" id="click1" onclick="loadTopMovies(1)">1</a></li>
-            <li class="page-item"><a class="page-link" href="#" id="click2" onclick="loadTopMovies(2)">2</a></li>
-            <li class="page-item"><a class="page-link" href="#" onclick="loadTopMovies(3)">3</a></li>
+        <ul class="pagination d-flex justify-content-center">
+
+            <li class="page-item"><a class="page-link" href="#" id="click1"  >1</a></li>
+            <li class="page-item"><a class="page-link" href="#" id="click2"  >2</a></li>
+
+            <li class="page-item"><a class="page-link" href="#"  >3</a></li>
+
         </ul>
     </nav>
 

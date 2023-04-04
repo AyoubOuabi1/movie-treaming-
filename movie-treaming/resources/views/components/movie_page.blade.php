@@ -6,13 +6,59 @@
             <div class="col-lg-4 col-md-6 col-sm-12 text-center">
                 <img src="{{$movie->cover_image}}" alt="movie cover">
                 <Bututon type="button" class="btn btn-primary col-8 mt-3" >Watch Now</Bututon>
+{{--
+                @if (Auth::check())
+--}}
+                <a href="#" class="btn btn-success col-8 mt-3">Add to favorite</a>
+{{--
+                @endif
+--}}
+
             </div>
             <div class="col-lg-8 col-md-6 col-sm-12">
                 <h1>{{$movie->name}}</h1>
-                <h3><span>Year : </span> {{$movie['realased_date']}}</h3>
+                <h3><span>Year : </span> {{$movie->realased_date}}</h3>
                 <h3><span>Categories : </span> @foreach($movie->categories as $category) {{$category->name}} @endforeach</h3>
                 <h3>Description </h3>
-                <p>{{$movie['description']}}</p>
+                <p>{{$movie->description}}</p>
+                <div class="d-flex">
+                    <i class="bi bi-star-fill h1" style="color: #f5c518">&ensp;</i>
+                    <div>
+                        <h4 class="h4"> 4.5 / 5</h4>
+                        <h4 class="h4"> 56 users</h4>
+
+                    </div>
+                </div>
+                <div class="py-2 px-4"   style="box-shadow: 0 0 10px 0 #ddd;"  >
+                    <p class="font-weight-bold ">Review</p>
+                    <div class="form-group row">
+                         <div class="col">
+                            <div class="rate">
+                                <input type="radio" id="star5" class="rate " name="rating" value="5"/>
+                                <label for="star5" title="text">5 stars</label>
+                                <input type="radio" checked id="star4" class="rate" name="rating" value="4"/>
+                                <label for="star4" title="text">4 stars</label>
+                                <input type="radio" id="star3" class="rate" name="rating" value="3"/>
+                                <label for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" class="rate" name="rating" value="2">
+                                <label for="star2" title="text">2 stars</label>
+                                <input type="radio" id="star1" class="rate" name="rating" value="1"/>
+                                <label for="star1" title="text">1 star</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-right">
+                        @if(\App\Http\Controllers\RatingController::checkRate($movie->id))
+                            <button class="btn btn-sm py-2 px-3 btn-info" id="giveRateBtn" data-id="{{$movie->id}}" >Update my review</button>
+                            <button class="btn btn-sm py-2 px-3 btn-danger" id="giveRateBtn" data-id="{{$movie->id}}" >delete my review</button>
+
+                        @else
+                            <button class="btn btn-sm py-2 px-3 btn-info" id="giveRateBtn" data-id="{{$movie->id}}" >Submit
+                        </button>
+                        @endif
+                    </div>
+                </div>
                 <h3 class="text-center">Actors</h3>
 
                 <div class="row text-center">
@@ -46,6 +92,8 @@
                     <h5 class="card-title">testt ets ets ets te stttttttttttttt</h5>
                     <p class="card-text">ttt bdcsb cwvcuhdcbuysdgcdsuc</p>
                     <a href="#" class="btn btn-primary">Watch Now</a>
+
+
                 </div>
             </div>
         </div>

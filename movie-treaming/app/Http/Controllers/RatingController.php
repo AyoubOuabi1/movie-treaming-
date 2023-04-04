@@ -23,6 +23,9 @@ class RatingController extends Controller
     public function show(string $id)
     {
         $rating = Rating::with(['movie.categories', 'movie.actors'])->where('user_id', Auth::id())->find($id);
+        if(!$rating){
+            return response()->json('undefined');
+        }
         return response()->json($rating);
     }
 
@@ -31,8 +34,13 @@ class RatingController extends Controller
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
-        $rating = new Rating;
-        return $this->requestRating($request, $rating);
+        if(!$this::checkRate($request->input('movie_id'))){
+            $rating = new Rating;
+            return $this->requestRating($request, $rating);
+        }else {
+            return response()->json('Already Rated');
+        }
+
     }
 
 
@@ -69,9 +77,18 @@ class RatingController extends Controller
             'stars' => 'required|integer|min:1|max:5',
         ]);
         $rating->movie_id = $request->input('movie_id');
-        $rating->user_id =Auth::id();
+        $rating->user_id =1;//Auth::id();
         $rating->starts = $request->input('stars');
         $rating->save();
         return response()->json($rating);
+    }
+
+    public static function checkRate(string $movie_id){
+        $rating=DB::table('ratings')->where('movie_id', $movie_id)->where('user_id', 1);
+        if($rating){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
