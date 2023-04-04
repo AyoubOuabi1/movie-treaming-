@@ -12,7 +12,7 @@
                         <img src="{{$movie->cover_image}}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">{{$movie->name}}</h5>
-                            <p class="card-text">{{Str::substr($movie->description, 30)}}...</p>
+                            <p class="card-text">{{Str::substr($movie->description, 10)}}...</p>
                             <a href="http://localhost:8000/movie/{{$movie->id}}" class="btn btn-primary">Watch Now</a>
                         </div>
                     </div>

@@ -23,7 +23,7 @@ class FavoriteController extends Controller
     public function index()
     {
         //
-        $favorites = Favorite::where('user_id', Auth::id())->get();
+        $favorites = Favorite::where('user_id', 1)->get();
         $movies = collect();
         foreach ($favorites as $favorite) {
             $movie = Movie::with('actors', 'categories')->find($favorite->movie_id);

@@ -20,7 +20,7 @@ Route::get('/actor/{id}', [ActorController::class, 'showView']);
 
 Route::get('/movie/{id}', [MovieController::class, 'showView']);
 
-Route::get('favorite', [favoriteController::class, 'showView']);
+Route::get('favorites', [favoriteController::class, 'index']);
 
 
  Route::get('/', function () {
