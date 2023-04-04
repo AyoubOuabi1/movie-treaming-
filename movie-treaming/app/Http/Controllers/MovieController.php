@@ -6,6 +6,7 @@ use App\Models\Movie;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class MovieController extends Controller
 {
@@ -59,7 +60,7 @@ class MovieController extends Controller
      */
     public function show(string $idOrName)
     {
-        //
+
         $movie = Movie::with('categories', 'actors')
             ->where(function ($query) use ($idOrName) {
                 $query->where('id', $idOrName)
@@ -69,7 +70,15 @@ class MovieController extends Controller
 
         return response()->json($movie);
     }
+    public function showView(string $id)
+    {
+        //
+        $movie = Movie::with('categories', 'actors')
+            ->where('id', $id)
+            ->get()->first();
 
+        return view('components/movie_page',compact('movie'));
+    }
     /**
      * Update the specified resource in storage.
      */
