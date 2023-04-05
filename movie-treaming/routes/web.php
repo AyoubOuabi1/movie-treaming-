@@ -25,8 +25,13 @@ Route::get('favorites', [favoriteController::class, 'index']);
 Route::get('/movies',function(){
     return view('home');
 });
+
+Route::get('/admin/movies',function(){
+    return view('Admin/movies');
+});
+
  Route::get('/', function () {
-    return view('Admin/baseLayout');
+    return view('Admin/layouts/baseLayout');
 });
 
 

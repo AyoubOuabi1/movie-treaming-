@@ -13,8 +13,8 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ URL::asset('bootstrap/css/bootstrap.min.css') }}"/>
     <link rel="stylesheet" href="{{ URL::asset('fonts/fontawesome-all.min.css') }}"/>
+    <link rel="stylesheet" href="{{ URL::asset('style/style.css') }}"/>
 
-    @vite(['resources/sass/app.scss','resources/js/app.js'])
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -22,15 +22,17 @@
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             @include('components.header')
-            <div class="container-fluid">
-                <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                    <h3 class="text-dark mb-0">Dashboard</h3>
-                </div>
+            <div class="container-fluid ">
+
+                    @yield('content')
+
+
+
             </div>
         </div>
         <footer class="bg-white sticky-footer">
             <div class="container my-auto">
-                <div class="text-center my-auto copyright"><span>Copyright © Brand 2023</span></div>
+                <div class="text-center my-auto copyright"><span>Copyright © Drama House 2023</span></div>
             </div>
         </footer>
     </div>
@@ -40,7 +42,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+
 <script src="{{ URL::asset('js/theme.js') }}"></script>
+<script src="{{ URL::asset('js/admin.js') }}"></script>
+
 <script src="{{ URL::asset('bootstrap/js/bootstrap.min.js') }}"></script>
 
 </body>

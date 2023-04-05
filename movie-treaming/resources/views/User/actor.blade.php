@@ -1,11 +1,12 @@
-@extends('layouts.app')
+@extends('User/layouts/app')
 @section('content')
     <div class="container">
         <div class="row my-5">
             <div class="row h-100 p-5 bg-light border rounded-3">
                 <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                    <img src="https://m.media-amazon.com/images/M/MV5BZWI3ZThmYzUtNDJhOC00ZWY4LThiNmMtZDgxNjE3Yzk4NDU1XkEyXkFqcGdeQXVyNTk5Nzg1NjQ@._V1_SX300.jpg"
-                         height="400px" class="card-img-top col-10" alt="...">
+                    <img
+                        src="https://m.media-amazon.com/images/M/MV5BZWI3ZThmYzUtNDJhOC00ZWY4LThiNmMtZDgxNjE3Yzk4NDU1XkEyXkFqcGdeQXVyNTk5Nzg1NjQ@._V1_SX300.jpg"
+                        height="400px" class="card-img-top col-10" alt="...">
 
                 </div>
                 <div class="col-lg-8 col-md-6 col-sm-12">

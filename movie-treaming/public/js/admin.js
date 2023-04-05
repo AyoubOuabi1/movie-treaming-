@@ -1,76 +1,54 @@
-(function() {
-    "use strict"; // Start of use strict
+loadTopMovies(1)
+function loadTopMovies(page) {
+    const movieBody = document.getElementById('movieBody');
+    if(movieBody){
+        movieBody.innerHTML = '';
+        $.ajax({
+            url: "http://localhost:8000/api/movies?page=" + page,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
 
-    var sidebar = document.querySelector('.sidebar');
-    var sidebarToggles = document.querySelectorAll('#sidebarToggle, #sidebarToggleTop');
+                // Loop through each movie object in the response data
+                data.data.forEach(function(movie) {
+                    // Create a new HTML template literal for this movie
+                    // Create the HTML elements for this movie
 
-    if (sidebar) {
-
-        var collapseEl = sidebar.querySelector('.collapse');
-        var collapseElementList = [].slice.call(document.querySelectorAll('.sidebar .collapse'))
-        var sidebarCollapseList = collapseElementList.map(function (collapseEl) {
-            return new bootstrap.Collapse(collapseEl, { toggle: false });
-        });
-
-        for (var toggle of sidebarToggles) {
-
-            // Toggle the side navigation
-            toggle.addEventListener('click', function(e) {
-                document.body.classList.toggle('sidebar-toggled');
-                sidebar.classList.toggle('toggled');
-
-                if (sidebar.classList.contains('toggled')) {
-                    for (var bsCollapse of sidebarCollapseList) {
-                        bsCollapse.hide();
-                    }
-                };
-            });
-        }
-
-        // Close any open menu accordions when window is resized below 768px
-        window.addEventListener('resize', function() {
-            var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-
-            if (vw < 768) {
-                for (var bsCollapse of sidebarCollapseList) {
-                    bsCollapse.hide();
-                }
-            };
-        });
-    }
-
-    // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
-
-    var fixedNaigation = document.querySelector('body.fixed-nav .sidebar');
-
-    if (fixedNaigation) {
-        fixedNaigation.on('mousewheel DOMMouseScroll wheel', function(e) {
-            var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-
-            if (vw > 768) {
-                var e0 = e.originalEvent,
-                    delta = e0.wheelDelta || -e0.detail;
-                this.scrollTop += (delta < 0 ? 1 : -1) * 30;
-                e.preventDefault();
+                    movieBody.appendChild(printMovies(movie));
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+                // Handle any errors that occur while making the request
             }
         });
+    }else{
+        console.log(movieBody)
     }
+    // Clear the container element's contents
 
-    var scrollToTop = document.querySelector('.scroll-to-top');
-
-    if (scrollToTop) {
-
-        // Scroll to top button appear
-        window.addEventListener('scroll', function() {
-            var scrollDistance = window.pageYOffset;
-
-            //check if user is scrolling up
-            if (scrollDistance > 100) {
-                scrollToTop.style.display = 'block';
-            } else {
-                scrollToTop.style.display = 'none';
-            }
-        });
-    }
-
-})(); // End of use strict
+}
+function printMovies(movie){
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td');
+    const img = document.createElement('img');
+    img.classList.add('rounded-circle', 'me-2');
+    img.width = '50';
+    img.height = '50';
+    img.src = movie.cover_image;
+    td1.appendChild(img);
+    td1.appendChild(document.createTextNode(movie.name));
+    tr.appendChild(td1);
+    const td2 = document.createElement('td');
+    td2.appendChild(document.createTextNode(movie.realased_date));
+    tr.appendChild(td2);
+    const td3 = document.createElement('td');
+    td3.appendChild(document.createTextNode(movie.totalView));
+    tr.appendChild(td3);
+    const td4 = document.createElement('td');
+    td4.appendChild(document.createTextNode(movie.created_at));
+    tr.appendChild(td4);
+    const td5 = document.createElement('td');
+    tr.appendChild(td5);
+    return tr;
+}
