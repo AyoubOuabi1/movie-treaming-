@@ -15,8 +15,6 @@
                     <p><span class="h3">Description : </span> {{$actor->description}}</p>
                 </div>
             </div>
-
-
         </div>
         <div class="row">
             <h2>Movies By Actor</h2>

@@ -29,7 +29,7 @@ class FavoriteController extends Controller
             $movie = Movie::with('actors', 'categories')->find($favorite->movie_id);
             $movies->push($movie);
         }
-        return view('FrontOffice/favorite',compact('movies'));
+        return view('User/favorite',compact('movies'));
     }
 
     /**

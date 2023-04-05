@@ -26,7 +26,7 @@ Route::get('/movies',function(){
     return view('home');
 });
  Route::get('/', function () {
-    return view('BackOffice/baseLayout');
+    return view('Admin/baseLayout');
 });
 
 
