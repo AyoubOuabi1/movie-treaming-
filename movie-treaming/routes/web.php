@@ -22,9 +22,11 @@ Route::get('/movie/{id}', [MovieController::class, 'showView']);
 
 Route::get('favorites', [favoriteController::class, 'index']);
 
-
- Route::get('/', function () {
+Route::get('/movies',function(){
     return view('home');
+});
+ Route::get('/', function () {
+    return view('BackOffice/baseLayout');
 });
 
 

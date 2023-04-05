@@ -1,6 +1,6 @@
 //import './bootstrap';
 //import carousel from "bootstrap/js/src/carousel";
-
+alert('');
 loadTopMovies(1);
 
 function openMovie(id){
