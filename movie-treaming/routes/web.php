@@ -27,7 +27,7 @@ Route::get('/movies',function(){
 });
 
 Route::get('/admin/movies',function(){
-    return view('Admin/movies');
+    return view('Admin/Movies/add_movie');
 });
 
  Route::get('/', function () {

@@ -22,7 +22,7 @@
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             @include('components.header')
-            <div class="container-fluid ">
+            <div class="container-fluid overflow-auto" style="max-height: 80vh">
 
                     @yield('content')
 
