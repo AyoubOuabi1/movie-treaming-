@@ -7,7 +7,7 @@
         <div class="card-body">
             <div class="row">
                 <form class=" ">
-                    <div class="form-group row">
+                    <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-6">
                             <label for="movieName">Movie Name</label>
                             <input type="text" class="form-control" id="movieName" placeholder="Enter movie name">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-6">
                             <label for="imageLink">Image Link</label>
                             <input type="text" class="form-control" id="imageLink" placeholder="Enter image link">
@@ -31,7 +31,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-6">
                             <label for="releaseDate">Released Date</label>
                             <input type="text" class="form-control" id="releaseDate" placeholder="Enter release date (yyyy-mm-dd)">
@@ -43,89 +43,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" rows="3"></textarea>
-                    </div>
-
-
-
-                    <div class="form-group mt-3 row">
-                        <div class="col-sm-6">
-                            <div class="d-flex justify-content-around">
-                                <label for="actors col-md-6 col-sm-12">Categories</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <input type="text" class="form-control" id="actorSearch" placeholder="Enter actor name">
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Select</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>Action</td>
-                                        <td>
-                                            <input type="checkbox" id="category1" name="category1">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Comedy</td>
-                                        <td>
-                                            <input type="checkbox" id="category2" name="category2">
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex justify-content-around">
-                                <label for="actors col-md-6 col-sm-12">Actors</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <input type="text" class="form-control" id="actorSearch" placeholder="Enter actor name">
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Select</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>Actor 1</td>
-                                        <td>
-                                            <input type="checkbox" id="actor1" name="actor1">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Actor 2</td>
-                                        <td>
-                                            <input type="checkbox" id="actor2" name="actor2">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Actor 3</td>
-                                        <td>
-                                            <input type="checkbox" id="actor3" name="actor3">
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group row">
+                    <div class="form-group bg-light border rounded-3 mt-3 p-3 row">
                         <div class="col-sm-6">
                             <label for="director">Director</label>
                             <select class="form-control" id="director">
@@ -146,7 +64,80 @@
 
 
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <div class="form-group bg-light border rounded-3 p-3 mt-3">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" rows="3"></textarea>
+                    </div>
+
+
+
+                    <div class="form-group mt-3 bg-light border rounded-3 p-3 mt-3 row">
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-around">
+                                <label for="actors col-md-6 col-sm-12">Categories</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input type="text" class="form-control" id="actorSearch" placeholder="Enter actor name">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Select</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="cat_body_M">
+                                    @foreach(\App\Http\Controllers\categoryController::getCategories() as $category)
+                                        <tr>
+                                            <td>{{$category->name}}</td>
+                                            <td>
+                                                <input value="{{$category->id}}" type="checkbox" id="actor1" name="actor1">
+                                            </td>
+                                        </tr>
+                                    @endforeach()
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-around">
+                                <label for="actors col-md-6 col-sm-12">Actors</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input type="text" class="form-control" id="actorSearch" placeholder="Enter actor name">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Select</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="actors_body_M">
+                                    @foreach(\App\Http\Controllers\ActorController::getActors() as $actor)
+                                        <tr>
+                                            <td>{{$actor->full_name}}</td>
+                                            <td>
+                                                <input value="{{$actor->id}}" type="checkbox" id="actor1" name="actor1">
+                                            </td>
+                                        </tr>
+                                    @endforeach()
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="d-flex justify-content-center mt-3">
+                        <button type="submit" class="btn btn-primary ">Submit</button>
+
+                    </div>
 
                 </form>
 

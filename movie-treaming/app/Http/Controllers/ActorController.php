@@ -23,6 +23,13 @@ class ActorController extends Controller
         return response()->json($actors);
     }
 
+    public static function getActors()
+    {
+        //
+        $actors=Actor::limit(4)->get();;
+        return $actors;
+    }
+
     /**
      * Store a newly created resource in storage.
      */

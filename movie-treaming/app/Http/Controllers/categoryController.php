@@ -22,6 +22,12 @@ class categoryController extends Controller
         return response()->json($category);
     }
 
+    public static function getCategories()
+    {
+        //
+        $category=Category::limit(4)->get();
+        return $category;
+    }
     /**
      * Store a newly created resource in storage.
      */
