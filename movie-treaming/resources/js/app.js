@@ -40,27 +40,32 @@ function findMovie(){
     const topMoviesContainer = document.getElementById('topMovies');
     // Clear the container element's contents
     topMoviesContainer.innerHTML = '';
-    $.ajax({
-        url: "http://localhost:8000/api/movie/" + $("#searchInput").val(),
-        dataType: "json",
-        success: function(data) {
-            topMoviesContainer.innerHTML = '';
-            // Loop through each movie object in the response data
-            data.forEach(function(movie) {
-                // Create a new HTML template literal for this movie
-                // Create the HTML elements for this movie
+    if($("#searchInput").val()!==""){
+        $.ajax({
+            url: "http://localhost:8000/api/movie/" + $("#searchInput").val(),
+            dataType: "json",
+            success: function(data) {
+                topMoviesContainer.innerHTML = '';
+                // Loop through each movie object in the response data
+                data.forEach(function(movie) {
+                    // Create a new HTML template literal for this movie
+                    // Create the HTML elements for this movie
 
-                topMoviesContainer.appendChild(printMovies(movie));
-            });
-            if($("#searchInput").val()=="") {
-                loadTopMovies(1)
+                    topMoviesContainer.appendChild(printMovies(movie));
+                });
+                if($("#searchInput").val()=="") {
+                    loadTopMovies(1)
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+                // Handle any errors that occur while making the request
             }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-            // Handle any errors that occur while making the request
-        }
-    });
+        });
+    }else {
+        loadTopMovies(1);
+    }
+
 }
 function printMovies(movie){
     const movieContainer = document.createElement('div');

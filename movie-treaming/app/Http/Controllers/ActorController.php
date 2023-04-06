@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actor;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ActorController extends Controller
 {
@@ -43,11 +45,28 @@ class ActorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $name)
     {
         //
-        $actor= Actor::find($id);
-        return response()->json($actor);
+        try {
+            $actor=  DB::table('actors')->where('full_name','LIKE','%'.$name.'%')
+                ->get();
+            return response()->json($actor);
+        }catch(Exception $ex){
+            return response()->json($ex->getMessage());
+        }
+
+    }
+
+    public static function getDirectors(){
+        //
+        try {
+            $actor=  DB::table('actors')->where('role','=','director')
+                ->get();
+            return $actor;
+        }catch(Exception $ex){
+            return $ex->getMessage();
+        }
     }
     public function showView(string $id)
     {

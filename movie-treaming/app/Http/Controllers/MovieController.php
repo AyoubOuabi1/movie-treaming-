@@ -36,7 +36,7 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         //
-        try {
+
             $movie = new Movie;
             $movie = $this->requestMovie($request, $movie);
             $movie->totalView=0;
@@ -50,9 +50,7 @@ class MovieController extends Controller
                 $movie->actors()->attach($actorsIds);
             });
             return response()->json($movie);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+
 
     }
 

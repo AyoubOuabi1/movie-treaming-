@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class categoryController extends Controller
 {
@@ -43,13 +45,19 @@ class categoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+
+    public function show(string $name)
     {
         //
-        $category= Category::find($id);
-        return response()->json($category);
-    }
+        try {
+            $actor=  DB::table('categories')->where('name','LIKE','%'.$name.'%')
+                ->get();
+            return response()->json($actor);
+        }catch(Exception $ex){
+            return response()->json($ex->getMessage());
+        }
 
+    }
     /**
      * Update the specified resource in storage.
      */
