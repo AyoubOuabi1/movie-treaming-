@@ -50,94 +50,80 @@
 
 
 
-                    <div class="form-group mt-3">
-                        <div class="d-flex justify-content-around">
-                            <label for="actors col-md-6 col-sm-12">Categories</label>
-                            <div class="col-md-6 col-sm-12">
-                                <input type="text" class="form-control" id="actorSearch" placeholder="Enter actor name">
+                    <div class="form-group mt-3 row">
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-around">
+                                <label for="actors col-md-6 col-sm-12">Categories</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input type="text" class="form-control" id="actorSearch" placeholder="Enter actor name">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Select</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Action</td>
+                                        <td>
+                                            <input type="checkbox" id="category1" name="category1">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Comedy</td>
+                                        <td>
+                                            <input type="checkbox" id="category2" name="category2">
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Select</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Action</td>
-                                    <td>
-                                        <input type="checkbox" id="category1" name="category1">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Comedy</td>
-                                    <td>
-                                        <input type="checkbox" id="category2" name="category2">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Drama</td>
-                                    <td>
-                                        <input type="checkbox" id="category3" name="category3">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Horror</td>
-                                    <td>
-                                        <input type="checkbox" id="category4" name="category4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Thriller</td>
-                                    <td>
-                                        <input type="checkbox" id="category5" name="category5">
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-around">
+                                <label for="actors col-md-6 col-sm-12">Actors</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input type="text" class="form-control" id="actorSearch" placeholder="Enter actor name">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Select</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Actor 1</td>
+                                        <td>
+                                            <input type="checkbox" id="actor1" name="actor1">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Actor 2</td>
+                                        <td>
+                                            <input type="checkbox" id="actor2" name="actor2">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Actor 3</td>
+                                        <td>
+                                            <input type="checkbox" id="actor3" name="actor3">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group ">
-                    <div class="d-flex justify-content-around">
-                        <label for="actors col-md-6 col-sm-12">Actors</label>
-                        <div class="col-md-6 col-sm-12">
-                             <input type="text" class="form-control" id="actorSearch" placeholder="Enter actor name">
-                        </div>
-                    </div>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Select</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Actor 1</td>
-                                    <td>
-                                        <input type="checkbox" id="actor1" name="actor1">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Actor 2</td>
-                                    <td>
-                                        <input type="checkbox" id="actor2" name="actor2">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Actor 3</td>
-                                    <td>
-                                        <input type="checkbox" id="actor3" name="actor3">
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
 
                     <div class="form-group row">
                         <div class="col-sm-6">
