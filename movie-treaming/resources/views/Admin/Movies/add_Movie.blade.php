@@ -20,12 +20,17 @@
                     </div>
 
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
-                        <div class="col-sm-6">
-                            <label for="imageLink">Image Link</label>
-                            <input type="text" class="form-control" id="cover_image" placeholder="Enter image link">
+                        <div class="col-sm-4">
+                            <label for="poster_image">Poster Image Link</label>
+                            <input type="text" class="form-control" id="poster_image" placeholder="Enter poster image link">
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
+                            <label for="cover_image">Cover Image Link</label>
+                            <input type="text" class="form-control" id="cover_image" placeholder="Enter poster image link">
+                        </div>
+
+                        <div class="col-sm-4">
                             <label for="trailerLink">Trailer Video Link</label>
                             <input type="text" class="form-control" id="trailer_video" placeholder="Enter trailer video link">
                         </div>

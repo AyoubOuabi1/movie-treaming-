@@ -9,7 +9,7 @@
             @foreach($movies as $movie)
                 <div class="col-lg-2 col-md-3 col-6">
                     <div class="card mb-3">
-                        <img src="{{$movie->cover_image}}" class="card-img-top" alt="...">
+                        <img src="{{$movie->poster_image}}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">{{$movie->name}}</h5>
                             <p class="card-text">{{Str::substr($movie->description, 10)}}...</p>

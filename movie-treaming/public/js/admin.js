@@ -36,7 +36,7 @@ function printMovies(movie){
     img.classList.add('rounded-circle', 'me-2');
     img.width = '50';
     img.height = '50';
-    img.src = movie.cover_image;
+    img.src = movie.poster_image;
     td1.appendChild(img);
     td1.appendChild(document.createTextNode(movie.name));
     tr.appendChild(td1);
@@ -59,7 +59,7 @@ function printMovies(movie){
         type:"movie",
         description:$("#description").val(),
         duration:$("#duration").val(),
-        cover_image:$("#cover_image").val(),
+        poster_image:$("#poster_image").val(),
         trailer_video:$("#trailer_video").val(),
         languages:$("#languages").val(),
         directorId:$("#directorId").val(),
@@ -69,7 +69,7 @@ function printMovies(movie){
 function insertMovie() {
 
     console.log($("#server_link").val()+"////"+$("#realased_date").val() +"////"+ $("#description").val()+"////"+$("#duration").val() +"////"+
-        $("#cover_image").val()+"////"+ $("#trailer_video").val()+"////"+$("#languages").val() +"////"+ getcategoryIdsChecked()+"////");
+        $("#poster_image").val()+"////"+ $("#trailer_video").val()+"////"+$("#languages").val() +"////"+ getcategoryIdsChecked()+"////");
     $.ajax({
         url: "http://localhost:8000/api/movie",
         type:"post",
@@ -80,6 +80,7 @@ function insertMovie() {
             'type':"movie",
             'description':$("#description").val(),
             'duration':$("#duration").val(),
+            'poster_image':$("#poster_image").val(),
             'cover_image':$("#cover_image").val(),
             'trailer_video':$("#trailer_video").val(),
             'languages':$("#languages").val(),
@@ -91,7 +92,11 @@ function insertMovie() {
 
         success: function(data) {
             console.log(data);
-
+            Swal.fire(
+                'Good job!',
+                'Movie has been added!',
+                'success'
+            )
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -110,7 +115,7 @@ function getMovieDataForInsert(){
     formData.append('type',"movie");
     formData.append('description',$("#description").val());
     formData.append('duration',$("#duration").val());
-    formData.append('cover_image',$("#cover_image").val());
+    formData.append('poster_image',$("#poster_image").val());
     formData.append('trailer_video',$("#trailer_video").val());
     formData.append('languages',$("#languages").val());
     formData.append('directorId',$("#directorId").val());

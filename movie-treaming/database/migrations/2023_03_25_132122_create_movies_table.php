@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->date('realased_date');
-            $table->string('server_link');
+            $table->text('server_link');
             $table->string('type');
             $table->text('description');
             $table->string('duration');
-            $table->string('cover_image');
+            $table->text('poster_image');
+            $table->text('cover_image');
             $table->string('trailer_video');
             $table->string('languages');
             $table->string('directorId');

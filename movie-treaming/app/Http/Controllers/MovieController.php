@@ -147,6 +147,7 @@ class MovieController extends Controller
         $movie->type = $request->input('type');
         $movie->description = $request->input('description');
         $movie->duration = $request->input('duration');
+        $movie->poster_image = $request->input('poster_image');
         $movie->cover_image = $request->input('cover_image');
         $movie->trailer_video = $request->input('trailer_video');
         $movie->languages = $request->input('languages');

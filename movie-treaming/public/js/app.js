@@ -4,6 +4,13 @@ loadTopMovies();
 function openMovie(id){
     window.open("http://localhost:8000/movie/"+id);
 }
+function changeHomeCoverBg(movie){
+    document.getElementById('homeCoverContainer').style.backgroundImage="url('"+movie.cover_image+"')";
+    document.getElementById('homeCoverContainer').style.backgroundSize="cover";
+    $("#movieTtl").html(movie.name)
+    $("#movieDesc").html(movie.description.substring(0,80)+"...")
+
+}
 //movie section
 function loadTopMovies() {
     const topMoviesContainer = document.getElementById('topMovies');
@@ -14,7 +21,7 @@ function loadTopMovies() {
             dataType: "json",
             success: function(data) {
                 console.log(data);
-
+                changeHomeCoverBg(data[data.length - 1]);
                  data.forEach(function(movie) {
 
                     topMoviesContainer.appendChild(printMovies(movie));
@@ -66,7 +73,7 @@ function printMovieForSearch(movie){
     img.classList.add('rounded-circle');
     img.height='30';
     img.width='30';
-    img.src = movie.cover_image;
+    img.src = movie.poster_image;
     div1.appendChild(img);
     const div2 = document.createElement('div');
     div2.classList.add('fw-bold');
@@ -94,7 +101,7 @@ function printMovies(movie){
     cardContainer.style.backgroundColor="#181F3B"
     const imageElement = document.createElement('img');
     imageElement.classList.add('card-img-top');
-    imageElement.src = movie.cover_image;
+    imageElement.src = movie.poster_image;
     imageElement.alt = 'Movie poster';
     imageElement.height='200'
 

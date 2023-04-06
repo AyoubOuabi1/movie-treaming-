@@ -4,7 +4,7 @@
         <div class="row mb-5">
             <div class="row h-100 p-5 bg-light border rounded-3">
                 <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                    <img src="{{$movie->cover_image}}" width="300px" height="400px" alt="movie cover">
+                    <img src="{{$movie->poster_image}}" width="300px" height="400px" alt="movie cover">
                     <Bututon type="button" class="btn btn-primary col-8 mt-3">Watch Now</Bututon>
                     {{--
                                     @if (Auth::check())
@@ -101,7 +101,7 @@
         </div>
         <div class="row h-100 p-5 bg-light border rounded-3 mb-3">
             <h2 class="text-center">Trailer</h2>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/IrabKK9Bhds"
+            <iframe width="560" height="315" src="{{$movie->trailer_video}}"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen></iframe>
