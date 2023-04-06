@@ -1,10 +1,10 @@
 @extends('User/layouts/app')
 @section('content')
     <div class="container">
-        <div class="row my-5">
+        <div class="row mb-5">
             <div class="row h-100 p-5 bg-light border rounded-3">
                 <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                    <img src="{{$movie->cover_image}}" alt="movie cover">
+                    <img src="{{$movie->cover_image}}" width="300px" height="400px" alt="movie cover">
                     <Bututon type="button" class="btn btn-primary col-8 mt-3">Watch Now</Bututon>
                     {{--
                                     @if (Auth::check())
@@ -12,9 +12,9 @@
 
                     <div id="btnConatiner">
                         @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
-                        <button href="#" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
+                        <button href="#" class="btn btn-danger col-8 mt-3"  onclick="removeFromFav({{$movie->id}})" id="removeFromFav">Remove From  favorite</Button>
                         @else
-                            <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" id="addToFavBtn">Add to favorite</Button>
+                            <button href="#" class="btn btn-success col-8 mt-3"  onclick="addToFav({{$movie->id}})" id="addToFavBtn">Add to favorite</Button>
                         @endif
                     </div>
 
@@ -65,15 +65,14 @@
 
                         <div class="mt-3 text-right">
                             @if((\App\Http\Controllers\RatingController::checkRate($movie->id)))
-                                <button class="btn btn-sm py-2 px-3 btn-info" id="updateRateBtn" data-id="{{$movie->id}}">
+                                <button class="btn btn-sm py-2 px-3 btn-info" id="updateRateBtn" onclick="updateRate({{$movie->id}})" data-id="">
                                     Update my review
                                 </button>
-                                <button class="btn btn-sm py-2 px-3 btn-danger" id="removeRateBtn"
-                                        data-id="{{$movie->id}}">delete my review
+                                <button class="btn btn-sm py-2 px-3 btn-danger" id="removeRateBtn"  onclick="deleteRate({{$movie->id}})" data-id="">delete my review
                                 </button>
 
                             @else
-                                <button class="btn btn-sm py-2 px-3 btn-info" id="giveRateBtn" data-id="{{$movie->id}}">
+                                <button class="btn btn-sm py-2 px-3 btn-info" id="giveRateBtn" onclick="giveRate({{$movie->id}})" data-id="">
                                     Submit
                                 </button>
                             @endif

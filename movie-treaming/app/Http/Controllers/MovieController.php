@@ -19,11 +19,10 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = 10; // Set the number of movies to show per page
-        $currentPage = $request->input('page', 1); // Get the current page from the query string
-        $movies = Movie::with('actors', 'categories')->paginate($perPage, ['*'], 'page', $currentPage); // Get the paginated movies for the current page
+
+        $movies = Movie::with('actors', 'categories')->get();
 
         return response()->json($movies);
     }

@@ -23,7 +23,7 @@
     @vite(['resources/sass/app.scss','resources/js/app.js'])
 </head>
 <body class="page-top">
-<nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #181F3B;">
     <div class="container">
         <a class="navbar-brand" href="#">Drama House</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -36,40 +36,39 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                    <a class="nav-link" href="#">My Favorite</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
+                    <a class="nav-link" href="#">My Ratings</a>
                 </li>
+
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+
+            <div class="nav-item dropdown no-arrow" role="search">
+                <input class="form-control me-2 dropdown-toggle nav-link" type="search" id="searchInput"   aria-expanded="false" data-bs-toggle="dropdown" placeholder="Search" aria-label="Search">
+                <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
+                    <h6 class="dropdown-header">result</h6>
+                    <div id="searchReuslt">
+
+                    </div>
+
+                </div>
+             </div>
         </div>
     </div>
 </nav>
-<div >
+<div style="background-color: #0b122e">
     @yield('content')
 </div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="{{ URL::asset('bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ URL::asset('js/app.js') }}"></script>
 </body>
 </html>
