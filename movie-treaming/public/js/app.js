@@ -5,8 +5,10 @@ function openMovie(id){
     window.open("http://localhost:8000/movie/"+id);
 }
 function changeHomeCoverBg(movie){
-    document.getElementById('homeCoverContainer').style.backgroundImage="url('"+movie.cover_image+"')";
-    document.getElementById('homeCoverContainer').style.backgroundSize="cover";
+    document.getElementById('homeCoverContainer').style.background="url('"+movie.cover_image+"')";
+    document.getElementById('homeCoverContainer').style.backgroundSize="100% 100%";
+    document.getElementById('homeCoverContainer').style.backgroundRepeat="no-repeat";
+
     $("#movieTtl").html(movie.name)
     $("#movieDesc").html(movie.description.substring(0,80)+"...")
 
@@ -21,7 +23,7 @@ function loadTopMovies() {
             dataType: "json",
             success: function(data) {
                 console.log(data);
-                changeHomeCoverBg(data[data.length - 1]);
+                changeHomeCoverBg(data[data.length - 4]);
                  data.forEach(function(movie) {
 
                     topMoviesContainer.appendChild(printMovies(movie));

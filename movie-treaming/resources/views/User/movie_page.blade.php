@@ -1,36 +1,72 @@
 @extends('User/layouts/app')
 @section('content')
-    <div class="container">
-        <div class="row mb-5">
-            <div class="row h-100 p-5 bg-light border rounded-3">
-                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                    <img src="{{$movie->poster_image}}" width="300px" height="400px" alt="movie cover">
-                    <Bututon type="button" class="btn btn-primary col-8 mt-3">Watch Now</Bututon>
-                    {{--
-                                    @if (Auth::check())
-                    --}}
+    <div class="container-fluid ">
+        <div class="p-5 movie-container">
+            <div class="text-white ">
 
-                    <div id="btnConatiner">
-                        @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
-                        <button href="#" class="btn btn-danger col-8 mt-3"  onclick="removeFromFav({{$movie->id}})" id="removeFromFav">Remove From  favorite</Button>
-                        @else
-                            <button href="#" class="btn btn-success col-8 mt-3"  onclick="addToFav({{$movie->id}})" id="addToFavBtn">Add to favorite</Button>
-                        @endif
-                    </div>
-
-                    {{--
-                                    @endif
-                    --}}
+                <div class="text-center">
+                    <img src="{{$movie->poster_image}}" width="350px" height="400px" alt="movie cover">
 
                 </div>
-                <div class="col-lg-8 col-md-6 col-sm-12">
+                <div class="">
                     <h1>{{$movie->name}}</h1>
                     <h3><span>Year : </span> {{$movie->realased_date}}</h3>
-                    <h3><span>Categories : </span> @foreach($movie->categories as $category)
-                            {{$category->name}}
-                        @endforeach</h3>
-                    <h3>Description </h3>
-                    <p>{{$movie->description}}</p>
+                    <div class="row gap-3">
+
+                        @foreach($movie->categories as $category)
+                            <span class="border rounded-3  text-center col-lg-2  col-md-3 col-sm-3 ">
+                                {{$category->name}}
+                            </span>
+                        @endforeach
+
+
+
+
+                    </div>
+                    <div class="d-flex gap-3">
+                        <Bututon type="button" class="btn btn-primary mt-3">Watch Now</Bututon>
+                        {{--
+                                        @if (Auth::check())
+                        --}}
+
+                        <div id="btnConatiner">
+                            @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
+                                <button href="#" class="btn btn-danger  mt-3"  onclick="removeFromFav({{$movie->id}})" id="removeFromFav">Remove From  favorite</Button>
+                            @else
+                                <button href="#" class="btn btn-success  mt-3"  onclick="addToFav({{$movie->id}})" id="addToFavBtn">Add to favorite</Button>
+                            @endif
+                        </div>
+
+                        {{--
+                                        @endif
+                        --}}
+                    </div>
+                    <div class="row ">
+                        <div class="col-lg-9 col-md-12 ">
+                            <h3>Description </h3>
+                            <p>{{$movie->description}}</p>
+                        </div>
+
+                        <div class=" col-lg-3 col-md-12 ">
+                            <h3 class="text-center">Actors</h3>
+
+                            <div class="row text-center gap-2 d-flex justify-content-center">
+                                @foreach($movie->actors as $actor)
+                                    <div class="col-5">
+                                        <img class="rounded-circle"
+                                             src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                                             alt="user image" height="80px" width="80px"/>
+                                        <div>
+                                            <a href="http://localhost:8000/actor/{{$actor->id}}">{{$actor->full_name}}</a>
+
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="d-flex">
                         <i class="bi bi-star-fill h1" style="color: #f5c518">&ensp;</i>
                         <div>
@@ -78,28 +114,13 @@
                             @endif
                         </div>
                     </div>
-                    <h3 class="text-center">Actors</h3>
 
-                    <div class="row text-center">
-                        @foreach($movie->actors as $actor)
-                            <div class="col-lg-3 col-md-4 col-6">
-                                <img class="rounded-circle"
-                                     src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-                                     alt="user image" height="90px" width="90px"/>
-                                <div>
-                                    <a href="http://localhost:8000/actor/{{$actor->id}}">{{$actor->full_name}}</a>
-
-                                </div>
-                            </div>
-                        @endforeach
-
-                    </div>
                 </div>
             </div>
 
 
         </div>
-        <div class="row h-100 p-5 bg-light border rounded-3 mb-3">
+        <div class="row p-5    rounded-3 mb-auto text-white" style="background-color: #181F3B">
             <h2 class="text-center">Trailer</h2>
             <iframe width="560" height="315" src="{{$movie->trailer_video}}"
                     title="YouTube video player" frameborder="0"
@@ -108,5 +129,4 @@
         </div>
 
      </div>
-    @include('components/footer')
-@endsection('content')
+ @endsection('content')
