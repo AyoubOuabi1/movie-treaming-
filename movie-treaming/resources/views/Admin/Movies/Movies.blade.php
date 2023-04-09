@@ -42,5 +42,4 @@
 
         </div>
     </div>
-    @include('Admin/Movies/Movie_modal')
-@endsection
+ @endsection
