@@ -1,17 +1,41 @@
-loadTopMovies(1)
+loadTopMovies()
+$(document).ready(function() {
+    $('.directorId').select2({
+        placeholder: 'Select an director'
+
+    });
+    $('.categoryId').select2({
+        placeholder: 'Select an Category'
+    });
+   // $('.categoryId').val(['2', '3']).trigger('change');
+
+    $('.actorId').select2({
+        placeholder: 'Select an Actor'
+    });
+});
+function  printselected(){
+    console.log($('.directorId').val());
+    console.log($('.categoryId').val());
+    console.log($('.actorId').val());
+}
+
+function openModal(){
+    console
+    $('#exampleModal').modal('show')
+}
 //------------------------------Movies Section----------------------------------//
-function loadTopMovies(page) {
+function loadTopMovies( ) {
     const movieBody = document.getElementById('movieBody');
     if(movieBody){
         movieBody.innerHTML = '';
         $.ajax({
-            url: "http://localhost:8000/api/movies?page=" + page,
+            url: "http://localhost:8000/api/movies",
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
                 // Loop through each movie object in the response data
-                data.data.forEach(function(movie) {
+                data.forEach(function(movie) {
                     // Create a new HTML template literal for this movie
                     // Create the HTML elements for this movie
 
@@ -33,6 +57,14 @@ function printMovies(movie){
     const tr = document.createElement('tr');
     const td1 = document.createElement('td');
     const img = document.createElement('img');
+    const updateBtn = document.createElement('button');
+    const deleteBtn = document.createElement('button');
+    updateBtn.classList.add('btn', 'btn-primary');
+    updateBtn.textContent='update'
+    updateBtn.onclick =()=>openModal();
+    deleteBtn.classList.add('btn', 'btn-danger');
+    deleteBtn.textContent='delete'
+    deleteBtn.onclick = () => deleteMovie(movie.id)
     img.classList.add('rounded-circle', 'me-2');
     img.width = '50';
     img.height = '50';
@@ -47,11 +79,96 @@ function printMovies(movie){
     td3.appendChild(document.createTextNode(movie.totalView));
     tr.appendChild(td3);
     const td4 = document.createElement('td');
-    td4.appendChild(document.createTextNode(movie.created_at));
+    td4.appendChild(document.createTextNode(movie.created_at.substring(0,10)));
     tr.appendChild(td4);
     const td5 = document.createElement('td');
     tr.appendChild(td5);
+    const td6= document.createElement('td');
+    td6.appendChild(updateBtn);
+    tr.appendChild(td6);
+    const td7= document.createElement('td');
+    td7.appendChild(deleteBtn);
+    tr.appendChild(td7);
     return tr;
+}
+function getMovie(){
+    const movieBody = document.getElementById('movieBody');
+    // Clear the container element's contents
+    console.log($("#movieTable_filter").val());
+    if($("#movieTable_filter").val()!==""){
+        $.ajax({
+            url: "http://localhost:8000/api/movie/" + $("#movieTable_filter").val(),
+            dataType: "json",
+            success: function(data) {
+                movieBody.innerHTML = '';
+
+                data.forEach(function(movie) {
+
+                    movieBody.appendChild(printMovies(movie));
+                });
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    }else {
+        console.log("null")
+        loadTopMovies()
+    }
+
+}
+
+function deleteMovie(id){
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "http://localhost:8000/api/movie/" +id,
+                type: "delete",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    loadTopMovies();
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR,textStatus, errorThrown);
+                }
+            })
+
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelled',
+                'Your imaginary file is safe :)',
+                'error'
+            )
+        }
+    })
+
 }
 /*data:{
     name:$("#movieName").val(),
@@ -137,6 +254,9 @@ function getcategoryIdsChecked(){
     }).get();
 
 }
+//------------------------------Movies update Section----------------------------------//
+
+
 //------------------------------End Movies Section----------------------------------//
 //------------------------------Actors Section----------------------------------//
 

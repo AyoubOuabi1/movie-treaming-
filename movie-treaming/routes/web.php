@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/actor/{id}', [ActorController::class, 'showView']);
 
 Route::get('/movie/{id}', [MovieController::class, 'showView']);
+Route::get('admin/movies', function (){
+    return view('Admin/Movies/Movies');
+})->name('getMovies');
 
 Route::get('favorites', [favoriteController::class, 'index']);
 
@@ -26,9 +29,11 @@ Route::get('/movies',function(){
     return view('home');
 });
 
-Route::get('/admin/movies',function(){
+
+Route::get('/admin/add-Movie',function(){
     return view('Admin/Movies/add_movie');
-});
+})->name("addMovie");
+
 
  Route::get('/', function () {
     return view('Admin/layouts/baseLayout');

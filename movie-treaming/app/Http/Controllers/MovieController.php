@@ -75,8 +75,19 @@ class MovieController extends Controller
             ->where('id', $id)
             ->get()->first();
 
-        return view('User/movie_page',compact('movie'));
+        return view('User/movie_detail',compact('movie'));
     }
+
+    public function findMovieView(string $id)
+    {
+        //
+        $movie = Movie::with('categories', 'actors')
+            ->where('id', $id)
+            ->get()->first();
+
+        return $movie;
+    }
+
     /**
      * Update the specified resource in storage.
      */

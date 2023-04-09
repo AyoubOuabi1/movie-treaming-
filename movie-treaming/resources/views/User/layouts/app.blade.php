@@ -16,7 +16,8 @@
     <!-- Option 1: Include in HTML -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="{{ URL::asset('fonts/fontawesome-all.min.css') }}"/>
+    <link rel="stylesheet" href="{{ URL::asset('style/style.css') }}"/>
     {{--
         <link href="{!! asset('theme/vendor/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
     --}}

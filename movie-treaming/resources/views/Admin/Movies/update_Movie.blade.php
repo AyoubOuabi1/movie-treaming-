@@ -52,7 +52,7 @@
                         <div class="col-sm-6">
                             <label for="director">Director</label>
                             <select class="directorId form-control" name="states[]" multiple="multiple">
-                                 @foreach(\App\Http\Controllers\ActorController::getDirectors() as $director)
+                                @foreach(\App\Http\Controllers\ActorController::getDirectors() as $director)
                                     <option value="{{$director->id}}">{{$director->full_name}}</option>
                                 @endforeach
                             </select>

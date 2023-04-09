@@ -7,7 +7,7 @@
         <ul class="navbar-nav text-light" id="accordionSidebar">
             <li class="nav-item"><a class="nav-link active" href="#"><i
                         class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i
+            <li class="nav-item"><a class="nav-link" href="{{route('getMovies')}}"><i
                         class="fas fa-user"></i><span>Movies</span></a></li>
             <li class="nav-item"><a class="nav-link" href="#"><i
                         class="fas fa-table"></i><span>Actors</span></a></li>
