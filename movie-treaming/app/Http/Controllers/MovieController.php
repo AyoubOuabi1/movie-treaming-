@@ -68,7 +68,7 @@ class MovieController extends Controller
 
         return response()->json($movie);
     }
-    public function showView(string $id)
+    public function movieDetail(string $id)
     {
         //
         $movie = Movie::with('categories', 'actors')
@@ -78,16 +78,24 @@ class MovieController extends Controller
         return view('User/movie_detail',compact('movie'));
     }
 
-    public function findMovieView(string $id)
+    public function findMovie(string $id)
     {
         //
         $movie = Movie::with('categories', 'actors')
             ->where('id', $id)
             ->get()->first();
 
-        return $movie;
+        return view('Admin/Movies/update_Movie', compact('movie'));
     }
+    public function findMovieApi(string $id)
+    {
+        //
+        $movie = Movie::with('categories', 'actors')
+            ->where('id', $id)
+            ->get()->first();
 
+        return response()->json($movie);
+    }
     /**
      * Update the specified resource in storage.
      */

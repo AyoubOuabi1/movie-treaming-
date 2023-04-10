@@ -57,6 +57,7 @@ Route::get('/home', [HomeController::class, 'index']);
 // Movie routes
 Route::get('/movies', [MovieController::class, 'index']);
 Route::get('/movie/{idOrName}', [MovieController::class, 'show']);
+Route::get('/admin/movies/movie/{id}', [MovieController::class, 'findMovieApi'])->name("findMovieApi");
 Route::post('/movie', [MovieController::class, 'store']);
 Route::put('/movie/{id}', [MovieController::class, 'update']);
 Route::delete('/movie/{id}', [MovieController::class, 'destroy']);

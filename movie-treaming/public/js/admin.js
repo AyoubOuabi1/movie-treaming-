@@ -13,6 +13,7 @@ $(document).ready(function() {
         placeholder: 'Select an Actor'
     });
 });
+
 function  printselected(){
     console.log($('.directorId').val());
     console.log($('.categoryId').val());
@@ -61,7 +62,9 @@ function printMovies(movie){
     const deleteBtn = document.createElement('button');
     updateBtn.classList.add('btn', 'btn-primary');
     updateBtn.textContent='update'
-    updateBtn.onclick =()=>openModal();
+    updateBtn.onclick =function (){
+        location.href=route('findMovie', movie.id)
+    }
     deleteBtn.classList.add('btn', 'btn-danger');
     deleteBtn.textContent='delete'
     deleteBtn.onclick = () => deleteMovie(movie.id)
@@ -183,6 +186,7 @@ function deleteMovie(id){
         categoryIds:getcategoryIdsChecked(),
         actorsIds:getactorsIdsChecked()
 },*/
+
 function insertMovie() {
 
     console.log($("#server_link").val()+"////"+$("#realased_date").val() +"////"+ $("#description").val()+"////"+$("#duration").val() +"////"+
@@ -223,6 +227,32 @@ function insertMovie() {
 
     // Clear the container element's contents
 
+}
+function findMoviee() {
+   // const url = "{{ route('findMovie', ':id') }}".replace(':id', id);
+    //const url = route('findMovie', id)
+    const url =route('findMovieApi',40)
+    let actor_arr=[]
+    let category_arr=[]
+    $.ajax({
+        url: url,
+        type: "get",
+        dataType: "json",
+        success: function(data) {
+
+
+            data.categories.forEach(function (moviee) {
+                //actor_arr.push(moviee.categoryId)
+                category_arr.push(moviee.id)
+            })
+            console.log(category_arr)
+            $('.categoryId').val(category_arr).trigger('change');
+            //$('.actorId').val(category_arr).trigger('change');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR,textStatus, errorThrown);
+        }
+    });
 }
 function getMovieDataForInsert(){
     let formData = new FormData();

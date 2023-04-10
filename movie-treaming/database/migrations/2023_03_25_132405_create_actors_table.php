@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('actors', function (Blueprint $table) {
             $table->id();
+            $table->string('actor_image')->default('test');
             $table->string('full_name');
             $table->date('born_in');
             $table->string('nationality');
