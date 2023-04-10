@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
+
+
 use App\Models\Actor;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,20 +43,18 @@ class ActorController extends Controller
     {
         //
         $actor=new Actor;
-        //$actor = $this->requestActor($request, $actor);
         $actor->full_name = $request->input('full_name');
         $actor->born_in = $request->input('born_in');
         $actor->nationality = $request->input('nationality');
         $actor->description = $request->input('description');
         $actor->role = $request->input('role');
         if ($request->hasFile('actor_image')) {
-
-                $file = $request->file('actor_image');
-                 $extension = $file->getClientOriginalExtension();
-                $newName = time() . '_' . uniqid() . '.' . $extension;
-                $file->move(public_path('images/actors'), $newName);
-                $actor->actor_image = $newName;
-
+            $result = Cloudinary::upload($request->file('actor_image')->getRealPath(), [
+                "folder" => "actors/",
+                "public_id" => uniqid(),
+                "overwrite" => true
+            ]);
+            $actor->actor_image = $result->getSecurePath();
         }
 
         $actor->save();
@@ -92,15 +94,46 @@ class ActorController extends Controller
         $movies = Actor::findOrFail($id)->movies;
         return view('User/actor',compact('actor','movies'));
     }
+
+    public function findActorForUpdate(string $id)
+    {
+        $actor= Actor::find($id);
+        return view('Admin/Actors/update_actor',compact('actor'));
+    }
+
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
         $actor = Actor::find($id);
-        return $this->requestActor($request, $actor);
+        $actor->full_name = $request->input('full_name');
+        $actor->born_in = $request->input('born_in');
+        $actor->nationality = $request->input('nationality');
+        $actor->description = $request->input('description');
+        $actor->role = $request->input('role');
+
+        if ($request->hasFile('actor_image')) {
+            $url = $actor->actor_image;
+            $basename = basename($url);
+            $pathinfo = pathinfo($basename);
+            $public_id = $pathinfo['filename']; // "6433ebf9d72c2"
+            Cloudinary::destroy($public_id);
+
+            $result = Cloudinary::upload($request->file('actor_image')->getRealPath(), [
+                "folder" => "actors/",
+                "public_id" => uniqid(),
+                "overwrite" => true
+            ]);
+
+            $actor->actor_image = $result->getSecurePath();
+        }
+
+        $actor->save();
+        return redirect()->route('update-actor', ['id' => $id])->with('success', 'Actor updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -113,21 +146,5 @@ class ActorController extends Controller
         return response()->json(['messqge','Genre Deleted']);
     }
 
-    /**
-     * @param Request $request
-     * @param $actor
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function requestActor(Request $request, $actor): Actor
 
-    {
-
-        $actor->full_name = $request->input('full_name');
-        $actor->born_in = $request->input('born_in');
-        $actor->nationality = $request->input('nationality');
-        $actor->description = $request->input('description');
-        $actor->role = $request->input('role');
-
-        return $actor;
-    }
 }

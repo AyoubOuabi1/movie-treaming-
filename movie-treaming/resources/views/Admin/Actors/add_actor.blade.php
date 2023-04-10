@@ -7,12 +7,12 @@
             </div>
         @endif
         <div class="card-header py-3">
-            <p class="text-primary m-0 fw-bold">Add new Movie</p>
+            <p class="text-primary m-0 fw-bold">Add new Actor or Director</p>
         </div>
 
         <div class="card-body">
             <div class="row">
-                <form action="{{route('save-actor')}}" method="POST" enctype="multipart/form-data">
+                 <form action="{{route('save-actor')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="mb-3">
@@ -60,8 +60,7 @@
                     </div>
 
                 </form>
-
-            </div>
+             </div>
 
         </div>
     </div>

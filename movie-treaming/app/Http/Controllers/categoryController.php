@@ -27,7 +27,7 @@ class categoryController extends Controller
     public static function getCategories()
     {
         //
-        $category=Category::limit(4)->get();
+        $category=Category::All();
         return $category;
     }
     /**
@@ -50,9 +50,9 @@ class categoryController extends Controller
     {
         //
         try {
-            $actor=  DB::table('categories')->where('name','LIKE','%'.$name.'%')
+            $category=  DB::table('categories')->where('name','LIKE','%'.$name.'%')
                 ->get();
-            return response()->json($actor);
+            return response()->json($category);
         }catch(Exception $ex){
             return response()->json($ex->getMessage());
         }

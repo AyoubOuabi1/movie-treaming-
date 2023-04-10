@@ -20,10 +20,18 @@ use Illuminate\Support\Facades\Route;
 //actors ///////////////////////////
 Route::get('/actor/{id}', [ActorController::class, 'showView']);
 Route::post('admin/actors/save-actor', [ActorController::class, 'store'])->name('save-actor');
+Route::put('admin/actors/save-update-actor/{id}', [ActorController::class, 'update'])->name('save-update-actor');
 
 Route::get('admin/actors/add-actor', function (){
     return view('Admin/Actors/add_actor');
 })->name('add-actor');
+
+Route::get('admin/actors/update-actor/{id}',[ActorController::class,'findActorForUpdate'])->name('update-actor');
+
+Route::get('admin/actors/actors', function (){
+    return view('Admin/Actors/Actors');
+})->name('getActors');
+
 //Movie///////////////////////////
 Route::get('/movie/{id}', [MovieController::class, 'movieDetail']);
 

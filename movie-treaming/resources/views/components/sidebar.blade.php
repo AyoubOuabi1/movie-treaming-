@@ -9,7 +9,7 @@
                         class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('getMovies')}}"><i
                         class="fas fa-user"></i><span>Movies</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i
+            <li class="nav-item"><a class="nav-link" href="{{route('getActors')}}"><i
                         class="fas fa-table"></i><span>Actors</span></a></li>
             <li class="nav-item"><a class="nav-link" href="#"><i
                         class="far fa-user-circle"></i><span>Categories</span></a></li>

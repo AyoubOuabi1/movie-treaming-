@@ -2,7 +2,7 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <h3 class="text-dark mb-4">Movies</h3>
-        <a href="{{ route('addMovie') }}"><button type="button" class="btn btn-primary" >Add new Movie </button></a>
+        <a href="{{ route('add-actor') }}"><button type="button" class="btn btn-primary" >Add new Actor/Director </button></a>
 
     </div>
 
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-6">
                     <div  class="text-md-end dataTables_filter"><label class="form-label"><input
-                                class="form-control form-control-sm" onkeyup="findMovie()" id="movieTable_filter" type="search" aria-controls="dataTable"
+                                class="form-control form-control-sm" onkeyup="findActor()" id="actoreTable_filter" type="search" aria-controls="dataTable"
                                 placeholder="Search by name"/></label></div>
                 </div>
             </div>
@@ -26,14 +26,15 @@
                 <table id="dataTable" class="table my-0">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Year</th>
-                        <th>Views</th>
-                        <th>Added in</th>
+                        <th>Full name</th>
+                        <th>Born in</th>
+                        <th>Nationality</th>
+                        <th>Role</th>
+                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody id="movieBody">
+                    <tbody id="actorBody">
 
                     </tbody>
 
@@ -43,3 +44,9 @@
         </div>
     </div>
  @endsection
+@section('scripts')
+    <script type="text/javascript">
+        loadActors();
+    </script>
+@endsection('scripts')
+

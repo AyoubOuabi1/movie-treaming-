@@ -33,10 +33,10 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 // Actor routes
 Route::get('/actors', [ActorController::class, 'index']);
-Route::get('/actor/{name}', [ActorController::class, 'show']);
+Route::get('/actor/{name}', [ActorController::class, 'show'])->name('find-actor');
 Route::post('/actor', [ActorController::class, 'store']);
 Route::put('/actor/{id}', [ActorController::class, 'update']);
-Route::delete('/actor/{id}', [ActorController::class, 'delete']);
+Route::delete('/actor/{id}', [ActorController::class, 'destroy'])->name('delete-actor');
 
 // Category routes
 Route::get('/categories', [CategoryController::class, 'index']);

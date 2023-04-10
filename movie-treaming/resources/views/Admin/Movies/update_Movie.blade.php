@@ -73,7 +73,7 @@
 
                     <div class="form-group bg-light border rounded-3 p-3 mt-3">
                         <label for="description">Description</label>
-                        <textarea class="form-control" value="{{$movie->description}}"  id="description" rows="3"></textarea>
+                        <textarea class="form-control"  id="description" rows="3">{{$movie->description}} </textarea>
                     </div>
 
 
@@ -84,7 +84,7 @@
                             <label for="director">Categories</label>
                             <select class="categoryId form-control" name="states[]" multiple="multiple">
                                 @foreach(\App\Http\Controllers\categoryController::getCategories() as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    <option value="{{$category->id}}" {{ in_array($category->id,$movie->categories->pluck('id')->toArray()) ? 'selected':'' }}>{{$category->name}}</option>
                                 @endforeach
                             </select>
 
@@ -93,8 +93,10 @@
                             <label for="director">Actors</label>
                             <select class="actorId form-control" name="states[]" multiple="multiple">
                                 @foreach(\App\Http\Controllers\ActorController::getActors() as $actor)
-                                    <option value="{{$actor->id}}">{{$actor->full_name}}</option>
+                                    <option value="{{$actor->id}}" {{ in_array($actor->id,$movie->actors->pluck('id')->toArray()) ? 'selected':'' }}>{{$actor->full_name}}</option>
+
                                 @endforeach
+
                             </select>
 
                         </div>
