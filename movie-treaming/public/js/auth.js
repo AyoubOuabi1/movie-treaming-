@@ -1,3 +1,37 @@
+
+
+
+//functions section
+function register(){
+    // Clear the container element's contents
+    $.ajax({
+        url: route('register-api'),
+        type: 'post',
+        data:{
+            'name': $('#name').val(),
+            'email': $('#email').val(),
+            'password': $('#password').val(),
+            'confirm-password': $('#ConfirmPassword').val(),
+        },
+        dataType: "json",
+        success: function(data) {
+             Swal.fire(
+                'Good job!',
+                'Movie has been Removed from Favorite!',
+                'success'
+            )
+            console.log(data)
+
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR,textStatus, errorThrown);
+            // Handle any errors that occur while making the request
+        }
+    });
+}
+
+
 //start check input section
 let checkName,checkEmail1,checkPassword1,checkConfirmPassword;
 function checkFullName(){
