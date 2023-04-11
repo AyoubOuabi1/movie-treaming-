@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Actor;
 use App\Models\Movie;
+use App\Rules\YearOnly;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +24,7 @@ class MovieController extends Controller
     public function index()
     {
 
-        $movies = Movie::with('actors', 'categories')->get();
+        $movies = Movie::with('actors', 'categories')->orderBy('id','desc')->get();
 
         return response()->json($movies);
     }
@@ -34,24 +36,60 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request);
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'realased_date' => ['required'],
+            'server_link' => ['required', 'url'],
+             'description' => ['required', 'string'],
+            'duration' => ['required', 'numeric'],
+            'poster_image' => ['required', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
+            'cover_image' => ['required', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
+            'trailer_video' => ['required', 'url'],
+            'languages' => ['required', 'string', 'max:255'],
+            'directorId' => ['required', 'numeric'],
+            'categories' => ['required'],
+             'actors' => ['required'],
+         ]);
+        //dd($request);
+        $movie = new Movie;
+        $movie->name = $validatedData['name'];
+        $movie->realased_date = $validatedData['realased_date'];
+        $movie->server_link = $validatedData['server_link'];
+         $movie->description = $validatedData['description'];
+        $movie->duration = $validatedData['duration'];
+        $movie->trailer_video = $validatedData['trailer_video'];
+        $movie->languages = $validatedData['languages'];
+        $movie->directorId = $validatedData['directorId'];
+        $movie->totalView = 0;
 
-            $movie = new Movie;
-            $movie = $this->requestMovie($request, $movie);
-            $movie->totalView=0;
-            $movie->save();
-            $categoryIds = $request->input('categoryIds');
-            $actorsIds = $request->input('actorsIds');
+        $result = Cloudinary::upload($request->file('poster_image')->getRealPath(), [
+            "folder" => "movies/",
+            "public_id" => "poster_" . time(),
+            "overwrite" => true
+        ]);
+        $movie->poster_image = $result->getSecurePath();
 
-            DB::transaction(function () use ($movie, $categoryIds, $actorsIds) {
-                $movie->save();
-                $movie->categories()->attach($categoryIds);
-                $movie->actors()->attach($actorsIds);
-            });
-            return response()->json($movie);
+        $result = Cloudinary::upload($request->file('cover_image')->getRealPath(), [
+            "folder" => "movies/",
+            "public_id" => "cover_" . time(),
+            "overwrite" => true
+        ]);
+        $movie->cover_image = $result->getSecurePath();
 
+        $movie->save();
 
+        $categoryIds = $validatedData['categories'];
+        $actorsIds = $validatedData['actors'];
+
+        DB::transaction(function () use ($movie, $categoryIds, $actorsIds) {
+            $movie->categories()->attach($categoryIds);
+            $movie->actors()->attach($actorsIds);
+        });
+
+        return redirect()->route('addMovie')->with(['success' => "Movie added successfully"]);
     }
+
 
     /**
      * Display the specified resource.
@@ -101,25 +139,67 @@ class MovieController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $movie = Movie::findOrFail($id);
+        $movie= Movie::find($id);
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'realased_date' => ['required'],
+            'server_link' => ['required', 'url'],
+            'description' => ['required', 'string'],
+            'duration' => ['required', 'numeric'],
+            'poster_image' => ['nullable', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
+            'cover_image' => ['nullable', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
+            'trailer_video' => ['required', 'url'],
+            'languages' => ['required', 'string', 'max:255'],
+            'directorId' => ['required', 'numeric'],
+            'categories' => ['required'],
+            'actors' => ['required'],
+        ]);
 
-            // Update movie attributes
-            $movie = $this->requestMovie($request, $movie);
-            $movie->save();
-            $categoriesIds = $request->input('categoryIds');
-            $actorsIds = $request->input('actorsIds');
+        $movie->name = $validatedData['name'];
+        $movie->realased_date = $validatedData['realased_date'];
+        $movie->server_link = $validatedData['server_link'];
+        $movie->description = $validatedData['description'];
+        $movie->duration = $validatedData['duration'];
+        $movie->trailer_video = $validatedData['trailer_video'];
+        $movie->languages = $validatedData['languages'];
+        $movie->directorId = $validatedData['directorId'];
 
-            DB::transaction(function () use ($movie, $categoriesIds, $actorsIds) {
-                $movie->save();
-                $movie->categories()->sync($categoriesIds);
-                $movie->actors()->sync($actorsIds);
-            });
-            return response()->json($movie);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        if ($request->hasFile('poster_image')) {
+            $url = $movie->poster_image;
+            $basename = basename($url);
+            $pathinfo = pathinfo($basename);
+            $public_id = $pathinfo['filename'];
+            Cloudinary::destroy($public_id);
+            $result = Cloudinary::upload($request->file('poster_image')->getRealPath(), [
+                "folder" => "movies/",
+                "public_id" => "poster_" . time(),
+                "overwrite" => true
+            ]);
+            $movie->poster_image = $result->getSecurePath();
         }
 
+        if ($request->hasFile('cover_image')) {
+            $url = $movie->cover_image;
+            $basename = basename($url);
+            $pathinfo = pathinfo($basename);
+            $public_id = $pathinfo['filename'];
+            Cloudinary::destroy($public_id);
+            $result = Cloudinary::upload($request->file('cover_image')->getRealPath(), [
+                "folder" => "movies/",
+                "public_id" => "cover_" . time(),
+                "overwrite" => true
+            ]);
+            $movie->cover_image = $result->getSecurePath();
+        }
+
+        DB::transaction(function () use ($movie, $validatedData) {
+            $movie->categories()->sync($validatedData['categories']);
+            $movie->actors()->sync($validatedData['actors']);
+        });
+
+        $movie->save();
+
+        return redirect()->route('findMovie', ['id' => $id])->with(['success' => "Movie updated successfully"]);
     }
 
     public function updateTotalView(string $id)
@@ -152,28 +232,5 @@ class MovieController extends Controller
         }
 
     }
-
-    /**
-     * @param Request $request
-     * @param $movie
-     */
-    public function requestMovie(Request $request, $movie):Movie
-    {
-
-        $movie->name = $request->input('name');
-        $movie->realased_date = $request->input('realased_date');
-        $movie->server_link = $request->input('server_link');
-        $movie->type = $request->input('type');
-        $movie->description = $request->input('description');
-        $movie->duration = $request->input('duration');
-        $movie->poster_image = $request->input('poster_image');
-        $movie->cover_image = $request->input('cover_image');
-        $movie->trailer_video = $request->input('trailer_video');
-        $movie->languages = $request->input('languages');
-        $movie->directorId = $request->input('directorId');
-
-       return $movie;
-    }
-
 
 }

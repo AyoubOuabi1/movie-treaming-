@@ -178,47 +178,20 @@ function deleteMovie(id){
 
 
 //------------------------------End Movies Section----------------------------------//
-//------------------------------Actors Section----------------------------------//
-
-function getActorsForMovies() {
-    const actorBody = document.getElementById('actors_body_M');
-    console.log($("#actorSearch").val());
-    actorBody.innerHTML = '';
-    if($("#actorSearch").val()!==""){
-        $.ajax({
-            url: "http://localhost:8000/api/actor/"+$("#actorSearch").val(),
-            type:"get",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                data.forEach(function(actor) {
-
-                    actorBody.appendChild(printActor(actor));
-                });
 
 
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-            }
-        });
-    }else{
-        //getActors();
-
-    }
-}
-/*function getActors() {
-    const actorBody = document.getElementById('actors_body_M');
-    actorBody.innerHTML = '';
+//------------------------------Categories Section----------------------------------//
+function loadCategories() {
+    const categoryBody = document.getElementById('categoryBody');
+    categoryBody.innerHTML = '';
     $.ajax({
-        url: "http://localhost:8000/api/actors",
+        url: route('load-categories'),
         type:"get",
         dataType: "json",
         success: function(data) {
             console.log(data);
             for (let i=0; i<data.length; i++) {
-                actorBody.appendChild(printActor(data[i]))
+                categoryBody.appendChild(printCategory(data[i]))
 
             }
 
@@ -228,30 +201,212 @@ function getActorsForMovies() {
         }
     });
 
+
+
+}
+
+function findCategory() {
+    const categoryBody = document.getElementById('categoryBody');
+    categoryBody.innerHTML = '';
+    if($("#categoryTable_filter").val()!==""){
+        $.ajax({
+            url: route('find-category',$("#categoryTable_filter").val()),
+            type:"get",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                for (let i=0; i<data.length; i++) {
+                    categoryBody.appendChild(printCategory(data[i]))
+
+                }
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    }else {
+        loadCategories();
+    }
+
+
     // Clear the container element's contents
 
 }
-function printActor(actor){
+
+function updateCategory(id) {
+
+    $.ajax({
+            url: route('update-category',id),
+            type:"put",
+            data:{'name':$("#newName").val()},
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                Swal.fire(
+                    'Good job!',
+                    'Category has been  updated successfully',
+                    'success'
+                )
+                loadCategories()
+                $("#updateModal").modal('hide');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+
+
+
+    // Clear the container element's contents
+
+}
+function insertCategory() {
+
+    $.ajax({
+        url: route('add-category'),
+        type:"post",
+        data:{'name':$("#categoryName").val()},
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            Swal.fire(
+                'Good job!',
+                'Category has been  Added successfully',
+                'success'
+            )
+            loadCategories()
+            hideNewCategoryContainer()
+            $("#updateModal").modal('hide');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === 422) {
+                 const errors = jqXHR.errors;
+                const firstError = Object.values(errors)[0][0];
+                Swal.fire(
+                    'Error',
+                    'Please check the category name must be less than 255 characters',
+                 );
+            } else if (jqXHR.status === 409) {
+                 const message = jqXHR.error;
+                Swal.fire(
+                    'Error',
+                    'This category already exists',
+                    'error this category already exists'
+                );
+            } else {
+                // Handle other errors
+                console.log(textStatus, errorThrown);
+                Swal.fire(
+                    'Error',
+                    'An error occurred while adding the category. Please try again later.',
+                 );
+            }
+        }
+    });
+
+
+
+    // Clear the container element's contents
+
+}
+function deleteCategory(id){
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success ',
+            cancelButton: 'btn btn-danger mr-3'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: route('delete-category',id),
+                type: "delete",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    loadCategories();
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'the Category has been deleted.',
+                        'success'
+                    )
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR,textStatus, errorThrown);
+                }
+            })
+
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelled',
+                'Your imaginary file is safe :)',
+                'error'
+            )
+        }
+    })
+
+}
+function printCategory(category){
     const tr = document.createElement('tr');
     const td1 = document.createElement('td');
-    td1.appendChild(document.createTextNode(actor.full_name));
+    const updateBtn = document.createElement('button');
+    const deleteBtn = document.createElement('button');
+    updateBtn.classList.add('btn', 'btn-primary');
+    updateBtn.textContent='update'
+    updateBtn.onclick =()=>openModal(category)
+    deleteBtn.classList.add('btn', 'btn-danger');
+    deleteBtn.textContent='delete'
+    deleteBtn.onclick = () => deleteCategory(category.id)
+    td1.appendChild(document.createTextNode(category.id));
     tr.appendChild(td1);
     const td2 = document.createElement('td');
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.id = 'actor_'+actor.id;
-    input.name = 'actorsIds';
-    input.classList='actorsIds';
-    input.value = actor.id;
-    td2.appendChild(input);
+    td2.appendChild(document.createTextNode(category.name));
     tr.appendChild(td2);
+    const td3 = document.createElement('td');
+    td3.appendChild(document.createTextNode(category.created_at.substring(0,10)));
+    tr.appendChild(td3);
+    const td6= document.createElement('td');
+    td6.appendChild(updateBtn);
+    tr.appendChild(td6);
+    const td7= document.createElement('td');
+    td7.appendChild(deleteBtn);
+    tr.appendChild(td7);
     return tr;
-}*/
-//------------------------------End Actors Section----------------------------------//
+}
+function showNewCategoryContainer(){
+    $("#newMovieContainer").removeClass('d-none')
+}
+function hideNewCategoryContainer(){
+    $("#newMovieContainer").addClass('d-none')
+    $("#categoryName").val('');
+}
 
-//------------------------------Categories Section----------------------------------//
-
-
+function  openModal(category){
+    $("#updateModal").modal('show');
+    $("#newName").val(category.name);
+    $("#modalfooter").html(`
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
+         <button type="button" class="btn btn-primary" onclick="updateCategory(${category.id})">Save changes</button>
+    `)
+}
+function closeModal() {
+    $("#updateModal").modal('hide');
+}
 //------------------------------End Categories Section----------------------------------//
 //------------------------------start Actor Section----------------------------------//
 function loadActors() {
@@ -331,7 +486,7 @@ function deleteActor(id){
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
-                    loadTopMovies();
+                    loadActors();
                     swalWithBootstrapButtons.fire(
                         'Deleted!',
                         'the actor has been deleted.',

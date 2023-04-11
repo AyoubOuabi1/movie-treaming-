@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+//////////Auth//////////
+Route::get('/login', function (){
+    return view('Auth/login');
+})->name('login');
 //actors ///////////////////////////
 Route::get('/actor/{id}', [ActorController::class, 'showView']);
 Route::post('admin/actors/save-actor', [ActorController::class, 'store'])->name('save-actor');
@@ -36,6 +39,7 @@ Route::get('admin/actors/actors', function (){
 Route::get('/movie/{id}', [MovieController::class, 'movieDetail']);
 
 Route::get('/admin/movies/update-movie/{id}', [MovieController::class, 'findMovie'])->name('findMovie');
+Route::put('/admin/movies/save-update-movie/{id}', [MovieController::class, 'update'])->name('save-update-movie');
 
 Route::get('admin/movies', function (){
     return view('Admin/Movies/Movies');
@@ -48,9 +52,12 @@ Route::get('/movies',function(){
 
 
 Route::get('/admin/add-Movie',function(){
+
     return view('Admin/Movies/add_movie');
+
 })->name("addMovie");
 
+Route::post('/admin/save-Movie',[MovieController::class, 'store'])->name('save-movie');
 
  Route::get('/', function () {
     return view('Admin/layouts/baseLayout');
@@ -58,3 +65,9 @@ Route::get('/admin/add-Movie',function(){
 
 //////////favorite
 Route::get('favorites', [favoriteController::class, 'index']);
+//////////////////////////////////////Categories////////////////////////////////
+Route::get('/admin/categories',function(){
+
+    return view('Admin/Categories/Categories');
+
+})->name("loadCategories");

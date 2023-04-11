@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->date('realased_date');
             $table->text('server_link');
-            $table->string('type');
-            $table->text('description');
+             $table->text('description');
             $table->string('duration');
             $table->text('poster_image');
             $table->text('cover_image');

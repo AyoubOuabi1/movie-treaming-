@@ -12,5 +12,17 @@ movie-container{
    background-color: #0c84ff;
 }
 
+/*
+////////////login///////
+*/
+.btn-color{
+    background-color: #0e1c36;
+    color: #fff;
 
+}
 
+.profile-image-pic{
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+}

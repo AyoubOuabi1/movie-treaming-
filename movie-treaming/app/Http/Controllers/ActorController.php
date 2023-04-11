@@ -25,7 +25,7 @@ class ActorController extends Controller
     public function index()
     {
         //
-        $actors=Actor::all();
+        $actors=Actor::orderBy('id', 'desc')->get();;
         return response()->json($actors);
     }
 
@@ -57,7 +57,7 @@ class ActorController extends Controller
         $actor->description = $validatedData['description'];
         $actor->role = $validatedData['role'];
 
-        if ($request->hasFile('actor_image')) {
+        if ($request    ->hasFile('actor_image')) {
             $file = $request->file('actor_image');
             $allowedTypes = ['jpg', 'jpeg', 'png','jfif'];
             $fileType = $file->getClientOriginalExtension();
@@ -139,21 +139,16 @@ class ActorController extends Controller
         $actor->role = $validatedData['role'];
 
         if ($request->hasFile('actor_image')) {
-            $file = $request->file('actor_image');
-            $allowedTypes = ['jpg', 'jpeg', 'png','jfif'];
-            $fileType = $file->getClientOriginalExtension();
-            if (!in_array($fileType, $allowedTypes)) {
-                return redirect()->back()->withInput()->withErrors(['actor_image' => 'Invalid file type. Allowed types are jpg, jpeg, png, and jfif.']);
-            }
+
             $url = $actor->actor_image;
             $basename = basename($url);
             $pathinfo = pathinfo($basename);
-            $public_id = $pathinfo['filename']; // "6433ebf9d72c2"
+            $public_id = $pathinfo['filename'];
             Cloudinary::destroy($public_id);
 
             $result = Cloudinary::upload($request->file('actor_image')->getRealPath(), [
                 "folder" => "actors/",
-                "public_id" => uniqid(),
+                "public_id" => time(),
                 "overwrite" => true
             ]);
 

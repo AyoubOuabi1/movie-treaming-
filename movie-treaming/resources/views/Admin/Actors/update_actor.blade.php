@@ -82,3 +82,11 @@
     </div>
 
 @endsection
+@section('scripts')
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('#description').summernote();
+        });
+    </script>
+@endsection('scripts')

@@ -20,7 +20,7 @@ class categoryController extends Controller
     public function index()
     {
         //
-        $category=Category::all();
+        $category=Category::orderBy('id', 'desc')->get();
         return response()->json($category);
     }
 
@@ -35,10 +35,21 @@ class categoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $category=new Category;
-        $category->name = $request->input('name');
+        // Validate the input
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+         $category = Category::where('name', $validatedData['name'])->first();
+
+        if ($category) {
+             return response()->json(['error' => 'Category already exists'], 409);
+        }
+
+         $category = new Category;
+        $category->name = $validatedData['name'];
         $category->save();
+
         return response()->json($category);
     }
 

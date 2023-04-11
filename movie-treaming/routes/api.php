@@ -39,11 +39,11 @@ Route::put('/actor/{id}', [ActorController::class, 'update']);
 Route::delete('/actor/{id}', [ActorController::class, 'destroy'])->name('delete-actor');
 
 // Category routes
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/category/{name}', [CategoryController::class, 'show']);
-Route::post('/category', [CategoryController::class, 'store']);
-Route::put('/category/{id}', [CategoryController::class, 'update']);
-Route::delete('/category/{id}', [CategoryController::class, 'delete']);
+Route::get('/categories', [CategoryController::class, 'index'])->name('load-categories');
+Route::get('/category/{name}', [CategoryController::class, 'show'])->name('find-category');
+Route::post('/category', [CategoryController::class, 'store'])->name('add-category');
+Route::put('/category/{id}', [CategoryController::class, 'update'])->name('update-category');
+Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('delete-category');
 
 // Favorite routes
 Route::get('/favorites', [FavoriteController::class, 'index']);
