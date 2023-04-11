@@ -12,8 +12,8 @@
                                  width="200px" alt="profile">
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="Username" aria-describedby="emailHelp"
-                                   placeholder="User Name">
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                                   placeholder="Email">
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" id="password" placeholder="password">

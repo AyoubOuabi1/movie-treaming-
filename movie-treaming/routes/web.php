@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function (){
     return view('Auth/login');
 })->name('login');
+
+Route::get('/register', function (){
+    return view('Auth/register');
+})->name('register');
 //actors ///////////////////////////
 Route::get('/actor/{id}', [ActorController::class, 'showView']);
 Route::post('admin/actors/save-actor', [ActorController::class, 'store'])->name('save-actor');

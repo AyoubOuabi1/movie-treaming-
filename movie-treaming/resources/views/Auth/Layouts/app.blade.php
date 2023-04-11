@@ -28,8 +28,7 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
 
-<script src="{{ URL::asset('js/theme.js') }}"></script>
-<script src="{{ URL::asset('js/admin.js') }}"></script>
+ <script src="{{ URL::asset('js/auth.js') }}"></script>
   @yield('scripts')
 </body>
 

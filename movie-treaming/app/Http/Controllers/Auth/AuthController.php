@@ -17,10 +17,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
+        $validatedData=$request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
+
         ]);
+
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);
@@ -44,12 +46,16 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
-       /* $request->validate([
+        $validatedData=$request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-        ]);*/
-        $user = User::where('email', $request->email)->first();
+           'confirm-password' => 'required|string|min:6'
+        ]);
+        if($validatedData['password']!=$validatedData['confirm-password']){
+            return response()->json(['status'=>'error', 'message'=>'password does not match'],410);
+        }
+        $user = User::where('email', $validatedData['email'])->first();
         if ($user) {
             return response()->json([
                 'status' => 'error',

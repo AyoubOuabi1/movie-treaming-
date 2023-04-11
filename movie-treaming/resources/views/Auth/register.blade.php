@@ -12,13 +12,25 @@
                                  width="200px" alt="profile">
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="Username" aria-describedby="emailHelp"
-                                   placeholder="User Name">
+                            <label for="name" id="nameLabel" class="text-danger  d-none">d</label>
+                            <input type="text" class="form-control" id="name" onkeyup="checkFullName()" aria-describedby="emailHelp"
+                                   placeholder="Full name">
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" id="password" placeholder="password">
+                            <label for="email1" id="emailLabel" class="text-danger d-none">d</label>
+                            <input type="email" class="form-control" id="email" onkeyup="checkEmail()" aria-describedby="emailHelp"
+                                   placeholder="email">
                         </div>
-                        <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Login</button></div>
+                        <div class="mb-3">
+                            <label for="password" id="passwordLabel" class="text-danger d-none">d </label>
+                            <input type="password" class="form-control" id="password" onkeyup="checkPassword()" placeholder="password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ConfirmPassword" id="ConfirmPasswordLabel" class="text-danger d-none">d </label>
+
+                            <input type="password" class="form-control" id="ConfirmPassword" onkeyup="checkConfirmPasswordF()" placeholder="Confirm password">
+                        </div>
+                        <div class="text-center"><button type="submit" id="registerBtn" class="btn btn-dark px-5 mb-5 w-100 disabled" disabled>Login</button></div>
                         <div id="emailHelp" class="form-text text-center mb-5 text-dark">Not
                             Registered? <a href="#" class="text-dark fw-bold"> Create an
                                 Account</a>
