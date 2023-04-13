@@ -5,7 +5,7 @@
         </a>
         <hr class="sidebar-divider my-0">
         <ul class="navbar-nav text-light" id="accordionSidebar">
-            <li class="nav-item"><a class="nav-link active" href="#"><i
+            <li class="nav-item"><a class="nav-link active" href="{{route('dashboard')}}"><i
                         class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('getMovies')}}"><i
                         class="fas fa-user"></i><span>Movies</span></a></li>

@@ -68,8 +68,8 @@ Route::get('/admin/add-Movie',function(){
 Route::post('/admin/save-Movie',[MovieController::class, 'store'])->name('save-movie');
 
  Route::get('/', function () {
-    return view('Admin/layouts/baseLayout');
-});
+    return view('Admin/home');
+})->name('dashboard');
 
 //////////favorite
 Route::get('favorites', [favoriteController::class, 'index']);
