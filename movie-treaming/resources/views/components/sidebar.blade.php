@@ -13,7 +13,7 @@
                         class="fas fa-table"></i><span>Actors</span></a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('loadCategories')}}"><i
                         class="far fa-user-circle"></i><span>Categories</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user-circle"></i><span>Users</span></a>
+            <li class="nav-item"><a class="nav-link" href="{{route('getUsers')}}"><i class="fas fa-user-circle"></i><span>Users</span></a>
             </li>
         </ul>
         <div class="text-center d-none d-md-inline">

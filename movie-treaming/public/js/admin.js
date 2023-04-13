@@ -1,4 +1,3 @@
-loadTopMovies()
 $(document).ready(function() {
     $('.directorId').select2({
         placeholder: 'Select an director'
@@ -554,3 +553,112 @@ function printActor(actor){
 }
 
 //------------------------------end  Actor Section----------------------------------//
+//------------------------------start  User Section----------------------------------//
+function loadUsers() {
+    const userBody = document.getElementById('userBody');
+    userBody.innerHTML = '';
+    $.ajax({
+        url: route('get-users'),
+        type:"get",
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            for (let i=0; i<data.length; i++) {
+                userBody.appendChild(printUser(data[i]))
+
+            }
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+
+
+
+}
+
+function findCategory() {
+    const userBody = document.getElementById('userBody');
+    userBody.innerHTML = '';
+    if($("#categoryTable_filter").val()!==""){
+        $.ajax({
+            url: route('find-category',$("#categoryTable_filter").val()),
+            type:"get",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                for (let i=0; i<data.length; i++) {
+                    userBody.appendChild(printUser(data[i]))
+
+                }
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    }else {
+        loadUsers();
+    }
+
+
+    // Clear the container element's contents
+
+}
+
+function updateCategory(id) {
+
+    $.ajax({
+        url: route('update-category',id),
+        type:"put",
+        data:{'name':$("#newName").val()},
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            Swal.fire(
+                'Good job!',
+                'Category has been  updated successfully',
+                'success'
+            )
+            loadCategories()
+            $("#updateModal").modal('hide');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+
+
+
+    // Clear the container element's contents
+
+}
+
+function printUser(user){
+    const tr = document.createElement('tr');
+    const td1 = document.createElement('td');
+    const updateBtn = document.createElement('button');
+    const deleteBtn = document.createElement('button');
+    updateBtn.classList.add('btn', 'btn-primary');
+    updateBtn.textContent='update'
+    updateBtn.onclick =()=>openModal(user)
+    deleteBtn.classList.add('btn', 'btn-danger');
+    deleteBtn.textContent='delete'
+    deleteBtn.onclick = () => deleteCategory(user.id)
+    td1.appendChild(document.createTextNode(user.name));
+    tr.appendChild(td1);
+    const td2 = document.createElement('td');
+    td2.appendChild(document.createTextNode(user.email));
+    tr.appendChild(td2);
+    const td3 = document.createElement('td');
+    td3.appendChild(document.createTextNode(user.created_at.substring(0,10)));
+    tr.appendChild(td3);
+    const td6= document.createElement('td');
+    td6.appendChild(updateBtn);
+    tr.appendChild(td6);
+    const td7= document.createElement('td');
+    td7.appendChild(deleteBtn);
+    tr.appendChild(td7);
+    return tr;
+}

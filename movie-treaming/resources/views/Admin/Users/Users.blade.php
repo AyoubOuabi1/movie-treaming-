@@ -2,8 +2,6 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <h3 class="text-dark mb-4">Movies</h3>
-        <a href="{{ route('addMovie') }}"><button type="button" class="btn btn-primary" >Add new Movie </button></a>
-
     </div>
 
     <div class="card shadow">
@@ -26,14 +24,14 @@
                 <table id="dataTable" class="table my-0">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Year</th>
-                        <th>Views</th>
-                        <th>Added in</th>
+                        <th>Full name</th>
+                        <th>email</th>
+                        <th>registered at</th>
+                        <th>permissions</th>
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody id="movieBody">
+                    <tbody id="userBody">
 
                     </tbody>
 
@@ -43,9 +41,8 @@
         </div>
     </div>
  @endsection
-
 @section('scripts')
     <script>
-        loadTopMovies()
+        loadUsers()
     </script>
 @endsection('scripts')

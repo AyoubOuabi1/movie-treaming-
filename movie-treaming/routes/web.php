@@ -24,6 +24,10 @@ Route::get('/login', function (){
 Route::get('/register', function (){
     return view('Auth/register');
 })->name('register');
+//Users ///////////////////////////
+Route::get('admin/users/users', function (){
+    return view('Admin/Users/Users');
+})->name('getUsers');
 //actors ///////////////////////////
 Route::get('/actor/{id}', [ActorController::class, 'showView']);
 Route::post('admin/actors/save-actor', [ActorController::class, 'store'])->name('save-actor');
