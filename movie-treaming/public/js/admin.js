@@ -558,8 +558,9 @@ function loadUsers() {
     const userBody = document.getElementById('userBody');
     userBody.innerHTML = '';
     $.ajax({
-        url: route('get-users'),
+        url: route('get-users',$("#role").val()),
         type:"get",
+
         dataType: "json",
         success: function(data) {
             console.log(data);
@@ -570,7 +571,7 @@ function loadUsers() {
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
+            console.log(jqXHR,textStatus, errorThrown);
         }
     });
 

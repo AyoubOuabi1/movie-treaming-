@@ -11,14 +11,9 @@ class UserController extends Controller
 {
     //
 
-    public function index(){
-         try {
-            $users=  DB::table('users')->where('id','<>',1)
-                ->get();
-            return response()->json($users);
-        }catch(Exception $ex){
-            return response()->json($ex->getMessage());
-        }
+    public function index(string $role){
+        return response()->json(User::role($role)->get());
+
 
     }
 }

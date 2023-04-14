@@ -12,11 +12,16 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6 text-nowrap">
-
+                    <label>filter users by roles</label>
+                    <select class="form-control" name="role" onchange="loadUsers()" id="role">
+                        <option value="simple-user">Simple user</option>
+                        <option value="moderator">Moderator</option>
+                        <option value="super-admin">Super Admin</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <div  class="text-md-end dataTables_filter"><label class="form-label"><input
-                                class="form-control form-control-sm" onkeyup="findMovie()" id="movieTable_filter" type="search" aria-controls="dataTable"
+                                class="form-control form-control-md" onkeyup="findMovie()" id="movieTable_filter" type="search" aria-controls="dataTable"
                                 placeholder="Search by name"/></label></div>
                 </div>
             </div>

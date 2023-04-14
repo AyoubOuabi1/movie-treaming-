@@ -31,7 +31,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login-api');
 Route::post('/refresh', [AuthController::class, 'refresh']);
 Route::post('/logout', [AuthController::class, 'logout']);
 //users routes
-Route::get('/admin/users', [\App\Http\Controllers\UserController::class, 'index'])->name('get-users');
+Route::get('/admin/users/{role}', [\App\Http\Controllers\UserController::class, 'index'])->name('get-users');
 
 // Actor routes
 Route::get('/actors', [ActorController::class, 'index']);
