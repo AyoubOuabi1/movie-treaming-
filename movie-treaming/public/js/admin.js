@@ -560,7 +560,9 @@ function loadUsers() {
     $.ajax({
         url: route('get-users',$("#role").val()),
         type:"get",
-
+        data:{
+            'name':$('#userTable_filter').val()
+        },
         dataType: "json",
         success: function(data) {
             console.log(data);
@@ -579,50 +581,73 @@ function loadUsers() {
 
 }
 
-function findCategory() {
-    const userBody = document.getElementById('userBody');
-    userBody.innerHTML = '';
-    if($("#categoryTable_filter").val()!==""){
-        $.ajax({
-            url: route('find-category',$("#categoryTable_filter").val()),
-            type:"get",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                for (let i=0; i<data.length; i++) {
-                    userBody.appendChild(printUser(data[i]))
 
+function deleteUser(id){
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success ',
+            cancelButton: 'btn btn-danger mr-3'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: route('delete-users',id),
+                type: "delete",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    loadUsers();
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'the actor has been deleted.',
+                        'success'
+                    )
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR,textStatus, errorThrown);
                 }
+            })
 
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-            }
-        });
-    }else {
-        loadUsers();
-    }
-
-
-    // Clear the container element's contents
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelled',
+                'Your imaginary file is safe :)',
+                'error'
+            )
+        }
+    })
 
 }
-
-function updateCategory(id) {
+function updateUserRole(id) {
 
     $.ajax({
-        url: route('update-category',id),
+        url: route('assignRole',id),
         type:"put",
-        data:{'name':$("#newName").val()},
+        data:{'role':$("#user-role").val()},
         dataType: "json",
         success: function(data) {
             console.log(data);
             Swal.fire(
                 'Good job!',
-                'Category has been  updated successfully',
+                'Role has been  updated successfully',
                 'success'
             )
-            loadCategories()
+           loadUsers()
             $("#updateModal").modal('hide');
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -635,18 +660,29 @@ function updateCategory(id) {
     // Clear the container element's contents
 
 }
-
+function  openUserModal(user){
+    $("#updateModal").modal('show');
+    $("#userName").val(user.name);
+    $("#user-role").val($("#role").val())
+    $("#modalfooter").html(`
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
+         <button type="button" class="btn btn-primary" onclick="updateUserRole(${user.id})">Save changes</button>
+    `)
+}
 function printUser(user){
     const tr = document.createElement('tr');
     const td1 = document.createElement('td');
     const updateBtn = document.createElement('button');
     const deleteBtn = document.createElement('button');
+
     updateBtn.classList.add('btn', 'btn-primary');
-    updateBtn.textContent='update'
-    updateBtn.onclick =()=>openModal(user)
+    updateBtn.textContent='update permission'
+    updateBtn.onclick =()=>openUserModal(user)
+
     deleteBtn.classList.add('btn', 'btn-danger');
-    deleteBtn.textContent='delete'
-    deleteBtn.onclick = () => deleteCategory(user.id)
+    deleteBtn.textContent='delete user'
+    deleteBtn.onclick =()=>deleteUser(user)
+
     td1.appendChild(document.createTextNode(user.name));
     tr.appendChild(td1);
     const td2 = document.createElement('td');
@@ -655,11 +691,13 @@ function printUser(user){
     const td3 = document.createElement('td');
     td3.appendChild(document.createTextNode(user.created_at.substring(0,10)));
     tr.appendChild(td3);
+
     const td6= document.createElement('td');
     td6.appendChild(updateBtn);
     tr.appendChild(td6);
+
     const td7= document.createElement('td');
     td7.appendChild(deleteBtn);
     tr.appendChild(td7);
-    return tr;
+     return tr;
 }

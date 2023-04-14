@@ -11,31 +11,18 @@ class RoleController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('auth:api');
+       // $this->middleware('auth:api');
     }
-    public function givenAdminRole(string $id){
-
+    public function assignRole(string $id,Request $request){
+        $roles = ['super-admin', 'moderator', 'simple-user'];
+        if (!in_array($request->input('role'), $roles)) {
+            return response()->json(['error' => 'Invalid role.'], 400);
+        }
         $user = User::find($id);
         if (!$user) {
             return response()->json(['error' => 'User not found.'], 404);
         }
-        $user->syncRoles(['super-admin']);
-        return response()->json(['message' => 'Role assigned successfully.']);
-    }
-    public function givenModeratorRole(string $id){
-        $user = User::find($id);
-        if (!$user) {
-            return response()->json(['error' => 'User not found.'], 404);
-        }
-        $user->syncRoles(['moderator']);
-        return response()->json(['message' => 'Role assigned successfully.']);
-    }
-    public function givenUserRole(string $id){
-        $user = User::find($id);
-        if (!$user) {
-            return response()->json(['error' => 'User not found.'], 404);
-        }
-        $user->syncRoles(['simple-user']);
+        $user->syncRoles([$request->input('role')]);
         return response()->json(['message' => 'Role assigned successfully.']);
     }
 

@@ -1,7 +1,8 @@
 <nav  class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion sidebar-bg " >
-    <div class="container-fluid d-flex flex-column p-0"><a
-            class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-             <div class="sidebar-brand-text mx-3"><span>Drama House</span></div>
+    <div class="container-fluid d-flex flex-column p-0">
+        <a class="navbar-brand d-flex justify-content-start align-items-center sidebar-brand " href="#">
+            <div class="sidebar-brand-icon"><img src="{{URL::asset('icon.png')}}" height="30px" width="60px" class="" alt="ICON"></div>
+             <div class="sidebar-brand-text mx-1"><span>Drama House</span></div>
         </a>
         <hr class="sidebar-divider my-0">
         <ul class="navbar-nav text-light" id="accordionSidebar">

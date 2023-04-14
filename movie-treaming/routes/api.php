@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -32,6 +33,7 @@ Route::post('/refresh', [AuthController::class, 'refresh']);
 Route::post('/logout', [AuthController::class, 'logout']);
 //users routes
 Route::get('/admin/users/{role}', [\App\Http\Controllers\UserController::class, 'index'])->name('get-users');
+Route::delete('/admin/users/{id}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('delete-users');
 
 // Actor routes
 Route::get('/actors', [ActorController::class, 'index']);
@@ -70,3 +72,7 @@ Route::get('/rating/{id}', [RatingController::class, 'show']);
 Route::post('/rating', [RatingController::class, 'store']);
 Route::put('/update-rating', [RatingController::class, 'update']);
 Route::delete('/delete-rating/{id}', [RatingController::class, 'destroy']);
+
+////////permissions
+Route::put('admin/users/assignRole/{id}', [RoleController::class,'assignRole'])->name('assignRole');
+Route::post('admin/users/getPermission', [RoleController::class,'getPermissions'])->name('getPermissions');
