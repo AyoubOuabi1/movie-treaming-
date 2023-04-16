@@ -1,6 +1,7 @@
+@php use App\Http\Controllers\ActorController; @endphp
 @extends('Admin.layouts.baseLayout')
 @section('content')
-    <div class="card shadow " id="updateContainer" >
+    <div class="card shadow " id="updateContainer">
         @if(session('success'))
             <div class="alert alert-success mb-3">
                 {{ session('success') }}
@@ -17,7 +18,8 @@
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-6">
                             <label for="name">Movie Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{$movie->name}}" placeholder="Enter movie name">
+                            <input type="text" class="form-control" id="name" name="name" value="{{$movie->name}}"
+                                   placeholder="Enter movie name">
                             @if($errors->has('name'))
                                 <span class="text-danger">{{ $errors->first('name') }}</span>
                             @endif
@@ -25,7 +27,8 @@
 
                         <div class="col-sm-6">
                             <label for="serverLink">Server Link</label>
-                            <input type="text" class="form-control" id="server_link" value="{{$movie->server_link}}" name="server_link" placeholder="Enter server link">
+                            <input type="text" class="form-control" id="server_link" value="{{$movie->server_link}}"
+                                   name="server_link" placeholder="Enter server link">
                             @if($errors->has('server_link'))
                                 <span class="text-danger">{{ $errors->first('server_link') }}</span>
                             @endif
@@ -34,13 +37,14 @@
 
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-4 text-center">
-                            <div >
+                            <div>
                                 <label for="poster_image" class="form-label">Current poster Image </label>
                             </div>
                             <div class="d-flex justify-content-center my-2">
-                                <img src="{{ $movie->poster_image}}" class="rounded" alt="actor image" height="200px" width="250px">
+                                <img src="{{ $movie->poster_image}}" class="rounded" alt="actor image" height="200px"
+                                     width="250px">
                             </div>
-                             <div >
+                            <div>
                                 <label for="poster_image" class="form-label">new poster Image </label>
                                 <input class="form-control" type="file" id="poster_image" name="poster_image">
                                 @if($errors->has('poster_image'))
@@ -49,13 +53,14 @@
                             </div>
                         </div>
                         <div class="col-sm-4 text-center">
-                            <div >
+                            <div>
                                 <label for="poster_image" class="form-label">Current cover Image </label>
                             </div>
                             <div class="d-flex justify-content-center my-2">
-                                <img src="{{ $movie->cover_image}}" class="rounded" alt="actor image" height="200px" width="250px">
+                                <img src="{{ $movie->cover_image}}" class="rounded" alt="actor image" height="200px"
+                                     width="250px">
                             </div>
-                            <div >
+                            <div>
                                 <label for="poster_image" class="form-label">new cover Image </label>
                                 <input class="form-control" type="file" id="cover_image" name="cover_image">
                                 @if($errors->has('cover_image'))
@@ -64,15 +69,19 @@
                             </div>
                         </div>
                         <div class="col-sm-4 text-center">
-                            <div >
+                            <div>
                                 <label for="poster_image" class="form-label">Current Trailer Video </label>
                             </div>
                             <div class="d-flex justify-content-center my-2">
-                                <iframe width="250px" height="200px" src="{{$movie->trailer_video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                             </div>
-                            <div >
+                                <iframe width="250px" height="200px" src="{{$movie->trailer_video}}"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                            </div>
+                            <div>
                                 <label for="trailer_video" class="form-label">new Trailer Video Link </label>
-                                <input type="text" class="form-control" value="{{$movie->trailer_video}}" id="trailer_video"  name="trailer_video" placeholder="Enter trailer video link">
+                                <input type="text" class="form-control" value="{{$movie->trailer_video}}"
+                                       id="trailer_video" name="trailer_video" placeholder="Enter trailer video link">
                                 @if($errors->has('trailer_video'))
                                     <span class="text-danger">{{ $errors->first('trailer_video') }}</span>
                                 @endif
@@ -84,7 +93,8 @@
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-6">
                             <label for="realased_date">Released Date</label>
-                            <input type="number" max="2030" min="1950" class="form-control" id="realased_date" name="realased_date" value="{{$movie->realased_date}}">
+                            <input type="number" max="2030" min="1950" class="form-control" id="realased_date"
+                                   name="realased_date" value="{{$movie->realased_date}}">
                             @if($errors->has('released_date'))
                                 <span class="text-danger">{{ $errors->first('released_date') }}</span>
                             @endif
@@ -92,7 +102,8 @@
 
                         <div class="col-sm-6">
                             <label for="duration">Duration (minutes)</label>
-                            <input type="number" class="form-control" id="duration" value="{{$movie->duration}}" name="duration" placeholder="Enter duration">
+                            <input type="number" class="form-control" id="duration" value="{{$movie->duration}}"
+                                   name="duration" placeholder="Enter duration">
                             @if($errors->has('duration'))
                                 <span class="text-danger">{{ $errors->first('duration') }}</span>
                             @endif
@@ -102,9 +113,9 @@
 
                     <div class="form-group bg-light border rounded-3 mt-3 p-3 row">
                         <div class="col-sm-6">
-                             <label for="directorId">Director</label>
+                            <label for="directorId">Director</label>
                             <select class="directorId form-control" id="directorId" name="directorId">
-                                @foreach(\App\Http\Controllers\ActorController::getDirectors() as $director)
+                                @foreach(ActorController::getDirectors() as $director)
                                     <option value="{{$director->id}}" {{ $director->id==$movie->directorId ? 'selected':'' }}>{{$director->full_name}}</option>
 
                                     <option value="{{$director->id}}">{{$director->full_name}}</option>
@@ -114,7 +125,8 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="languages">Language</label>
-                            <input type="text" class="form-control"  value="{{$movie->languages}}" id="languages" name="languages" placeholder="Enter duration">
+                            <input type="text" class="form-control" value="{{$movie->languages}}" id="languages"
+                                   name="languages" placeholder="Enter duration">
                             @if($errors->has('description'))
                                 <span class="text-danger">{{ $errors->first('description') }}</span>
                             @endif
@@ -127,12 +139,12 @@
 
                     <div class="form-group bg-light border rounded-3 p-3 mt-3">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3">{{ $movie->description }}</textarea>
+                        <textarea class="form-control" id="description" name="description"
+                                  rows="3">{{ $movie->description }}</textarea>
                         @if($errors->has('description'))
                             <span class="text-danger">{{ $errors->first('description') }}</span>
                         @endif
                     </div>
-
 
 
                     <div class="form-group mt-3 bg-light border rounded-3 p-3 mt-3 row">
@@ -151,19 +163,18 @@
                         <div class="col-sm-6">
                             <label for="actors">Actors</label>
                             <select class="actorId form-control" id="actors" name="actors[]" multiple>
-                                @foreach(\App\Http\Controllers\ActorController::getActors() as $actor)
+                                @foreach(ActorController::getActors() as $actor)
                                     <option value="{{$actor->id}}" {{ in_array($actor->id,$movie->actors->pluck('id')->toArray()) ? 'selected':'' }}>{{$actor->full_name}}</option>
 
                                 @endforeach
-                                    @if($errors->has('actors'))
-                                        <span class="text-danger">{{ $errors->first('actors') }}</span>
-                                    @endif
+                                @if($errors->has('actors'))
+                                    <span class="text-danger">{{ $errors->first('actors') }}</span>
+                                @endif
                             </select>
 
                         </div>
 
                     </div>
-
 
 
                     <div class="d-flex justify-content-center mt-3">
@@ -182,7 +193,7 @@
 @section('scripts')
     <script type="text/javascript">
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#description').summernote();
         });
     </script>

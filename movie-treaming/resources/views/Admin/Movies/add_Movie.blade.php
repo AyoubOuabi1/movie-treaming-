@@ -1,6 +1,7 @@
+@php use App\Http\Controllers\ActorController; @endphp
 @extends('Admin.layouts.baseLayout')
 @section('content')
-    <div class="card shadow " >
+    <div class="card shadow ">
         @if(session('success'))
             <div class="alert alert-success mb-3">
                 {{ session('success') }}
@@ -12,30 +13,33 @@
         </div>
         <div class="card-body">
             <div class="row">
-                 <form action="{{ route('save-movie') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('save-movie') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-6">
                             <label for="name">Movie Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter movie name">
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="Enter movie name">
                             @if($errors->has('name'))
                                 <span class="text-danger">{{ $errors->first('name') }}</span>
                             @endif
                         </div>
-
                         <div class="col-sm-6">
-                            <label for="serverLink">Server Link</label>
-                            <input type="text" class="form-control" id="server_link" name="server_link" placeholder="Enter server link">
+                            <label for="cover_image" class="form-label">Video</label>
+                            <input class="form-control" type="file" id="server_link" name="server_link"
+                                   value="{{ old('server_link') }}">
                             @if($errors->has('server_link'))
                                 <span class="text-danger">{{ $errors->first('server_link') }}</span>
                             @endif
                         </div>
+
                     </div>
 
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-4">
                             <label for="poster_image" class="form-label">Poster Image Link</label>
-                            <input class="form-control" type="file" id="poster_image" name="poster_image" value="{{ old('poster_image') }}">
+                            <input class="form-control" type="file" id="poster_image" name="poster_image"
+                                   value="{{ old('poster_image') }}">
                             @if($errors->has('poster_image'))
                                 <span class="text-danger">{{ $errors->first('poster_image') }}</span>
                             @endif
@@ -43,7 +47,8 @@
 
                         <div class="col-sm-4">
                             <label for="cover_image" class="form-label">Cover Image Link</label>
-                            <input class="form-control" type="file" id="cover_image" name="cover_image" value="{{ old('cover_image') }}">
+                            <input class="form-control" type="file" id="cover_image" name="cover_image"
+                                   value="{{ old('cover_image') }}">
                             @if($errors->has('cover_image'))
                                 <span class="text-danger">{{ $errors->first('cover_image') }}</span>
                             @endif
@@ -51,7 +56,8 @@
 
                         <div class="col-sm-4">
                             <label for="trailerLink">Trailer Video Link</label>
-                            <input type="text" class="form-control" id="trailer_video" name="trailer_video" placeholder="Enter trailer video link">
+                            <input type="text" class="form-control" id="trailer_video" name="trailer_video"
+                                   placeholder="Enter trailer video link">
                             @if($errors->has('trailer_video'))
                                 <span class="text-danger">{{ $errors->first('trailer_video') }}</span>
                             @endif
@@ -61,7 +67,8 @@
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-6">
                             <label for="realased_date">Released Date</label>
-                            <input type="number" max="2030" min="1950" class="form-control" id="realased_date" name="realased_date" placeholder="Enter release date (yyyy-mm-dd)">
+                            <input type="number" max="2030" min="1950" class="form-control" id="realased_date"
+                                   name="realased_date" placeholder="Enter release date (yyyy-mm-dd)">
                             @if($errors->has('released_date'))
                                 <span class="text-danger">{{ $errors->first('released_date') }}</span>
                             @endif
@@ -69,7 +76,8 @@
 
                         <div class="col-sm-6">
                             <label for="duration">Duration (minutes)</label>
-                            <input type="number" class="form-control" id="duration" name="duration" placeholder="Enter duration">
+                            <input type="number" class="form-control" id="duration" name="duration"
+                                   placeholder="Enter duration">
                             @if($errors->has('duration'))
                                 <span class="text-danger">{{ $errors->first('duration') }}</span>
                             @endif
@@ -79,7 +87,7 @@
                         <div class="col-sm-6">
                             <label for="directorId">Director</label>
                             <select class="directorId form-control" id="directorId" name="directorId">
-                                @foreach(\App\Http\Controllers\ActorController::getDirectors() as $director)
+                                @foreach(ActorController::getDirectors() as $director)
                                     <option value="{{$director->id}}">{{$director->full_name}}</option>
                                 @endforeach
                             </select>
@@ -87,9 +95,10 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="languages">Language</label>
-                             <input type="text" class="form-control" id="languages" name="languages" placeholder="Enter duration">
-                            @if($errors->has('description'))
-                                <span class="text-danger">{{ $errors->first('description') }}</span>
+                            <input type="text" class="form-control" id="languages" name="languages"
+                                   placeholder="Enter duration">
+                            @if($errors->has('languages'))
+                                <span class="text-danger">{{ $errors->first('languages') }}</span>
                             @endif
 
                         </div>
@@ -99,7 +108,8 @@
 
                     <div class="form-group bg-light border rounded-3 p-3 mt-3">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                        <textarea class="form-control" id="description" name="description"
+                                  rows="3">{{ old('description') }}</textarea>
                         @if($errors->has('description'))
                             <span class="text-danger">{{ $errors->first('description') }}</span>
                         @endif
@@ -120,7 +130,7 @@
                         <div class="col-sm-6">
                             <label for="actors">Actors</label>
                             <select class="actorId form-control" id="actors" name="actors[]" multiple>
-                                @foreach(\App\Http\Controllers\ActorController::getActors() as $actor)
+                                @foreach(ActorController::getActors() as $actor)
                                     <option value="{{$actor->id}}">{{$actor->full_name}}</option>
                                 @endforeach
                             </select>
@@ -143,7 +153,7 @@
 @section('scripts')
     <script type="text/javascript">
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#description').summernote();
         });
     </script>

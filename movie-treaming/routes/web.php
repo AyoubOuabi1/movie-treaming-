@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActorController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +21,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function (){
     return view('Auth/login');
 })->name('login');
+Route::post('/save-register', [AuthController::class, 'register'])->name('register-api');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login-api');
 
 Route::get('/register', function (){
     return view('Auth/register');
 })->name('register');
+
 //Users ///////////////////////////
 Route::get('admin/users/users', function (){
     return view('Admin/Users/Users');
@@ -65,12 +70,13 @@ Route::get('/admin/add-Movie',function(){
 
 })->name("addMovie");
 
-Route::post('/admin/save-Movie',[MovieController::class, 'store'])->name('save-movie');
+
+Route::post('/admin/save-Movie',[MovieController::class, 'upload'])->name('save-movie');
 
  Route::get('/', function () {
     return view('Admin/home');
 })->name('dashboard');
-
+Route::get('test', [MovieController::class, 'test']);
 //////////favorite
 Route::get('favorites', [favoriteController::class, 'index']);
 //////////////////////////////////////Categories////////////////////////////////

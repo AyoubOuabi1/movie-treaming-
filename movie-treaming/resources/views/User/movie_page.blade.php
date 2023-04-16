@@ -1,3 +1,5 @@
+@php use App\Http\Controllers\FavoriteController; @endphp
+@php use App\Http\Controllers\RatingController; @endphp
 @extends('User/layouts/app')
 @section('content')
     <div class="container-fluid ">
@@ -20,8 +22,6 @@
                         @endforeach
 
 
-
-
                     </div>
                     <div class="d-flex gap-3">
                         <Bututon type="button" class="btn btn-primary mt-3">Watch Now</Bututon>
@@ -30,10 +30,14 @@
                         --}}
 
                         <div id="btnConatiner">
-                            @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
-                                <button href="#" class="btn btn-danger  mt-3"  onclick="removeFromFav({{$movie->id}})" id="removeFromFav">Remove From  favorite</Button>
+                            @if(FavoriteController::checkMovie($movie->id))
+                                <button href="#" class="btn btn-danger  mt-3" onclick="removeFromFav({{$movie->id}})"
+                                        id="removeFromFav">Remove From favorite
+                                </Button>
                             @else
-                                <button href="#" class="btn btn-success  mt-3"  onclick="addToFav({{$movie->id}})" id="addToFavBtn">Add to favorite</Button>
+                                <button href="#" class="btn btn-success  mt-3" onclick="addToFav({{$movie->id}})"
+                                        id="addToFavBtn">Add to favorite
+                                </Button>
                             @endif
                         </div>
 
@@ -70,17 +74,17 @@
                     <div class="d-flex">
                         <i class="bi bi-star-fill h1" style="color: #f5c518">&ensp;</i>
                         <div>
-                            <h4 class="h4"> {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[0]}}
+                            <h4 class="h4"> {{RatingController::getRatingWithAvg($movie->id)[0]}}
                                 / 5</h4>
-                            <h4 class="h4"> {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[2]}} users</h4>
+                            <h4 class="h4"> {{RatingController::getRatingWithAvg($movie->id)[2]}} users</h4>
 
                         </div>
                     </div>
                     <div class="py-2 px-4" style="box-shadow: 0 0 10px 0 #ddd;">
                         <p class="font-weight-bold ">Review</p>
-                        @if(\App\Http\Controllers\RatingController::checkRate($movie->id))
+                        @if(RatingController::checkRate($movie->id))
                             <p class="font-weight-bold ">your old Review
-                                is {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[1]}}</p>
+                                is {{RatingController::getRatingWithAvg($movie->id)[1]}}</p>
                         @endif
                         <div class="form-group row">
                             <div class="col">
@@ -100,15 +104,18 @@
                         </div>
 
                         <div class="mt-3 text-right">
-                            @if((\App\Http\Controllers\RatingController::checkRate($movie->id)))
-                                <button class="btn btn-sm py-2 px-3 btn-info" id="updateRateBtn" onclick="updateRate({{$movie->id}})" data-id="">
+                            @if((RatingController::checkRate($movie->id)))
+                                <button class="btn btn-sm py-2 px-3 btn-info" id="updateRateBtn"
+                                        onclick="updateRate({{$movie->id}})" data-id="">
                                     Update my review
                                 </button>
-                                <button class="btn btn-sm py-2 px-3 btn-danger" id="removeRateBtn"  onclick="deleteRate({{$movie->id}})" data-id="">delete my review
+                                <button class="btn btn-sm py-2 px-3 btn-danger" id="removeRateBtn"
+                                        onclick="deleteRate({{$movie->id}})" data-id="">delete my review
                                 </button>
 
                             @else
-                                <button class="btn btn-sm py-2 px-3 btn-info" id="giveRateBtn" onclick="giveRate({{$movie->id}})" data-id="">
+                                <button class="btn btn-sm py-2 px-3 btn-info" id="giveRateBtn"
+                                        onclick="giveRate({{$movie->id}})" data-id="">
                                     Submit
                                 </button>
                             @endif
@@ -128,5 +135,5 @@
                     allowfullscreen></iframe>
         </div>
 
-     </div>
- @endsection('content')
+    </div>
+@endsection('content')

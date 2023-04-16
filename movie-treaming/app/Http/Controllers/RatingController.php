@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rating;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -96,7 +97,7 @@ class RatingController extends Controller
 
     }
 
-    public function requestRating(Request $request, $rating):\Illuminate\Http\JsonResponse
+    public function requestRating(Request $request, $rating): JsonResponse
     {
         $this->validate($request, [
             'movie_id' => 'required|integer',

@@ -25,7 +25,7 @@ class ActorController extends Controller
     public function index()
     {
         //
-        $actors=Actor::orderBy('id', 'desc')->get();;
+        $actors=Actor::orderBy('id', 'desc')->get();
         return response()->json($actors);
     }
 

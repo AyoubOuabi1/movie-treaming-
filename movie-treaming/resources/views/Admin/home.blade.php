@@ -1,10 +1,11 @@
+@php use App\Http\Controllers\CountController; @endphp
 @extends('Admin.layouts.baseLayout')
 @section('content')
     <div class="row g-3 my-2">
         <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                 <div>
-                    <h3 class="fs-2">{{\App\Http\Controllers\CountController::countMovies()}}</h3>
+                    <h3 class="fs-2">{{CountController::countMovies()}}</h3>
                     <p class="fs-5">Total Movies</p>
                 </div>
                 <i class="bi bi-film fs-1 primary-text-color border rounded-full secondary-bg p-3"></i>
@@ -14,20 +15,19 @@
         <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                 <div>
-                    <h3 class="fs-2 "  id="lessTwo">{{\App\Http\Controllers\CountController::countUsers()}}</h3>
+                    <h3 class="fs-2 " id="lessTwo">{{CountController::countUsers()}}</h3>
                     <p class="fs-5 ">Total Users</p>
                 </div>
                 <i
-                    class="bi bi-person-circle fs-1  border rounded-full secondary-bg p-3"></i>
+                        class="bi bi-person-circle fs-1  border rounded-full secondary-bg p-3"></i>
             </div>
         </div>
-
 
 
         <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                 <div>
-                    <h3 class="fs-2">{{\App\Http\Controllers\CountController::countViews()}}</h3>
+                    <h3 class="fs-2">{{CountController::countViews()}}</h3>
                     <p class="fs-5">Total views</p>
                 </div>
                 <i class="bi bi-check2-all fs-1 primary-text-color border rounded-full secondary-bg p-3"></i>
@@ -69,6 +69,6 @@
 @endsection
 @section('scripts')
     <script>
-       loadTopMovies()
+        loadTopMovies()
     </script>
 @endsection('scripts')

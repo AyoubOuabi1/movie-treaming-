@@ -187,6 +187,8 @@ return [
          */
         Spatie\Permission\PermissionServiceProvider::class,
          CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
 
         /*
          * Application Service Providers...
