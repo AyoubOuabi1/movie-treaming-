@@ -151,70 +151,76 @@ class MovieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $movie= Movie::find($id);
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'realased_date' => ['required'],
-            'server_link' => ['required', 'url'],
-            'description' => ['required', 'string'],
-            'duration' => ['required', 'numeric'],
-            'poster_image' => ['nullable', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
-            'cover_image' => ['nullable', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
-            'trailer_video' => ['required', 'url'],
-            'languages' => ['required', 'string', 'max:255'],
-            'directorId' => ['required', 'numeric'],
-            'categories' => ['required'],
-            'actors' => ['required'],
-        ]);
-
-        $movie->name = $validatedData['name'];
-        $movie->realased_date = $validatedData['realased_date'];
-        $movie->server_link = $validatedData['server_link'];
-        $movie->description = $validatedData['description'];
-        $movie->duration = $validatedData['duration'];
-        $movie->trailer_video = $validatedData['trailer_video'];
-        $movie->languages = $validatedData['languages'];
-        $movie->directorId = $validatedData['directorId'];
-
-        if ($request->hasFile('poster_image')) {
-            $url = $movie->poster_image;
-            $basename = basename($url);
-            $pathinfo = pathinfo($basename);
-            $public_id = $pathinfo['filename'];
-            Cloudinary::destroy($public_id);
-            $result = Cloudinary::upload($request->file('poster_image')->getRealPath(), [
-                "folder" => "movies/",
-                "public_id" => "poster_" . time(),
-                "overwrite" => true
+        try {
+            $validatedData = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'realased_date' => ['required'],
+                'server_link' => ['nullable', 'mimes:mp4'],
+                'description' => ['required', 'string'],
+                'duration' => ['required', 'numeric'],
+                'poster_image' => ['nullable', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
+                'cover_image' => ['nullable', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
+                'trailer_video' => ['required', 'url'],
+                'languages' => ['required', 'string', 'max:255'],
+                'directorId' => ['required', 'numeric'],
+                'categories' => ['required'],
+                'actors' => ['required'],
             ]);
-            $movie->poster_image = $result->getSecurePath();
+
+            $movie = Movie::findOrFail($id);
+
+            $movie->name = $validatedData['name'];
+            $movie->realased_date = $validatedData['realased_date'];
+            $movie->description = $validatedData['description'];
+            $movie->duration = $validatedData['duration'];
+            $movie->trailer_video = $validatedData['trailer_video'];
+            $movie->languages = $validatedData['languages'];
+            $movie->directorId = $validatedData['directorId'];
+
+
+            if ($request->hasFile('server_link')) {
+                Storage::disk('s3')->delete($movie->server_link); // delete old video from S3
+                $movie->server_link = $this->upload($request);
+            }
+
+            if ($request->hasFile('poster_image')) {
+                $result = Cloudinary::upload($request->file('poster_image')->getRealPath(), [
+                    "folder" => "movies/",
+                    "public_id" => "poster_" . time(),
+                    "overwrite" => true
+                ]);
+                $movie->poster_image = $result->getSecurePath();
+            }
+
+            if ($request->hasFile('cover_image')) {
+                $result = Cloudinary::upload($request->file('cover_image')->getRealPath(), [
+                    "folder" => "movies/",
+                    "public_id" => "cover_" . time(),
+                    "overwrite" => true
+                ]);
+                $movie->cover_image = $result->getSecurePath();
+            }
+
+            $movie->save();
+
+            $categoryIds = $validatedData['categories'];
+            $actorsIds = $validatedData['actors'];
+
+            DB::transaction(function () use ($movie, $categoryIds, $actorsIds) {
+                $movie->categories()->sync($categoryIds);
+                $movie->actors()->sync($actorsIds);
+            });
+
+            return redirect()->route('findMovie', ['id' => $id])->with(['success' => "Movie updated successfully"]);
+        } catch (Exception $e) {
+            return redirect()->route('findMovie', $id)->with(['error' => "An error occurred while updating the movie"]);
         }
-
-        if ($request->hasFile('cover_image')) {
-            $url = $movie->cover_image;
-            $basename = basename($url);
-            $pathinfo = pathinfo($basename);
-            $public_id = $pathinfo['filename'];
-            Cloudinary::destroy($public_id);
-            $result = Cloudinary::upload($request->file('cover_image')->getRealPath(), [
-                "folder" => "movies/",
-                "public_id" => "cover_" . time(),
-                "overwrite" => true
-            ]);
-            $movie->cover_image = $result->getSecurePath();
-        }
-
-        DB::transaction(function () use ($movie, $validatedData) {
-            $movie->categories()->sync($validatedData['categories']);
-            $movie->actors()->sync($validatedData['actors']);
-        });
-
-        $movie->save();
-
-        return redirect()->route('findMovie', ['id' => $id])->with(['success' => "Movie updated successfully"]);
     }
+
+    //  return redirect()->route('findMovie', ['id' => $id])->with(['success' => "Movie updated successfully"]);
+    //}
 
     public function updateTotalView(string $id)
     {

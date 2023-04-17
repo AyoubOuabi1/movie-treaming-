@@ -11,10 +11,17 @@ function getCookie(name) {
 }
 
 function openModal(){
-    console
+
     $('#exampleModal').modal('show')
 }
 //------------------------------Movies Section----------------------------------//
+
+function openModalVideo(src){
+     $('#videoSrc').attr('src',src)
+    $('#view-video').modal('show')
+}
+
+
 function loadTopMovies( ) {
 
     const movieBody = document.getElementById('movieBody');

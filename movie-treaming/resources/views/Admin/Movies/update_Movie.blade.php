@@ -15,6 +15,9 @@
                 <form action="{{route('save-update-movie',$movie->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+                    <div class="form-group bg-light border rounded-3 p-3 mt-3 row" >
+                        <video controls="" autoplay="" height="600px" name="media"><source src="{{$movie->server_link}}" type="video/mp4"></video>
+                    </div>
                     <div class="form-group bg-light border rounded-3 p-3 mt-3 row">
                         <div class="col-sm-6">
                             <label for="name">Movie Name</label>
@@ -26,9 +29,8 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="serverLink">Server Link</label>
-                            <input type="text" class="form-control" id="server_link" value="{{$movie->server_link}}"
-                                   name="server_link" placeholder="Enter server link">
+                            <label for="serverLink">Server Link  </label>
+                            <input class="form-control" type="file" id="server_link" name="server_link">
                             @if($errors->has('server_link'))
                                 <span class="text-danger">{{ $errors->first('server_link') }}</span>
                             @endif
@@ -194,7 +196,20 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            $('.directorId').select2({
+                placeholder: 'Select an director'
+
+            });
+            $('.categoryId').select2({
+                placeholder: 'Select an Category'
+            });
+            // $('.categoryId').val(['2', '3']).trigger('change');
+
+            $('.actorId').select2({
+                placeholder: 'Select an Actor'
+            });
             $('#description').summernote();
+
         });
     </script>
 @endsection('scripts')

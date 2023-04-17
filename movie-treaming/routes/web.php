@@ -34,62 +34,62 @@ Route::middleware('authJWT')->group(function () {
 
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::group(['middleware' => ['role:super-admin','role:moderator']], function () {
+        //dashboard
+        Route::get('/', function () {
+            return view('Admin/home');
+        })->name('dashboard');
+        //actors ///////////////////////////
+        Route::get('/actor/{id}', [ActorController::class, 'showView']);
+        Route::post('admin/actors/save-actor', [ActorController::class, 'store'])->name('save-actor');
+        Route::put('admin/actors/save-update-actor/{id}', [ActorController::class, 'update'])->name('save-update-actor');
 
-    //dashboard
-    Route::get('/', function () {
-        return view('Admin/home');
-    })->name('dashboard');
-    //users
+        Route::get('admin/actors/add-actor', function (){
+            return view('Admin/Actors/add_actor');
+        })->name('add-actor');
 
-    Route::get('admin/users/users', function (){
-        return view('Admin/Users/Users');
-    })->name('getUsers');
+        Route::get('admin/actors/update-actor/{id}',[ActorController::class,'findActorForUpdate'])->name('update-actor');
 
-//actors ///////////////////////////
-    Route::get('/actor/{id}', [ActorController::class, 'showView']);
-    Route::post('admin/actors/save-actor', [ActorController::class, 'store'])->name('save-actor');
-    Route::put('admin/actors/save-update-actor/{id}', [ActorController::class, 'update'])->name('save-update-actor');
+        Route::get('admin/actors/actors', function (){
+            return view('Admin/Actors/Actors');
+        })->name('getActors');
 
-    Route::get('admin/actors/add-actor', function (){
-        return view('Admin/Actors/add_actor');
-    })->name('add-actor');
+    //Movie///////////////////////////
 
-    Route::get('admin/actors/update-actor/{id}',[ActorController::class,'findActorForUpdate'])->name('update-actor');
+        Route::get('/admin/movies/update-movie/{id}', [MovieController::class, 'findMovie'])->name('findMovie');
+        Route::put('/admin/movies/save-update-movie/{id}', [MovieController::class, 'update'])->name('save-update-movie');
+        Route::post('/admin/movie/save-Movie',[MovieController::class, 'store'])->name('save-movie');
 
-    Route::get('admin/actors/actors', function (){
-        return view('Admin/Actors/Actors');
-    })->name('getActors');
-
-//Movie///////////////////////////
-
-    Route::get('/admin/movies/update-movie/{id}', [MovieController::class, 'findMovie'])->name('findMovie');
-    Route::put('/admin/movies/save-update-movie/{id}', [MovieController::class, 'update'])->name('save-update-movie');
-    Route::post('/admin/movie/save-Movie',[MovieController::class, 'store'])->name('save-movie');
-
-    Route::get('admin/movies', function (){
-        return view('Admin/Movies/Movies');
-    })->name('getMovies');
+        Route::get('admin/movies', function (){
+            return view('Admin/Movies/Movies');
+        })->name('getMovies');
 
 
 
 
-    Route::get('/admin/add-Movie',function(){
+        Route::get('/admin/add-Movie',function(){
 
-        return view('Admin/Movies/add_movie');
+            return view('Admin/Movies/add_movie');
 
-    })->name("addMovie");
+        })->name("addMovie");
 
+//////////////////////////////////////Categories////////////////////////////////
+        Route::get('/admin/categories',function(){
 
+            return view('Admin/Categories/Categories');
 
+        })->name("loadCategories");
+    });
+    Route::group(['middleware' => ['role:super-admin']], function () {
+        //
+        //users
+        Route::get('admin/users/users', function (){
+            return view('Admin/Users/Users');
+        })->name('getUsers');
+    });
 
  //////////favorite
     Route::get('favorites', [favoriteController::class, 'index']);
-//////////////////////////////////////Categories////////////////////////////////
-    Route::get('/admin/categories',function(){
-
-        return view('Admin/Categories/Categories');
-
-    })->name("loadCategories");
 });
 
 Route::get('/movie/{id}', [MovieController::class, 'movieDetail']);
