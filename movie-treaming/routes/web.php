@@ -64,6 +64,7 @@ Route::middleware('authJWT')->group(function () {
 
     Route::get('/admin/movies/update-movie/{id}', [MovieController::class, 'findMovie'])->name('findMovie');
     Route::put('/admin/movies/save-update-movie/{id}', [MovieController::class, 'update'])->name('save-update-movie');
+    Route::post('/admin/movie/save-Movie',[MovieController::class, 'store'])->name('save-movie');
 
     Route::get('admin/movies', function (){
         return view('Admin/Movies/Movies');
@@ -79,7 +80,6 @@ Route::middleware('authJWT')->group(function () {
     })->name("addMovie");
 
 
-    Route::post('/admin/movie/save-Movie',[MovieController::class, 'store'])->name('save-movie');
 
 
  //////////favorite

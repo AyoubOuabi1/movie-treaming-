@@ -50,10 +50,10 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         //dd($request->file('server_link'));
-      /*  $validatedData = $request->validate([
+       $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'realased_date' => ['required'],
-           // 'server_link' => ['required','mimes:mp4'],
+            'server_link' => ['required','mimes:mp4'],
              'description' => ['required', 'string'],
             'duration' => ['required', 'numeric'],
             'poster_image' => ['required', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif'],
@@ -63,19 +63,14 @@ class MovieController extends Controller
             'directorId' => ['required', 'numeric'],
             'categories' => ['required'],
              'actors' => ['required'],
-         ]);*/
+         ]);
         //
-
-        $name = time().'mp4';
-        $url = $request->file('server_link')->storeAs('/',$name,'s3');
-        dd($url);
-
 
         $movie = new Movie;
         $movie->name = $validatedData['name'];
         $movie->realased_date = $validatedData['realased_date'];
-        $movie->server_link = $this->upload($request->file('server_link'));
-         $movie->description = $validatedData['description'];
+        $movie->server_link = $this->upload($request);
+        $movie->description = $validatedData['description'];
         $movie->duration = $validatedData['duration'];
         $movie->trailer_video = $validatedData['trailer_video'];
         $movie->languages = $validatedData['languages'];
@@ -253,68 +248,13 @@ class MovieController extends Controller
     }
     public function upload(Request $request)
     {
-       /* if (!$request->file('server_link')) {
-            return redirect()->back()->withErrors(['video' => 'The video failed to upload.']);
-        }
 
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => env('AWS_DEFAULT_REGION'),
-            'credentials' => [
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            ],
-        ]);
-
-        $fileName = $request->file('server_link')->getClientOriginalName();
-        if (empty($fileName)) {
-            //dd("empty");
-            return redirect()->back()->withErrors(['video' => 'The video file name cannot be empty.']);
-        }
-
-        $filePath = 'videos/' . $fileName;
-       // dd($filePath);
-        if (empty($filePath)) {
-            //dd("file path");
-            return redirect()->back()->withErrors(['video' => 'The video file path cannot be empty.']);
-        }
-        dd($request->file('server_link')->getClientOriginalName());
-        $s3->putObject([
-            'Bucket' => env('AWS_BUCKET'),
-            'Key' => $filePath,
-            'Body' => file_get_contents( $request->file('server_link')),
-            'ACL' => 'public-read',
-        ]);
-
-        $url = $s3->getObjectUrl(env('AWS_BUCKET'), $filePath, '+10 minutes', [
-            'ResponseContentDisposition' => 'attachment; filename="' . $fileName . '"',
-        ]);
-
-        // Save the URL to the database here*/
-        /*$name = time().'mp4';
-        Storage::disk('s3')->put('videos/'.$name, base_path(Storage::path('app/vedeo.mp4')));
-        $url = Storage::disk('s3')->url($name);
-        dump($url);
-        dd($url);
-        $file_path = $request->file('server_link')->getPathName();
-        $contents = file_get_contents($file_path);
-        $file_name = 'test/'.$request->file('server_link')->getClientOriginalName();
-        $s3= Storage::disk('s3');
-        $filePath = $file_name;
-        $s3->put($filePath, $contents);
-       $url= $s3->url($filePath);*/
-        $filenamewithextension = $request->file('server_link')->getClientoriginalName();
-    //get filename without extension
-    $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-        //get file extension
         $extension = $request->file('server_link')->getClientoriginalExtension();
-//filename to store
-        $filenametostore = $filename.'_'.time().'.'.$extension;
-//Upload File to $3
-        Storage::disk('s3')->put($filenametostore, fopen($request->file('server_link'), 'r+'), 'public');
+        $filenamewithextension = $request->file('server_link')->getClientoriginalName();
+          $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+        $filenametostore = 'movies/'.$filename.'_'.time().'.'.$extension;
+        Storage::disk('s3')->put($filenametostore, file_get_contents($request->file('server_link')));
         $url = Storage::disk('s3')->url($filenametostore);
-
-       dd($url);
         return $url;
     }
 }

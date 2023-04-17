@@ -27,7 +27,7 @@
                         <div class="col-sm-6">
                             <label for="cover_image" class="form-label">Video</label>
                             <input class="form-control" type="file" id="server_link" name="server_link"
-                                   value="{{ old('server_link') }}">
+                                   >
                             @if($errors->has('server_link'))
                                 <span class="text-danger">{{ $errors->first('server_link') }}</span>
                             @endif
