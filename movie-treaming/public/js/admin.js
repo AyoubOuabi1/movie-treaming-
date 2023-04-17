@@ -1,22 +1,13 @@
-$(document).ready(function() {
-    $('.directorId').select2({
-        placeholder: 'Select an director'
 
-    });
-    $('.categoryId').select2({
-        placeholder: 'Select an Category'
-    });
-   // $('.categoryId').val(['2', '3']).trigger('change');
-
-    $('.actorId').select2({
-        placeholder: 'Select an Actor'
-    });
-});
-
-function  printselected(){
-    console.log($('.directorId').val());
-    console.log($('.categoryId').val());
-    console.log($('.actorId').val());
+function getCookie(name) {
+    var cookies = document.cookie.split('; ');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].split('=');
+        if (cookie[0] === name) {
+            return cookie[1];
+        }
+    }
+    return null;
 }
 
 function openModal(){
@@ -25,11 +16,18 @@ function openModal(){
 }
 //------------------------------Movies Section----------------------------------//
 function loadTopMovies( ) {
+
     const movieBody = document.getElementById('movieBody');
     if(movieBody){
         movieBody.innerHTML = '';
         $.ajax({
-            url: "http://localhost:8000/api/movies",
+            url: route('loadMovies'),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+            },
             dataType: "json",
             success: function(data) {
                 console.log(data);
@@ -99,8 +97,14 @@ function findMovie(){
     console.log($("#movieTable_filter").val());
     if($("#movieTable_filter").val()!==""){
         $.ajax({
-            url: "http://localhost:8000/api/movie/" + $("#movieTable_filter").val(),
+            url: route('findMovieApi', $("#movieTable_filter").val()),
             dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+            },
             success: function(data) {
                 movieBody.innerHTML = '';
 
@@ -141,9 +145,15 @@ function deleteMovie(id){
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "http://localhost:8000/api/movie/" +id,
+                url: route('delete-movie',id),
                 type: "delete",
                 dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+                },
                 success: function(data) {
                     console.log(data);
                     loadTopMovies();
@@ -187,6 +197,12 @@ function loadCategories() {
         url: route('load-categories'),
         type:"get",
         dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+        },
         success: function(data) {
             console.log(data);
             for (let i=0; i<data.length; i++) {
@@ -212,6 +228,12 @@ function findCategory() {
             url: route('find-category',$("#categoryTable_filter").val()),
             type:"get",
             dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+            },
             success: function(data) {
                 console.log(data);
                 for (let i=0; i<data.length; i++) {
@@ -240,6 +262,12 @@ function updateCategory(id) {
             type:"put",
             data:{'name':$("#newName").val()},
             dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+            },
             success: function(data) {
                 console.log(data);
                 Swal.fire(
@@ -267,6 +295,12 @@ function insertCategory() {
         type:"post",
         data:{'name':$("#categoryName").val()},
         dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+        },
         success: function(data) {
             console.log(data);
             Swal.fire(
@@ -332,6 +366,12 @@ function deleteCategory(id){
                 url: route('delete-category',id),
                 type: "delete",
                 dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+                },
                 success: function(data) {
                     console.log(data);
                     loadCategories();
@@ -412,14 +452,19 @@ function loadActors() {
     const actorBody = document.getElementById('actorBody');
     actorBody.innerHTML = '';
     $.ajax({
-        url: "http://localhost:8000/api/actors",
+        url: route('loadactors'),
         type:"get",
         dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+        },
         success: function(data) {
             console.log(data);
             for (let i=0; i<data.length; i++) {
                 actorBody.appendChild(printActor(data[i]))
-
             }
 
         },
@@ -427,10 +472,8 @@ function loadActors() {
             console.log(textStatus, errorThrown);
         }
     });
-
-
-
 }
+
 
 function findActor() {
     const actorBody = document.getElementById('actorBody');
@@ -440,6 +483,12 @@ function findActor() {
             url: route('find-actor',$("#actoreTable_filter").val()),
             type:"get",
             dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+            },
             success: function(data) {
                 console.log(data);
                 for (let i=0; i<data.length; i++) {
@@ -483,6 +532,12 @@ function deleteActor(id){
                 url: route('delete-actor',id),
                 type: "delete",
                 dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+                },
                 success: function(data) {
                     console.log(data);
                     loadActors();
@@ -563,7 +618,14 @@ function loadUsers() {
         data:{
             'name':$('#userTable_filter').val()
         },
+
         dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+        },
         success: function(data) {
             console.log(data);
             for (let i=0; i<data.length; i++) {
@@ -605,6 +667,12 @@ function deleteUser(id){
                 url: route('delete-users',id),
                 type: "delete",
                 dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+                },
                 success: function(data) {
                     console.log(data);
                     loadUsers();
@@ -640,6 +708,12 @@ function updateUserRole(id) {
         type:"put",
         data:{'role':$("#user-role").val()},
         dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+        },
         success: function(data) {
             console.log(data);
             Swal.fire(

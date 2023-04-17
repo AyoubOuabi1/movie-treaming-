@@ -4,7 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Cookie;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class JwtMiddleware
 {
@@ -13,7 +16,7 @@ class JwtMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
@@ -23,5 +26,26 @@ class JwtMiddleware
             return $next($request);
         }
         return redirect()->route('login');
+   /*     $token = $request->header('Authorization');
+
+        if (!$token) {
+            return redirect()->route('login');
+        }
+
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenInvalidException $e) {
+            return redirect()->route('login');
+        } catch (JWTException $e) {
+            return redirect()->route('login');
+        }
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        Auth::login($user);
+
+        return $next($request);*/
     }
 }

@@ -59,6 +59,7 @@
 
 <script src="{{ URL::asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
 @yield('scripts')
 </body>
 

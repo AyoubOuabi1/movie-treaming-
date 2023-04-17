@@ -55,7 +55,7 @@ class AuthController extends Controller
             ])->withInput();
         }
         $cookie = cookie('jwt_token', $token, config('jwt.ttl'), null, null, false, true);
-        return view('home-page')->withCookie($cookie);
+        return redirect()->route('dashboard')->withCookie($cookie);
     }
 
 /*    public function ForgetPassword(Request $request){

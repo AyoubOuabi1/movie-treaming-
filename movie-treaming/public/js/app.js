@@ -1,8 +1,17 @@
+function getCookie(name) {
+    var cookies = document.cookie.split('; ');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].split('=');
+        if (cookie[0] === name) {
+            return cookie[1];
+        }
+    }
+    return null;
+}
 
 loadTopMovies();
-
 function openMovie(id){
-    window.open("http://localhost:8000/movie/"+id);
+    window.open(route('find-Movie',id));
 }
 function changeHomeCoverBg(movie){
     document.getElementById('homeCoverContainer').style.background="url('"+movie.cover_image+"')";
@@ -19,7 +28,7 @@ function loadTopMovies() {
     if(topMoviesContainer){
         topMoviesContainer.innerHTML = '';
         $.ajax({
-            url: "http://localhost:8000/api/movies",
+            url: route('loadMovies'),
             dataType: "json",
             success: function(data) {
                 console.log(data);
@@ -45,7 +54,7 @@ function findMovie(){
     dropdownMenu.innerHTML = '';
     if($("#searchInput").val()!==""){
         $.ajax({
-            url: "http://localhost:8000/api/movie/" + $("#searchInput").val(),
+            url: route('find-Movie',$("#searchInput").val()),
             dataType: "json",
             success: function(data) {
                 dropdownMenu.innerHTML = '';
@@ -134,12 +143,18 @@ function addToFav(id){
 
 
     $.ajax({
-        url: "http://localhost:8000/api/favorite",
+        url:route('add-favorite'),
         type: 'post',
         data:{
             'movie_id': id,
         },
         dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+        },
         success: function(data) {
 
             Swal.fire(
@@ -164,12 +179,18 @@ function removeFromFav(id){
 
 
     $.ajax({
-        url: "http://localhost:8000/api/favorite/"+id,
+        url: route('delete-favorite',id),
         type: 'delete',
         data:{
             'movie_id': id,
         },
         dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+        },
         success: function(data) {
             $("#btnConatiner").html(" ")
             Swal.fire(
@@ -205,7 +226,7 @@ function giveRate(id){
 
      $.ajax({
 
-        url: "http://localhost:8000/api/rating",
+        url: route('add-rate'),
         type: 'post',
         data:{
             'movie_id': id,
@@ -213,6 +234,12 @@ function giveRate(id){
 
         },
         dataType: "json",
+         headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         beforeSend: function (xhr) {
+             xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+         },
         success: function(data) {
             Swal.fire(
                 'Good job!',
@@ -230,7 +257,7 @@ function updateRate(id){
 
      $.ajax({
 
-        url: "http://localhost:8000/api/update-rating",
+        url: route('update-rate'),
         type: 'put',
         data:{
             'movie_id': id,
@@ -238,6 +265,12 @@ function updateRate(id){
 
         },
         dataType: "json",
+         headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         beforeSend: function (xhr) {
+             xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+         },
         success: function(data) {
             console.log(data)
             Swal.fire(
@@ -257,9 +290,15 @@ function deleteRate(id){
 
      $.ajax({
 
-        url: "http://localhost:8000/api/delete-rating/"+id,
+        url: route('delete-rate',id),
         type: "delete",
         dataType: "json",
+         headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         beforeSend: function (xhr) {
+             xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('jwt_token'));
+         },
         success: function(data) {
             Swal.fire(
                 'Good job!',

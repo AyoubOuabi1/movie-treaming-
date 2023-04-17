@@ -27,52 +27,52 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-// Auth routes
+Route::middleware('authJWT')->group(function () {
+    //users routes
+    Route::get('/admin/users/{role}', [UserController::class, 'index'])->name('get-users');
+    Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete-users');
 
-Route::post('/refresh', [AuthController::class, 'refresh']);
-Route::post('/logout', [AuthController::class, 'logout']);
-//users routes
-Route::get('/admin/users/{role}', [UserController::class, 'index'])->name('get-users');
-Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete-users');
+    // Actor routes
+    Route::get('/admin/actors', [ActorController::class, 'index'])->name('loadactors');
+    Route::get('/actor/{name}', [ActorController::class, 'show'])->name('find-actor');
+/*    Route::post('/actor', [ActorController::class, 'store']);
+    Route::put('/actor/{id}', [ActorController::class, 'update']);*/
+    Route::delete('/actor/{id}', [ActorController::class, 'destroy'])->name('delete-actor');
 
-// Actor routes
-Route::get('/actors', [ActorController::class, 'index']);
-Route::get('/actor/{name}', [ActorController::class, 'show'])->name('find-actor');
-Route::post('/actor', [ActorController::class, 'store']);
-Route::put('/actor/{id}', [ActorController::class, 'update']);
-Route::delete('/actor/{id}', [ActorController::class, 'destroy'])->name('delete-actor');
+    // Category routes
+    Route::get('/categories', [CategoryController::class, 'index'])->name('load-categories');
+    Route::get('/category/{name}', [CategoryController::class, 'show'])->name('find-category');
+    Route::post('/category', [CategoryController::class, 'store'])->name('add-category');
+    Route::put('/category/{id}', [CategoryController::class, 'update'])->name('update-category');
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('delete-category');
 
-// Category routes
-Route::get('/categories', [CategoryController::class, 'index'])->name('load-categories');
-Route::get('/category/{name}', [CategoryController::class, 'show'])->name('find-category');
-Route::post('/category', [CategoryController::class, 'store'])->name('add-category');
-Route::put('/category/{id}', [CategoryController::class, 'update'])->name('update-category');
-Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('delete-category');
+    // Favorite routes
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::get('/favorite/{id}', [FavoriteController::class, 'show'])->name('show-favorite');
+    Route::post('/favorite', [FavoriteController::class, 'store'])->name('add-favorite');
+    Route::delete('/favorite/{id}', [FavoriteController::class, 'destroy'])->name('delete-favorite');
 
-// Favorite routes
-Route::get('/favorites', [FavoriteController::class, 'index']);
-Route::get('/favorite/{id}', [FavoriteController::class, 'show']);
-Route::post('/favorite', [FavoriteController::class, 'store']);
-Route::delete('/favorite/{id}', [FavoriteController::class, 'destroy']);
+    // Home routes
+    //Route::get('/home', [HomeController::class, 'index']);
 
-// Home routes
-Route::get('/home', [HomeController::class, 'index']);
-
-// Movie routes
-Route::get('/movies', [MovieController::class, 'index']);
-Route::get('/movie/{idOrName}', [MovieController::class, 'show']);
-Route::get('/admin/movies/movie/{id}', [MovieController::class, 'findMovieApi'])->name("findMovieApi");
-Route::post('/movie', [MovieController::class, 'store']);
-Route::put('/movie/{id}', [MovieController::class, 'update']);
-Route::delete('/movie/{id}', [MovieController::class, 'destroy']);
+    // Movie routes
+    Route::delete('admin/movies/movie/{id}', [MovieController::class, 'destroy'])->name('delete-movie');
 
 // Rating routes
-Route::get('/ratings', [RatingController::class, 'index']);
-Route::get('/rating/{id}', [RatingController::class, 'show']);
-Route::post('/rating', [RatingController::class, 'store']);
-Route::put('/update-rating', [RatingController::class, 'update']);
-Route::delete('/delete-rating/{id}', [RatingController::class, 'destroy']);
+    Route::get('/ratings', [RatingController::class, 'index']);
+    Route::get('/rating/{id}', [RatingController::class, 'show'])->name('show-rating');
+    Route::post('/rating', [RatingController::class, 'store'])->name('add-rate');
+    Route::put('/update-rating', [RatingController::class, 'update'])->name('update-rate');
+    Route::delete('/delete-rating/{id}', [RatingController::class, 'destroy'])->name('delete-rate');
+
+
+
 
 ////////permissions
-Route::put('admin/users/assignRole/{id}', [RoleController::class,'assignRole'])->name('assignRole');
-Route::post('admin/users/getPermission', [RoleController::class,'getPermissions'])->name('getPermissions');
+    Route::put('admin/users/assignRole/{id}', [RoleController::class,'assignRole'])->name('assignRole');
+    Route::post('admin/users/getPermission', [RoleController::class,'getPermissions'])->name('getPermissions');
+});
+
+Route::get('/movies', [MovieController::class, 'index'])->name('loadMovies');
+Route::get('/movies/movie/{idOrName}', [MovieController::class, 'show'])->name("find-Movie");
+//Route::get('/admin/movies/movie/{id}', [MovieController::class, 'findMovieApi'])

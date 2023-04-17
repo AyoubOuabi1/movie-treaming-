@@ -154,6 +154,18 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            $('.directorId').select2({
+                placeholder: 'Select an director'
+
+            });
+            $('.categoryId').select2({
+                placeholder: 'Select an Category'
+            });
+            // $('.categoryId').val(['2', '3']).trigger('change');
+
+            $('.actorId').select2({
+                placeholder: 'Select an Actor'
+            });
             $('#description').summernote();
         });
     </script>

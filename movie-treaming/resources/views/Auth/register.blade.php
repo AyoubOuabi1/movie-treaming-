@@ -6,7 +6,7 @@
                 <h2 class="text-center text-dark mt-5">Login Form</h2>
                 <div class="text-center mb-5 text-dark">Made with bootstrap</div>
                 <div class="card my-5">
-                    <form method="post" action="{{route('register-api')}}" class="card-body cardbody-color p-lg-5">
+                    <form method="post" action="{{route('save-register')}}" class="card-body cardbody-color p-lg-5">
                         @csrf
                          <div class="text-center">
                             <img src="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397__340.png" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
