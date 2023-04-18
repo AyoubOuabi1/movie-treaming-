@@ -8,16 +8,32 @@ function getCookie(name) {
     }
     return null;
 }
+$(window).scroll(function () {
+    var scroll = $(window).scrollTop();
+    if (scroll > 10) {
+        $("nav").removeClass("bg-transparent")
+        $("nav").css({
+            background: "#1f2937",
 
+            transition: ".3s"
+        });
+    } else {
+        $("nav").addClass("bg-transparent");
+     }
+});
 loadTopMovies();
 function openMovie(id){
-    window.open(route('find-Movie',id));
+    window.open(route('movieDetail',id));
 }
 function changeHomeCoverBg(movie){
+    $("#yearr").html(movie.realased_date)
+    $("#poster_slider").attr('src',movie.poster_image)
     document.getElementById('homeCoverContainer').style.background="url('"+movie.cover_image+"')";
     document.getElementById('homeCoverContainer').style.backgroundSize="100% 100%";
     document.getElementById('homeCoverContainer').style.backgroundRepeat="no-repeat";
-
+    movie.categories.forEach(function(category) {
+       document.getElementById('categories').innerHTML+=`<h6 class="rounded p-1" style="border: gold 1px solid"> ${category.name} </h6>`
+    });
     $("#movieTtl").html(movie.name)
     $("#movieDesc").html(movie.description.substring(0,80)+"...")
 
@@ -29,10 +45,11 @@ function loadTopMovies() {
         topMoviesContainer.innerHTML = '';
         $.ajax({
             url: route('loadMovies'),
+            type:'get',
             dataType: "json",
             success: function(data) {
                 console.log(data);
-                changeHomeCoverBg(data[data.length - 4]);
+                changeHomeCoverBg(data[0]);
                  data.forEach(function(movie) {
 
                     topMoviesContainer.appendChild(printMovies(movie));
@@ -122,7 +139,7 @@ function printMovies(movie){
 
     const titleElement = document.createElement('h5');
     titleElement.classList.add('card-title');
-    titleElement.textContent = movie.name;
+    titleElement.textContent = movie.name.substring(0,17);
 
     const watchNowElement = document.createElement('a');
     watchNowElement.href = '#';

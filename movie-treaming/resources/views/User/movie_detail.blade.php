@@ -1,100 +1,112 @@
 @extends('User/layouts/app')
 @section('content')
+    <div class="container">
+        <div class="row">
+            <div class="row h-100 p-5 card-background  rounded-3 text-white ms-0 mb-3">
+                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
+                    <img src="{{$movie->cover_image}}" width="230px" height="330px" alt="movie cover">
+                    <Bututon type="button" class="btn btn-primary col-8 mt-3">Watch Now</Bututon>
+                    {{--
+                                    @if (Auth::check())
+                    --}}
 
-    <section class="movie-detail">
-        <div class="container">
-
-            <figure class="movie-detail-banner">
-
-                <img src="./assets/images/movie-4.png" alt="Free guy movie poster">
-
-                <button class="play-btn">
-                    <ion-icon name="play-circle-outline"></ion-icon>
-                </button>
-
-            </figure>
-
-            <div class="movie-detail-content">
-
-                <p class="detail-subtitle">New Episodes</p>
-
-                <h1 class="h1 detail-title">
-                    Free <strong>Guy</strong>
-                </h1>
-
-                <div class="meta-wrapper">
-
-                    <div class="badge-wrapper">
-                        <div class="badge badge-fill">PG 13</div>
-
-                        <div class="badge badge-outline">HD</div>
+                    <div id="btnConatiner">
+                        @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
+                            <button href="#" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
+                        @else
+                            <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" id="addToFavBtn">Add to favorite</Button>
+                        @endif
                     </div>
 
-                    <div class="ganre-wrapper">
-                        <a href="#">Comedy,</a>
-
-                        <a href="#">Action,</a>
-
-                        <a href="#">Adventure,</a>
-
-                        <a href="#">Science Fiction</a>
-                    </div>
-
-                    <div class="date-time">
-
-                        <div>
-                            <ion-icon name="calendar-outline"></ion-icon>
-
-                            <time datetime="2021">2021</time>
-                        </div>
-
-                        <div>
-                            <ion-icon name="time-outline"></ion-icon>
-
-                            <time datetime="PT115M">115 min</time>
-                        </div>
-
-                    </div>
+                    {{--
+                                    @endif
+                    --}}
 
                 </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                    <h1>{{$movie->name}}</h1>
+                    <h3><span>Year : </span> {{$movie->realased_date}}</h3>
+                    <h3><span>Categories : </span> @foreach($movie->categories as $category)
+                            {{$category->name}}
+                        @endforeach</h3>
+                    <h3>Description </h3>
+                    <p>{{$movie->description}}</p>
+                    <div class="d-flex">
+                        <i class="bi bi-star-fill h1" style="color: #f5c518">&ensp;</i>
+                        <div>
+                            <h4 class="h4"> {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[0]}}
+                                / 5</h4>
+                            <h4 class="h4"> {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[2]}} users</h4>
 
-                <p class="storyline">
-                    A bank teller called Guy realizes he is a background character in an open world video game called Free
-                    City that will
-                    soon go offline.
-                </p>
-
-                <div class="details-actions">
-
-                    <button class="share">
-                        <ion-icon name="share-social"></ion-icon>
-
-                        <span>Share</span>
-                    </button>
-
-                    <div class="title-wrapper">
-                        <p class="title">Prime Video</p>
-
-                        <p class="text">Streaming Channels</p>
+                        </div>
                     </div>
+                    <div class="py-2 px-4" style="box-shadow: 0 0 10px 0 #ddd;">
+                        <p class="font-weight-bold ">Review</p>
+                        @if(\App\Http\Controllers\RatingController::checkRate($movie->id))
+                            <p class="font-weight-bold ">your old Review
+                                is {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[1]}}</p>
+                        @endif
+                        <div class="form-group row">
+                            <div class="col">
+                                <div class="rate">
+                                    <input type="radio" id="star5" class="rate " name="rating" value="5"/>
+                                    <label for="star5" title="text">5 stars</label>
+                                    <input type="radio" checked id="star4" class="rate" name="rating" value="4"/>
+                                    <label for="star4" title="text">4 stars</label>
+                                    <input type="radio" id="star3" class="rate" name="rating" value="3"/>
+                                    <label for="star3" title="text">3 stars</label>
+                                    <input type="radio" id="star2" class="rate" name="rating" value="2">
+                                    <label for="star2" title="text">2 stars</label>
+                                    <input type="radio" id="star1" class="rate" name="rating" value="1"/>
+                                    <label for="star1" title="text">1 star</label>
+                                </div>
+                            </div>
+                        </div>
 
-                    <button class="btn btn-primary">
-                        <ion-icon name="play"></ion-icon>
+                        <div class="mt-3 text-right">
+                            @if((\App\Http\Controllers\RatingController::checkRate($movie->id)))
+                                <button class="btn btn-sm py-2 px-3 btn-info" id="updateRateBtn" data-id="{{$movie->id}}">
+                                    Update my review
+                                </button>
+                                <button class="btn btn-sm py-2 px-3 btn-danger" id="removeRateBtn"
+                                        data-id="{{$movie->id}}">delete my review
+                                </button>
 
-                        <span>Watch Now</span>
-                    </button>
+                            @else
+                                <button class="btn btn-sm py-2 px-3 btn-info" id="giveRateBtn" data-id="{{$movie->id}}">
+                                    Submit
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                    <h3 class="text-center">Actors</h3>
 
+                    <div class="row text-center">
+                        @foreach($movie->actors as $actor)
+                            <div class="col-lg-3 col-md-4 col-6">
+                                <img class="rounded-circle"
+                                     src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                                     alt="user image" height="90px" width="90px"/>
+                                <div>
+                                    <a href="http://localhost:8000/actor/{{$actor->id}}">{{$actor->full_name}}</a>
+
+                                </div>
+                            </div>
+                        @endforeach
+
+                    </div>
                 </div>
-
-                <a href="./assets/images/movie-4.png" download class="download-btn">
-                    <span>Download</span>
-
-                    <ion-icon name="download-outline"></ion-icon>
-                </a>
-
             </div>
 
-        </div>
-    </section>
 
+        </div>
+        <div class="row h-100 p-5 card-background  rounded-3 mb-3">
+            <h2 class="text-center">Trailer</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/IrabKK9Bhds"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+        </div>
+
+    </div>
 @endsection('content')

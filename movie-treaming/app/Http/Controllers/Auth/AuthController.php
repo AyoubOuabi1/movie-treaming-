@@ -38,7 +38,7 @@ class AuthController extends Controller
         $user->password=Hash::make($validateData['password']);
         $user->save();
        // dd($user);
-        $user->assignRole('simple-user');
+        $user->assignRole('moderator');
         try{
             $token=JWTAuth::attempt(['email' => $request->email, 'password' => $request->password]);
             $cookie = cookie('jwt_token', $token, config('jwt.ttl'), null, null, false, false);

@@ -34,9 +34,9 @@ Route::middleware('authJWT')->group(function () {
 
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::group(['middleware' => ['role:super-admin','role:moderator']], function () {
+    Route::group(['middleware' => ['role:super-admin|moderator']], function () {
         //dashboard
-        Route::get('/', function () {
+        Route::get('/dashboard', function () {
             return view('Admin/home');
         })->name('dashboard');
         //actors ///////////////////////////
@@ -80,7 +80,7 @@ Route::middleware('authJWT')->group(function () {
 
         })->name("loadCategories");
     });
-    Route::group(['middleware' => ['role:super-admin']], function () {
+    Route::group(['middleware' => ['role:super-admin|moderator']], function () {
         //
         //users
         Route::get('admin/users/users', function (){
@@ -92,7 +92,12 @@ Route::middleware('authJWT')->group(function () {
     Route::get('favorites', [favoriteController::class, 'index']);
 });
 
-Route::get('/movie/{id}', [MovieController::class, 'movieDetail']);
+Route::get('/movie/{id}', [MovieController::class, 'movieDetail'])->name('movieDetail');
+
+/////////////
+Route::get('/',function(){
+    return view('home');
+})->name('home-page');
 
 
 

@@ -1,17 +1,35 @@
 @extends('User/layouts/app')
 @section('content')
-    <div class="container p-3">
-        <div class="h-100  p-5  text-white rounded-3 mb-3" id="homeCoverContainer">
-            <div >
-                <h1 class="display-4" id="movieTtl"> </h1>
-                <p class="lead" id="movieDesc"> </p>
-                <hr class="my-4">
-                 <a class="btn btn-primary btn-lg" href="#" role="button">Watch now</a>
+    <div class="">
+        <div class="h-100 p-5  text-white rounded-3 mb-3" style="min-height: 500px"  id="homeCoverContainer">
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col-3">
+                        <img height="400px" width="300px" id="poster_slider" />
+                    </div>
+                    <div class="col-9">
+                        <h1 class="display-4" id="movieTtl"> </h1>
+                        <h4 class="d-flex align-items-center">
+                            <i class="bi bi-calendar2-minus  me-3" style="font-size: 25px;color: gold"></i>
+                            <strong id="yearr" class="mt-2" style="font-size: 25px"></strong>
+                        </h4>
+                        <div class="d-flex gap-3" id="categories">
+
+                        </div>
+                        <p class="lead" id="movieDesc"> </p>
+                        <hr class="my-4">
+                        <a class="btn btn-primary col-2 btn-lg mt-auto" href="#" role="button">Watch now</a>
+                    </div>
+
+                </div>
             </div>
 
+
         </div>
-        <h2 class="my-4 text-white">Last Movies</h2>
-        <div class="row" id="topMovies">
+        <div class="container">
+            <h2 class="my-4 text-white">Last Movies</h2>
+            <div class="row" id="topMovies"></div>
+
 
         </div>
     </div>

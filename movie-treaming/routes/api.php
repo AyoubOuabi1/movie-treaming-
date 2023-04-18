@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('authJWT')->group(function () {
-    Route::group(['middleware' => ['role:super-admin','role:moderator']], function () {
+    Route::group(['middleware' => ['role:super-admin|role:moderator']], function () {
         // Actor routes
         Route::get('/admin/actors', [ActorController::class, 'index'])->name('loadactors');
         Route::get('/actor/{name}', [ActorController::class, 'show'])->name('find-actor');
@@ -47,15 +47,15 @@ Route::middleware('authJWT')->group(function () {
 
     });
 
-    Route::group(['middleware' => ['role:super-admin']], function () {
+   // Route::group(['middleware' => ['role:super-admin']], function () {
         //users routes
-        Route::get('/admin/users/{role}', [UserController::class, 'index'])->name('get-users');
-        Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete-users');
+        Route::get('/admin/users/{role}', [UserController::class, 'index'])->name('get-users')->middleware('permission:CRUD actors');
+        Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete-users')->middleware('permission:CRUD actors');;
 
         ////////permissions
-        Route::put('admin/users/assignRole/{id}', [RoleController::class,'assignRole'])->name('assignRole');
-        Route::post('admin/users/getPermission', [RoleController::class,'getPermissions'])->name('getPermissions');
-    });
+        Route::put('admin/users/assignRole/{id}', [RoleController::class,'assignRole'])->name('assignRole')->middleware('permission:CRUD actors');;
+        Route::post('admin/users/getPermission', [RoleController::class,'getPermissions'])->name('getPermissions')->middleware('permission:CRUD actors');
+   // });
 
     // Favorite routes
     Route::get('/favorites', [FavoriteController::class, 'index']);
