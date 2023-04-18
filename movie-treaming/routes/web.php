@@ -40,7 +40,6 @@ Route::middleware('authJWT')->group(function () {
             return view('Admin/home');
         })->name('dashboard');
         //actors ///////////////////////////
-        Route::get('/actor/{id}', [ActorController::class, 'showView']);
         Route::post('admin/actors/save-actor', [ActorController::class, 'store'])->name('save-actor');
         Route::put('admin/actors/save-update-actor/{id}', [ActorController::class, 'update'])->name('save-update-actor');
 
@@ -91,6 +90,7 @@ Route::middleware('authJWT')->group(function () {
  //////////favorite
     Route::get('favorites', [favoriteController::class, 'index']);
 });
+Route::get('/actor/{id}', [ActorController::class, 'showView'])->name('showActor');
 
 Route::get('/movie/{id}', [MovieController::class, 'movieDetail'])->name('movieDetail');
 

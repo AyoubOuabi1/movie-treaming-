@@ -102,6 +102,19 @@ class ActorController extends Controller
             return $ex->getMessage();
         }
     }
+
+    public static function findDirector($id){
+        //
+        try {
+            $actor=  DB::table('actors')->where('id','=',$id)
+                ->get()->first();
+            return $actor;
+        }catch(Exception $ex){
+            return $ex->getMessage();
+        }
+    }
+
+
     public function showView(string $id)
     {
 

@@ -27,6 +27,7 @@ function openMovie(id){
 }
 function changeHomeCoverBg(movie){
     $("#yearr").html(movie.realased_date)
+    $("#duration").html(movie.duration+' min')
     $("#poster_slider").attr('src',movie.poster_image)
     document.getElementById('homeCoverContainer').style.background="url('"+movie.cover_image+"')";
     document.getElementById('homeCoverContainer').style.backgroundSize="100% 100%";

@@ -1,14 +1,86 @@
 @extends('User/layouts/app')
 @section('content')
+    <div class="p-5 text-white rounded-3 mb-3" style="background: url('{{$movie->cover_image}}');background-size:100% 100%; background-repeat : no-repeat " >
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 ">
+                    <div class="d-flex justify-content-center">
+                        <img src="{{$movie->poster_image}}" class="img-fluid rounded"  />
+
+                    </div>
+                    <div class="d-flex justify-content-center ">
+                        @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
+                            <button href="#" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
+                        @else
+                            <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" id="addToFavBtn">Add to favorite</Button>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+                    <h1 class="display-4">{{$movie->name}} </h1>
+                    <h4 class="d-flex align-items-center">
+                        <i class="bi bi-calendar2-minus me-3" style="font-size: 25px;color: gold"></i>
+                        <strong id="yearr" class="mt-2" style="font-size: 25px">{{$movie->realased_date}}</strong>
+                    </h4>
+                    <h4 class="d-flex align-items-center">
+                        <i class="bi bi-clock-history me-3" style="font-size: 25px;color: gold"></i>
+                        <strong id="duration" class="mt-2" style="font-size: 25px">{{$movie->duration}} min</strong>
+                    </h4>
+                    <div class="d-flex flex-row gap-3">
+                        @foreach($movie->categories as $category)
+                            <h6 class="rounded p-1" style="border: gold 1px solid">  {{$category->name}}</h6>
+
+                        @endforeach
+                    </div>
+                    <p class="lead" >{{$movie->description}}</p>
+                    <h4 class="d-flex align-items-center">
+                        <i class="bi bi-star-fill me-3" style="font-size: 25px;color: gold"></i>
+                        <strong  class="mt-2" style="font-size: 25px">{{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[0]}}  ({{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[2]}} users)</strong>
+                    </h4>
+                    <hr class="my-4">
+
+                     <a class="btn btn-primary col-sm-6 col-md-4 col-lg-2 btn-lg mt-3" href="#" role="button">Watch now</a>
+                    <h4 class="mt-3">Directed By</h4>
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <img class="rounded-circle"
+
+                             src="{{\App\Http\Controllers\ActorController::findDirector($movie->directorId)->actor_image}}"
+                             alt="user image" height="90px" width="90px"/>
+                        <div>
+                            <a class="nav-link active" href="{{route('showActor',\App\Http\Controllers\ActorController::findDirector($movie->directorId)->id)}}">{{\App\Http\Controllers\ActorController::findDirector($movie->directorId)->full_name}}</a>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
+        <div class="row text-white text-center">
+            <h2 >Actors</h2>
+            @foreach($movie->actors as $actor)
+                <div class="col-lg-2 col-md-3 col-6" >
+                    <div class="card mb-3 " style="background-color: #181F3B">
+                        <img src="{{$actor->actor_image}}" height="320PX" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <a class="nav-link active" href="{{route('showActor',$actor->id)}}">{{$actor->full_name}}</a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+ {{--   <div class="container">
         <div class="row">
             <div class="row h-100 p-5 card-background  rounded-3 text-white ms-0 mb-3">
                 <div class="col-lg-4 col-md-6 col-sm-12 text-center">
                     <img src="{{$movie->cover_image}}" width="230px" height="330px" alt="movie cover">
                     <Bututon type="button" class="btn btn-primary col-8 mt-3">Watch Now</Bututon>
-                    {{--
+                    --}}{{--
                                     @if (Auth::check())
-                    --}}
+                    --}}{{--
 
                     <div id="btnConatiner">
                         @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
@@ -18,9 +90,9 @@
                         @endif
                     </div>
 
-                    {{--
+                    --}}{{--
                                     @endif
-                    --}}
+                    --}}{{--
 
                 </div>
                 <div class="col-lg-8 col-md-6 col-sm-12">
@@ -108,5 +180,10 @@
                     allowfullscreen></iframe>
         </div>
 
-    </div>
+    </div>--}}
 @endsection('content')
+@section('scripts')
+    <script>
+
+    </script>
+@endsection('scripts')
