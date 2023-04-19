@@ -28,9 +28,14 @@ Route::post('/save-login', [AuthController::class, 'login'])->name('save-login')
 Route::get('/register', function (){
     return view('Auth/register');
 })->name('register');
-Route::get('/test', function (){
-   dd(auth()->id());
-})->middleware('authJWT');
+Route::get('/user-id', function (){
+   // setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+    if(\App\Http\Middleware\JwtMiddleware::checkLogin()){
+        return response()->json(auth()->id());
+    }else {
+        return response()->json('400');
+    }
+})->name('getId')->middleware('authJWT');
 
 //Users ///////////////////////////
 Route::middleware('authJWT')->group(function () {
@@ -47,6 +52,7 @@ Route::middleware('authJWT')->group(function () {
         Route::put('admin/actors/save-update-actor/{id}', [ActorController::class, 'update'])->name('save-update-actor');
 
         Route::get('admin/actors/add-actor', function (){
+           // dd(auth()->user());
             return view('Admin/Actors/add_actor');
         })->name('add-actor');
 

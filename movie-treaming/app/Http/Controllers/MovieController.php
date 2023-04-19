@@ -10,6 +10,7 @@ use App\Rules\YearOnly;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
@@ -113,6 +114,7 @@ class MovieController extends Controller
     public function movieDetail(string $id)
     {
         //
+
         $movie = Movie::with('categories', 'actors')
             ->where('id', $id)
             ->get()->first();
@@ -123,6 +125,7 @@ class MovieController extends Controller
     public function findMovie(string $id)
     {
         //
+
         $movie = Movie::with('categories', 'actors')
             ->where('id', $id)
             ->get()->first();
@@ -143,6 +146,7 @@ class MovieController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         try {
             $validatedData = $request->validate([
                 'name' => ['required', 'string', 'max:255'],

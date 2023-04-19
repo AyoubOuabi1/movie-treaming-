@@ -41,6 +41,8 @@ class AuthController extends Controller
         $user->assignRole('moderator');
          try{
             $token=JWTAuth::attempt(['email' => $request->email, 'password' => $request->password]);
+             $credentials = $request->only('email', 'password');
+             Auth()->attempt($credentials);
              $cookie = cookie('jwt_token', $token, config('jwt.ttl'), null, null, false, false);
         }catch(JWTException $e){
             return redirect()->back()->withErrors(['error' => 'could_not_create_token']);
@@ -55,7 +57,7 @@ class AuthController extends Controller
                 'email' => 'email or password not correct.',
             ])->withInput();
         }
-
+        Auth()->attempt($credentials);
         $cookie = cookie('jwt_token', $token, config('jwt.ttl'), null, null, false, true);
         return redirect()->route('dashboard')->withCookie($cookie);
     }

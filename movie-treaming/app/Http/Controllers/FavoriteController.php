@@ -36,16 +36,16 @@ class FavoriteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,string $id)
     {
         //
-        $favorite=new Favorite;
+         $favorite=new Favorite;
         try{
             if($this::checkMovie($request->input('movie_id'))){
                 return response()->json(['message' =>'Movie Already added to favorites']);
             }else {
                 $favorite->movie_id = $request->input('movie_id');
-                $favorite->user_id = auth()->id();//Auth::id();
+                $favorite->user_id =$id;//Auth::id();
                 $favorite->save();
                 return response()->json($favorite);
             }

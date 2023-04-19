@@ -21,6 +21,8 @@ $(window).scroll(function () {
         $("nav").addClass("bg-transparent");
      }
 });
+
+
 function openMovie(id){
     window.open(route('movieDetail',id));
 }
@@ -87,7 +89,7 @@ function addToFav(id){
 
 
     $.ajax({
-        url:route('add-favorite'),
+        url:route('add-favorite',getId()),
         type: 'post',
         data:{
             'movie_id': id,
@@ -106,6 +108,7 @@ function addToFav(id){
                 'Movie has been added!',
                 'success'
             )
+            console.log(data)
             $("#btnConatiner").html(" ")
             const btn=createButton('btn-danger',"Remove from Favorites")
             btn.onclick = () => removeFromFav(id);
@@ -113,7 +116,7 @@ function addToFav(id){
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
+            console.log(jqXHR,textStatus, errorThrown);
             // Handle any errors that occur while making the request
         }
     });
@@ -263,3 +266,20 @@ function deleteRate(id){
 document.getElementById("searchInput").addEventListener('keyup',function (e) {
     findMovie();
 })
+
+
+ function getId() {
+     var d;
+     $.ajax({
+         url: route('getId'),
+         type: "GET",
+         async: false,
+         success: function(data) {
+                 d=data
+         },
+         error: function(xhr, status, error) {
+             console.log("Error: " + error);
+         }
+     });
+     return d;
+ }

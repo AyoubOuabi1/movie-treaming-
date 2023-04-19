@@ -31,7 +31,7 @@
                         <i class="bi bi-clock-history me-3" style="font-size: 25px;color: gold"></i>
                         <strong id="duration" class="mt-2" style="font-size: 25px">{{$movie->duration}} min</strong>
                     </h4>
-                    <div class="d-flex flex-row gap-3">
+                    <div class="d-flex wrapper gap-3">
                         @foreach($movie->categories as $category)
                             <h6 class="rounded p-1" style="border: gold 1px solid">  {{$category->name}}</h6>
 
