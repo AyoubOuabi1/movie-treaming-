@@ -9,13 +9,12 @@ Movie streaming websites are becoming increasingly popular as an alternative to 
 - search bar that allows users to search for specific movies.
 - movie detail page that displays information about the movie, such as its plot, cast, and rating.
 - rating system that allows users to rate movies and see the average rating from other users.
-- comment section where users can leave their thoughts and reviews about the movie.
-- user login system that allows users to create an account and save their favorite movies.
+ - user login system that allows users to create an account and save their favorite movies.
 - user profile page that displays the user's account information and their favorite movies.
 - responsive design that works on different devices, such as desktop computers, tablets, and smartphones.
 # using
-- Css(framework)
+- Css(bootstrap)
 - html5
-- javascript
-- php
+- javascript-jquery
+- php(laravel)
 - MySql
