@@ -10,16 +10,19 @@
                     </div>
                     <div class="d-flex align-items-center flex-column">
                         <a class="btn btn-primary col-8 mt-3  mt-3" href="{{route('watchMovie',$movie->id)}}" role="button">Watch now</a>
-
-                    @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
+                    <div id="btnConatiner">
+                        @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
                             <button href="#" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
                         @else
-                            <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" id="addToFavBtn">Add to favorite</Button>
+                            <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" onclick="addToFav({{$movie->id}})" id="addToFavBtn">Add to favorite</Button>
                         @endif
+                    </div>
+
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-                    <h1 class="display-4">{{$movie->name}} </h1>
+                        <h1 class="display-4">{{$movie->name}} </h1>
+
                     <h4 class="d-flex align-items-center">
                         <i class="bi bi-calendar2-minus me-3" style="font-size: 25px;color: gold"></i>
                         <strong id="yearr" class="mt-2" style="font-size: 25px">{{$movie->realased_date}}</strong>
@@ -35,11 +38,24 @@
                         @endforeach
                     </div>
                     <p class="lead" >{{$movie->description}}</p>
-                    <h4 class="d-flex align-items-center">
-                        <i class="bi bi-star-fill me-3" style="font-size: 25px;color: gold"></i>
-                        <strong  class="mt-2" style="font-size: 25px">{{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[0]}}  ({{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[2]}} users)</strong>
-                    </h4>
-                    <hr class="my-4">
+                    <div class="movie-rate">
+                        <h4 class="d-flex align-items-center" >
+                            <i class="bi bi-star-fill me-3" style="color:gold"></i>
+                            <strong  class="mt-2" >{{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[0]}}  ({{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[2]}} users)</strong>
+                        </h4>
+
+                        <div class="rate-star d-flex  align-items-center">
+                             <div class="stars pb-3 me-3" >
+                                <i class="bi bi-star-fill" ></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill" ></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <button class="btn btn-primary">save Rate </button>
+                        </div>
+                    </div>
+
 
                     <h4 class="mt-3">Directed By</h4>
                     <div class="col-lg-3 col-md-4 col-6">
@@ -105,10 +121,25 @@
     </div>
 @endsection('content')
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js"></script>
     <script src='https://code.jquery.com/jquery-1.12.0.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js'></script>
     <script>
+        const stars = document.querySelectorAll(".stars i");
+        stars.forEach((star, index1) => {
+            // Add an event listener that runs a function when the "click" event is triggered
+            star.addEventListener("click", () => {
+                // Loop through the "stars" NodeList Again
+                stars.forEach((star, index2) => {
+                    // Add the "active" class to the clicked star and any stars with a lower index
+                    // and remove the "active" class from any stars with a higher index
+                    index1 >= index2 ? star.classList.add("active") : star.classList.remove("active");
+                });
+            });
+        });
+
         $(document).ready(function () {
+
             $("#actors-slider").owlCarousel({
                 items: 5,
                 itemsDesktop: [1199, 5],

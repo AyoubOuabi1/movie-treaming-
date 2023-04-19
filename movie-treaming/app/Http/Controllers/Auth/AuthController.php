@@ -39,9 +39,9 @@ class AuthController extends Controller
         $user->save();
        // dd($user);
         $user->assignRole('moderator');
-        try{
+         try{
             $token=JWTAuth::attempt(['email' => $request->email, 'password' => $request->password]);
-            $cookie = cookie('jwt_token', $token, config('jwt.ttl'), null, null, false, false);
+             $cookie = cookie('jwt_token', $token, config('jwt.ttl'), null, null, false, false);
         }catch(JWTException $e){
             return redirect()->back()->withErrors(['error' => 'could_not_create_token']);
         }
@@ -49,11 +49,13 @@ class AuthController extends Controller
     }
     public function login(Request $request){
         $credentials = $request->only('email', 'password');
+
         if(!$token=JWTAuth::attempt($credentials)){
             return redirect()->back()->withErrors([
                 'email' => 'email or password not correct.',
             ])->withInput();
         }
+
         $cookie = cookie('jwt_token', $token, config('jwt.ttl'), null, null, false, true);
         return redirect()->route('dashboard')->withCookie($cookie);
     }

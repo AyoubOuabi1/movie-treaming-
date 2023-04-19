@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -26,26 +27,14 @@ class JwtMiddleware
             return $next($request);
         }
         return redirect()->route('login');
-   /*     $token = $request->header('Authorization');
 
-        if (!$token) {
-            return redirect()->route('login');
+    }
+    public static function checkLogin(){
+        $token=Cookie::get('jwt_token');
+        if($token){
+
+            return true;
         }
-
-        try {
-            $user = JWTAuth::parseToken()->authenticate();
-        } catch (TokenInvalidException $e) {
-            return redirect()->route('login');
-        } catch (JWTException $e) {
-            return redirect()->route('login');
-        }
-
-        if (!$user) {
-            return redirect()->route('login');
-        }
-
-        Auth::login($user);
-
-        return $next($request);*/
+        return false;
     }
 }

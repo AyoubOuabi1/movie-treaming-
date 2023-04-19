@@ -21,50 +21,10 @@ $(window).scroll(function () {
         $("nav").addClass("bg-transparent");
      }
 });
-loadTopMovies();
 function openMovie(id){
     window.open(route('movieDetail',id));
 }
-function changeHomeCoverBg(movie){
-    $("#yearr").html(movie.realased_date)
-    $("#duration").html(movie.duration+' min')
-    $("#poster_slider").attr('src',movie.poster_image)
-    document.getElementById('homeCoverContainer').style.background="url('"+movie.cover_image+"')";
-    document.getElementById('homeCoverContainer').style.backgroundSize="100% 100%";
-    document.getElementById('homeCoverContainer').style.backgroundRepeat="no-repeat";
-    movie.categories.forEach(function(category) {
-       document.getElementById('categories').innerHTML+=`<h6 class="rounded p-1" style="border: gold 1px solid"> ${category.name} </h6>`
-    });
-    $("#movieTtl").html(movie.name)
-    $("#movieDesc").html(movie.description.substring(0,80)+"...")
-
-}
-//movie section
-function loadTopMovies() {
-    const topMoviesContainer = document.getElementById('topMovies');
-    if(topMoviesContainer){
-        topMoviesContainer.innerHTML = '';
-        $.ajax({
-            url: route('loadMovies'),
-            type:'get',
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                changeHomeCoverBg(data[0]);
-                 data.forEach(function(movie) {
-
-                    topMoviesContainer.appendChild(printMovies(movie));
-                });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-             }
-        });
-    }else{
-        console.log(topMoviesContainer)
-    }
-
-}
+ //movie section
 
 function findMovie(){
     const dropdownMenu=document.getElementById('searchReuslt')
@@ -122,41 +82,7 @@ function printMovieForSearch(movie){
 
 
 }
-function printMovies(movie){
-    const movieContainer = document.createElement('div');
-    movieContainer.classList.add('col-lg-2', 'col-md-3', 'col-6');
-    const cardContainer = document.createElement('div');
-    cardContainer.classList.add('card', 'mb-3','text-white');
-    cardContainer.style.backgroundColor="#181F3B"
-    const imageElement = document.createElement('img');
-    imageElement.classList.add('card-img-top');
-    imageElement.src = movie.poster_image;
-    imageElement.alt = 'Movie poster';
-    imageElement.height='200'
-
-    const cardBodyElement = document.createElement('div');
-    cardBodyElement.classList.add('card-body','d-flex','flex-column');
-    cardBodyElement.style.height="150px"
-
-    const titleElement = document.createElement('h5');
-    titleElement.classList.add('card-title');
-    titleElement.textContent = movie.name.substring(0,17);
-
-    const watchNowElement = document.createElement('a');
-    watchNowElement.href = '#';
-    watchNowElement.onclick = () => openMovie(movie.id);
-    watchNowElement.classList.add('btn', 'btn-primary','mt-auto');
-    watchNowElement.textContent = 'Watch Now';
-     // Append the HTML elements to the appropriate parent elements
-    cardContainer.appendChild(imageElement);
-    cardBodyElement.appendChild(titleElement);
-     cardBodyElement.appendChild(watchNowElement);
-    cardContainer.appendChild(cardBodyElement);
-    movieContainer.appendChild(cardContainer);
-    return movieContainer;
-
-}
-///////////////////////Favorite Function////////////////////////
+ ///////////////////////Favorite Function////////////////////////
 function addToFav(id){
 
 

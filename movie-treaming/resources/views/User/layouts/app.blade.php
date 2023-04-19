@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css'>
 
-    <link rel="stylesheet" href="{{ URL::asset('fonts/fontawesome-all.min.css') }}"/>
-    <link rel="stylesheet" href="{{ URL::asset('style/style.css') }}"/>
+     <link rel="stylesheet" href="{{ URL::asset('style/style.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     {{--
         <link href="{!! asset('theme/vendor/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
     --}}
@@ -70,11 +70,11 @@
 
                     <li class="nav-item">
 
-                        @auth()
+                        @if(\App\Http\Middleware\JwtMiddleware::checkLogin())
                             <button type="button" class="btn btn-primary ">logOut</button>
-                        @endauth
-                            <button type="button" class="btn btn-primary ">Login</button>
-
+                        @else
+                            <a type="button" href="{{route('login')}}" class="btn btn-primary ">Login</a>
+                        @endif
 
                     </li>
 
@@ -97,6 +97,7 @@
 <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
 
 <script src="{{ URL::asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ URL::asset('js/app.js') }}"></script>

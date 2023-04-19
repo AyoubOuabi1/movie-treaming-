@@ -36,7 +36,7 @@ class RatingController extends Controller
         $rating = Rating::all()->where('movie_id',$id)->avg('stars');
         $rating1 = Rating::all()->where('movie_id',$id);
         $countRating=$rating1->count();
-        $userRate = Rating::where('user_id', 1)
+        $userRate = Rating::where('user_id', auth()->id())
             ->where('movie_id', $id)
             ->pluck('stars')->first();
         if($rating==0){
@@ -73,7 +73,7 @@ class RatingController extends Controller
             'movie_id' => 'required|integer',
             'stars' => 'required|integer|min:1|max:5',
         ]);
-        $rating=DB::table('ratings')->where('movie_id', $request->input('movie_id'))->where('user_id', 1)->update(['stars'=>$request->input('stars')]);
+        $rating=DB::table('ratings')->where('movie_id', $request->input('movie_id'))->where('user_id', auth()->id())->update(['stars'=>$request->input('stars')]);
         if (!$rating) {
             return response()->json(['error' => 'You can only update your own rating for this movie.'], 403);
         }
@@ -85,7 +85,7 @@ class RatingController extends Controller
     public function destroy($id)
     {
         try{
-            $rating=DB::table('ratings')->where('movie_id', $id)->where('user_id', 1)->delete();
+            $rating=DB::table('ratings')->where('movie_id', $id)->where('user_id', auth()->id())->delete();
 
             if (!$rating) {
                 return response()->json(['error' => 'You can only delete your own rating for this movie.'], 403);
@@ -104,14 +104,14 @@ class RatingController extends Controller
             'stars' => 'required|integer|min:1|max:5',
         ]);
         $rating->movie_id = $request->input('movie_id');
-        $rating->user_id =1;//Auth::id();
+        $rating->user_id =auth()->id();//Auth::id();
         $rating->stars = $request->input('stars');
         $rating->save();
         return response()->json($rating);
     }
 
     public static function checkRate(string $movie_id){
-        $rating = DB::table('ratings')->where('movie_id', $movie_id)->where('user_id', 1)->get();
+        $rating = DB::table('ratings')->where('movie_id', $movie_id)->where('user_id', auth()->id())->get();
         return $rating->isNotEmpty();
     }
 

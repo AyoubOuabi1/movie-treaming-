@@ -250,11 +250,40 @@ class MovieController extends Controller
         return $url;
     }
 
-    public static function getMoviesByCategory($categoryId)
+    public static function getMoviesByCategory($categoryIdentifier)
     {
-        $category = Category::find($categoryId);
-        $movies = $category->movies;
+        $category = Category::where('id', $categoryIdentifier)
+            ->orWhere('name', $categoryIdentifier)
+            ->firstOrFail();
+
+        $movies = $category->movies()
+            ->inRandomOrder()
+            ->take(15)
+            ->get();
+
         return $movies;
     }
+
+
+    public static function  getTopMovies()
+    {
+        $topMovies = Movie::with(['categories', 'actors'])
+            ->orderBy('totalView', 'desc')
+            ->take(15)
+            ->get();
+        return $topMovies;
+    }
+
+    public static function getTopActors()
+    {
+        $actors = Actor::withCount('movies')
+            ->orderBy('movies_count', 'desc')
+            ->take(10)
+            ->get();
+
+        return $actors;
+    }
+
+
 
 }

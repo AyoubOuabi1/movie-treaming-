@@ -24,7 +24,7 @@ class FavoriteController extends Controller
     public function index()
     {
         //
-        $favorites = Favorite::where('user_id', 1)->get();
+        $favorites = Favorite::where('user_id', auth()->id())->get();
         $movies = collect();
         foreach ($favorites as $favorite) {
             $movie = Movie::with('actors', 'categories')->find($favorite->movie_id);
@@ -45,7 +45,7 @@ class FavoriteController extends Controller
                 return response()->json(['message' =>'Movie Already added to favorites']);
             }else {
                 $favorite->movie_id = $request->input('movie_id');
-                $favorite->user_id = 1;//Auth::id();
+                $favorite->user_id = auth()->id();//Auth::id();
                 $favorite->save();
                 return response()->json($favorite);
             }
@@ -77,7 +77,7 @@ class FavoriteController extends Controller
     public function destroy(string $id): JsonResponse
     {
         try{
-            $favorite=DB::table('favorites')->where('movie_id', $id)->where('user_id', 1)->delete();
+            $favorite=DB::table('favorites')->where('movie_id', $id)->where('user_id', auth()->id())->delete();
 
             if ($favorite) {
                 return response()->json(['message' => 'Movie has been deleted from favorites']);
@@ -92,8 +92,10 @@ class FavoriteController extends Controller
 
 
     public static function checkMovie(string $id)
+
     {
-        $favorite = DB::table('favorites')->where('movie_id', $id)->where('user_id', 1)->get();
+        //dd(auth()->id());
+        $favorite = DB::table('favorites')->where('movie_id', $id)->where('user_id', auth()->id())->get();
 
         return $favorite->isNotEmpty();
     }

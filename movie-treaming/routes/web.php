@@ -23,11 +23,14 @@ Route::get('/login', function (){
 })->name('login');
 Route::post('/save-register', [AuthController::class, 'register'])->name('save-register');
 
-Route::post('/login', [AuthController::class, 'login'])->name('save-login');
+Route::post('/save-login', [AuthController::class, 'login'])->name('save-login');
 
 Route::get('/register', function (){
     return view('Auth/register');
 })->name('register');
+Route::get('/test', function (){
+   dd(auth()->id());
+})->middleware('authJWT');
 
 //Users ///////////////////////////
 Route::middleware('authJWT')->group(function () {
