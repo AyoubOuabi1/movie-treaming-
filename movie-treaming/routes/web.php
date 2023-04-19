@@ -93,6 +93,7 @@ Route::middleware('authJWT')->group(function () {
 Route::get('/actor/{id}', [ActorController::class, 'showView'])->name('showActor');
 
 Route::get('/movie/{id}', [MovieController::class, 'movieDetail'])->name('movieDetail');
+Route::get('/movie/watch/{id}', [MovieController::class, 'updateTotalView'])->name('watchMovie');
 
 /////////////
 Route::get('/',function(){

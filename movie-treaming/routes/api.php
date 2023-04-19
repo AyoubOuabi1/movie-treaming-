@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('authJWT')->group(function () {
-    Route::group(['middleware' => ['role:super-admin|role:moderator']], function () {
+    //Route::group(['middleware' => ['role:super-admin|role:moderator']], function () {
         // Actor routes
         Route::get('/admin/actors', [ActorController::class, 'index'])->name('loadactors');
         Route::get('/actor/{name}', [ActorController::class, 'show'])->name('find-actor');
@@ -45,7 +45,7 @@ Route::middleware('authJWT')->group(function () {
         // Movie routes
         Route::delete('admin/movies/movie/{id}', [MovieController::class, 'destroy'])->name('delete-movie');
 
-    });
+   // });
 
    // Route::group(['middleware' => ['role:super-admin']], function () {
         //users routes

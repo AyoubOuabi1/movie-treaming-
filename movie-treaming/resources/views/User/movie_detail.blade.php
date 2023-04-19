@@ -8,8 +8,10 @@
                         <img src="{{$movie->poster_image}}" class="img-fluid rounded"  />
 
                     </div>
-                    <div class="d-flex justify-content-center ">
-                        @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
+                    <div class="d-flex align-items-center flex-column">
+                        <a class="btn btn-primary col-8 mt-3  mt-3" href="{{route('watchMovie',$movie->id)}}" role="button">Watch now</a>
+
+                    @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
                             <button href="#" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
                         @else
                             <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" id="addToFavBtn">Add to favorite</Button>
@@ -39,7 +41,6 @@
                     </h4>
                     <hr class="my-4">
 
-                     <a class="btn btn-primary col-sm-6 col-md-4 col-lg-2 btn-lg mt-3" href="#" role="button">Watch now</a>
                     <h4 class="mt-3">Directed By</h4>
                     <div class="col-lg-3 col-md-4 col-6">
                         <img class="rounded-circle"
@@ -60,130 +61,73 @@
     <div class="container">
         <div class="row text-white text-center">
             <h2 >Actors</h2>
-            @foreach($movie->actors as $actor)
-                <div class="col-lg-2 col-md-3 col-6" >
-                    <div class="card mb-3 " style="background-color: #181F3B">
-                        <img src="{{$actor->actor_image}}" height="320PX" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <a class="nav-link active" href="{{route('showActor',$actor->id)}}">{{$actor->full_name}}</a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
- {{--   <div class="container">
-        <div class="row">
-            <div class="row h-100 p-5 card-background  rounded-3 text-white ms-0 mb-3">
-                <div class="col-lg-4 col-md-6 col-sm-12 text-center">
-                    <img src="{{$movie->cover_image}}" width="230px" height="330px" alt="movie cover">
-                    <Bututon type="button" class="btn btn-primary col-8 mt-3">Watch Now</Bututon>
-                    --}}{{--
-                                    @if (Auth::check())
-                    --}}{{--
-
-                    <div id="btnConatiner">
-                        @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
-                            <button href="#" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
-                        @else
-                            <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" id="addToFavBtn">Add to favorite</Button>
-                        @endif
-                    </div>
-
-                    --}}{{--
-                                    @endif
-                    --}}{{--
-
-                </div>
-                <div class="col-lg-8 col-md-6 col-sm-12">
-                    <h1>{{$movie->name}}</h1>
-                    <h3><span>Year : </span> {{$movie->realased_date}}</h3>
-                    <h3><span>Categories : </span> @foreach($movie->categories as $category)
-                            {{$category->name}}
-                        @endforeach</h3>
-                    <h3>Description </h3>
-                    <p>{{$movie->description}}</p>
-                    <div class="d-flex">
-                        <i class="bi bi-star-fill h1" style="color: #f5c518">&ensp;</i>
-                        <div>
-                            <h4 class="h4"> {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[0]}}
-                                / 5</h4>
-                            <h4 class="h4"> {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[2]}} users</h4>
-
-                        </div>
-                    </div>
-                    <div class="py-2 px-4" style="box-shadow: 0 0 10px 0 #ddd;">
-                        <p class="font-weight-bold ">Review</p>
-                        @if(\App\Http\Controllers\RatingController::checkRate($movie->id))
-                            <p class="font-weight-bold ">your old Review
-                                is {{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[1]}}</p>
-                        @endif
-                        <div class="form-group row">
-                            <div class="col">
-                                <div class="rate">
-                                    <input type="radio" id="star5" class="rate " name="rating" value="5"/>
-                                    <label for="star5" title="text">5 stars</label>
-                                    <input type="radio" checked id="star4" class="rate" name="rating" value="4"/>
-                                    <label for="star4" title="text">4 stars</label>
-                                    <input type="radio" id="star3" class="rate" name="rating" value="3"/>
-                                    <label for="star3" title="text">3 stars</label>
-                                    <input type="radio" id="star2" class="rate" name="rating" value="2">
-                                    <label for="star2" title="text">2 stars</label>
-                                    <input type="radio" id="star1" class="rate" name="rating" value="1"/>
-                                    <label for="star1" title="text">1 star</label>
-                                </div>
+            <div  id="actors-slider" class="owl-carousel ">
+                @foreach($movie->actors as $actor)
+                    <div class= "me-3 post-slide" style="width: 250px">
+                        <div class="card mb-3 " style="background-color: #181F3B">
+                            <img src="{{$actor->actor_image}}" height="320PX" class="card-img-top post-img" alt="...">
+                            <div class="card-body">
+                                <a class="nav-link active" href="{{route('showActor',$actor->id)}}" title="{{$actor->full_name}}">{{substr($actor->full_name,0,20)}}</a>
                             </div>
                         </div>
-
-                        <div class="mt-3 text-right">
-                            @if((\App\Http\Controllers\RatingController::checkRate($movie->id)))
-                                <button class="btn btn-sm py-2 px-3 btn-info" id="updateRateBtn" data-id="{{$movie->id}}">
-                                    Update my review
-                                </button>
-                                <button class="btn btn-sm py-2 px-3 btn-danger" id="removeRateBtn"
-                                        data-id="{{$movie->id}}">delete my review
-                                </button>
-
-                            @else
-                                <button class="btn btn-sm py-2 px-3 btn-info" id="giveRateBtn" data-id="{{$movie->id}}">
-                                    Submit
-                                </button>
-                            @endif
-                        </div>
                     </div>
-                    <h3 class="text-center">Actors</h3>
-
-                    <div class="row text-center">
-                        @foreach($movie->actors as $actor)
-                            <div class="col-lg-3 col-md-4 col-6">
-                                <img class="rounded-circle"
-                                     src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-                                     alt="user image" height="90px" width="90px"/>
-                                <div>
-                                    <a href="http://localhost:8000/actor/{{$actor->id}}">{{$actor->full_name}}</a>
-
-                                </div>
-                            </div>
-                        @endforeach
-
-                    </div>
-                </div>
+                @endforeach
             </div>
 
-
         </div>
-        <div class="row h-100 p-5 card-background  rounded-3 mb-3">
-            <h2 class="text-center">Trailer</h2>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/IrabKK9Bhds"
+        <div class="row text-white text-center p-5">
+            <h2 >Trailer</h2>
+            <iframe width="560" height="315" src="{{$movie->trailer_video}}" class="rounded"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen></iframe>
+
         </div>
 
-    </div>--}}
+    </div>
+    <div class="container">
+        <div class="row text-white text-center">
+            <h2 >Related Movies</h2>
+            <div  id="movies-slider" class="owl-carousel">
+                @foreach(\App\Http\Controllers\MovieController::getMoviesByCategory($movie->categories[0]->id) as $moviee)
+                    <div class= "me-3 post-slide" style="width: 250px">
+                        <div class="card mb-3 " style="background-color: #181F3B">
+                            <img src="{{$moviee->poster_image}}" height="320PX" class="card-img-top post-img" alt="...">
+                            <div class="card-body">
+                                <a class="nav-link active" href="{{route('movieDetail',$moviee->id)}}" title="{{$moviee->name}}">{{substr($moviee->name,0,15)}}</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
+    </div>
 @endsection('content')
 @section('scripts')
+    <script src='https://code.jquery.com/jquery-1.12.0.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js'></script>
     <script>
+        $(document).ready(function () {
+            $("#actors-slider").owlCarousel({
+                items: 5,
+                itemsDesktop: [1199, 5],
+                itemsDesktopSmall: [980, 3],
+                itemsMobile: [600, 2],
+                navigation: true,
+                navigationText: ["", ""],
+                pagination: true,
+                autoPlay: true });
+            $("#movies-slider").owlCarousel({
+                items: 5,
+                itemsDesktop: [1199, 5],
+                itemsDesktopSmall: [980, 3],
+                itemsMobile: [600, 2],
+                navigation: true,
+                navigationText: ["", ""],
+                pagination: true,
+                autoPlay: true });
 
+        });
     </script>
 @endsection('scripts')

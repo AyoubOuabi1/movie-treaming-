@@ -101,11 +101,50 @@ movie-container{
 .card-background{
     background-color: #181F3B;
 }
-.movie-detail {
-    background: url("https://movies-streaming.s3.amazonaws.com/images/movie-detail-bg.png") no-repeat;
-    background-size: cover;
-    background-position: center;
-    padding-top: 160px;
-    padding-bottom: var(--section-padding);
+/* Defines the width of the carousel and centers it on the page */
+
+#news-slider {
+    margin-top: 80px;
 }
+
+
+
+.owl-controls .owl-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.owl-controls .owl-buttons .owl-prev {
+    background: gold;
+    position: absolute;
+    top: -13%;
+    left: 15px;
+    padding: 0 18px 0 15px;
+    border-radius: 50px;
+     transition: background 0.5s ease 0s;
+}
+
+.owl-controls .owl-buttons .owl-next {
+    background: gold;
+    position: absolute;
+    top: -13%;
+    right: 15px;
+    padding: 0 15px 0 18px;
+    border-radius: 50px;
+     transition: background 0.5s ease 0s;
+}
+
+.owl-controls .owl-buttons .owl-prev:after,
+.owl-controls .owl-buttons .owl-next:after {
+    content: "\f104";
+    font-family: FontAwesome, sans-serif;
+    color: #333;
+    font-size: 30px;
+}
+
+.owl-controls .owl-buttons .owl-next:after {
+    content: "\f105";
+}
+
+
 

@@ -142,7 +142,7 @@ class ActorController extends Controller
             'nationality' => 'required',
             'description' => 'required',
             'role' => 'required',
-            'actor_image' => 'nullable|image|mimes:png,jpg,jpeg,jfif|max:2048'
+            'actor_image' => 'nullable|image|mimes:png,jpg,webp,jpeg,jfif|max:2048'
         ]);
 
         $actor->full_name = $validatedData['full_name'];

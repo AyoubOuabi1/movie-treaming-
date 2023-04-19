@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actor;
+use App\Models\Category;
 use App\Models\Movie;
 use App\Rules\YearOnly;
  use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -31,17 +32,6 @@ class MovieController extends Controller
 
         return response()->json($movies);
     }
-
-    function test(){
-        /*$file_path  =  $request->file('file')->getClientOriginalName();
-       $s3= \Storage::disk('s3¹'); $filePath = $file name; $s3->put($fileath, file_get_contents($file_path)); return $file url = $s3->url($filepath); = $request->file('file')->getPathName(); file_get_contents($file_path);
-       /ame = time().'.mp4';
-       Storage::disk('s3')->put('videos/'.$name, base_path(Storage::path('app/vedeo.mp4')));
-       $url = Storage::disk('s3')->url('video/'.$name);
-      // dump($url);
-       dd($url);*/
-    }
-
 
 
     /**
@@ -224,17 +214,13 @@ class MovieController extends Controller
 
     public function updateTotalView(string $id)
     {
-        try {
+
             $movie = Movie::findOrFail($id);
 
             // Update movie attributes
             $movie->totalView=$movie->totalView+1;
             $movie->save();
-
-            return response()->json(['success' => 'view has been added']);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+            return view('User/watch_movie',  compact('movie'));
 
     }
     /**
@@ -263,4 +249,12 @@ class MovieController extends Controller
         $url = Storage::disk('s3')->url($filenametostore);
         return $url;
     }
+
+    public static function getMoviesByCategory($categoryId)
+    {
+        $category = Category::find($categoryId);
+        $movies = $category->movies;
+        return $movies;
+    }
+
 }
