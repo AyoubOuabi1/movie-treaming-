@@ -1,8 +1,8 @@
 # Movies-Streaming
 
-A movie streaming website is a website that allows users to stream movies and TV shows online. Users can browse through a catalog of movies and TV shows, and choose to watch them on demand.
+A movie streaming website is a website that allows users to stream movies . Users can browse through a catalog of movies , and choose to watch them on demand.
 
-Movie streaming websites are becoming increasingly popular as an alternative to traditional cable TV, as they offer more flexibility and convenience for users. They can be accessed on a variety of devices, including smartphones, tablets, and desktop computers, and allow users to watch movies and TV shows at their own pace, rather than being tied to a schedule.
+Movie streaming websites are becoming increasingly popular as an alternative to traditional cable TV, as they offer more flexibility and convenience for users. They can be accessed on a variety of devices, including smartphones, tablets, and desktop computers, and allow users to watch movies  at their own pace, rather than being tied to a schedule.
 # user story
 - homepage that displays the latest and most popular movies.
 - Video player: You will need a video player that is capable of streaming movies in a variety of formats, such as MP4, AVI, and MKV. The player should also have features like pause/play, seeking, and full screen.
