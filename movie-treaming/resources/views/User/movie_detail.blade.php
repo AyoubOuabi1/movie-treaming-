@@ -9,19 +9,22 @@
 
                     </div>
                     <div class="d-flex align-items-center flex-column">
-                        <a class="btn btn-primary col-8 mt-3  mt-3" href="{{route('watchMovie',$movie->id)}}" role="button">Watch now</a>
-                    <div id="btnConatiner">
-                        <form action="{{route('add-favorite',$movie->id)}}" method="post" >
-                            @csrf
-                            <input value="{{$movie->id}}" type="text" class="d-none" name="movie_id">
-                            @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id,74))
-                                <button  type="submit" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
-                            @else
-                                <button   type="submit" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}"  id="addToFavBtn">Add to favorite</Button>
-                            @endif
-                        </form>
+                        <a class="btn btn-primary col-9 mt-3" href="{{route('watchMovie',$movie->id)}}" role="button">Watch now</a>
 
-                    </div>
+                            @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
+                            <form class="col-10" action="{{route('delete-favorite',$movie->id)}}" method="post" >
+                                @csrf
+                                @method('delete')
+                                <input value="{{$movie->id}}" type="text" class="d-none" name="movie_id">
+                                <button  type="submit" class="btn btn-danger col-12 mt-3"  id="removeFromFav">Remove From  favorite</Button>
+                            </form>
+                            @else
+                            <form class="col-10" action="{{route('add-favorite',$movie->id)}}" method="post" >
+                                @csrf
+                                <input value="{{$movie->id}}" type="text" class="d-none" name="movie_id">
+                                <button   type="submit" class="btn btn-success col-12 mt-3  "    id="addToFavBtn">Add to favorite</Button>
+                            </form>
+                            @endif
 
                     </div>
                 </div>
@@ -42,7 +45,7 @@
 
                         @endforeach
                     </div>
-                    <p class="lead" >{{$movie->description}}</p>
+                    <p class="lead" >{!! $movie->description !!} </p>
                     <div class="movie-rate">
                         <h4 class="d-flex align-items-center" >
                             <i class="bi bi-star-fill me-3" style="color:gold"></i>

@@ -95,13 +95,13 @@ Route::middleware('authJWT')->group(function () {
             return view('Admin/Categories/Categories');
 
         })->name("loadCategories");
-
+    });
         //// favorite
-        Route::get('/favorites', [FavoriteController::class, 'index']);
-        Route::get('/favorite/{id}', [FavoriteController::class, 'show'])->name('show-favorite');
+        Route::get('/favorites', [FavoriteController::class, 'index'])->name("get-favorites");
+        Route::get('/favorite/{id}', [FavoriteController::class, 'show'])->name('find-favorite');
         Route::post('/favorite', [FavoriteController::class, 'store'])->name('add-favorite');
         Route::delete('/favorite/{id}', [FavoriteController::class, 'destroy'])->name('delete-favorite');
-    });
+
     Route::group(['middleware' => ['role:super-admin|moderator']], function () {
         //
         //users
@@ -109,14 +109,16 @@ Route::middleware('authJWT')->group(function () {
             return view('Admin/Users/Users');
         })->name('getUsers');
     });
+    Route::get('/actor/{id}', [ActorController::class, 'showView'])->name('showActor');
+
+    Route::get('/movie/{id}', [MovieController::class, 'movieDetail'])->name('movieDetail');
+    Route::get('/movie/watch/{id}', [MovieController::class, 'updateTotalView'])->name('watchMovie');
+
 
  //////////favorite
     Route::get('favorites', [favoriteController::class, 'index']);
 });
-Route::get('/actor/{id}', [ActorController::class, 'showView'])->name('showActor');
 
-Route::get('/movie/{id}', [MovieController::class, 'movieDetail'])->name('movieDetail');
-Route::get('/movie/watch/{id}', [MovieController::class, 'updateTotalView'])->name('watchMovie');
 
 /////////////
 Route::get('/',function(){

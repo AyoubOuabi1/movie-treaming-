@@ -1,26 +1,60 @@
 @extends('User/layouts/app')
 @section('content')
-    <div class="container">
-        <div class="h-100 p-5 bg-light border rounded-3 mt-3">
-            <h1 class="display-4">My favorite movies </h1>
-        </div>
-        <h2 class="my-4">Popular Movies</h2>
-        <div class="row">
+    <div class="container" >
+
+        <div class="  p-5  "  >
+        <div class="row text-white" >
+            <h2 class="text-center  mt-5">My Favorite Movies</h2>
             @foreach($movies as $movie)
-                <div class="col-lg-2 col-md-3 col-6">
-                    <div class="card mb-3">
-                        <img src="{{$movie->poster_image}}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">{{$movie->name}}</h5>
-                            <p class="card-text">{{Str::substr($movie->description, 10)}}...</p>
-                            <a href="http://localhost:8000/movie/{{$movie->id}}" class="btn btn-primary">Watch Now</a>
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <div class="card mb-3 " style="background-color: #181F3B">
+                            <img src="{{$movie->poster_image}}" height="320PX" class="card-img-top post-img" alt="...">
+                            <div class="card-body">
+                                <a class="nav-link active" href="{{route('movieDetail',$movie->id)}}" title="{{$movie->name}}">{{substr($movie->name,0,15)}}</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+             @endforeach
         </div>
     </div>
 
+            <div class="row text-white text-center">
+                <h2 >Recommended to you</h2>
+                <div  id="movies-slider" class="owl-carousel">
+                    @foreach(\App\Http\Controllers\MovieController::getMoviesByCategory($movie->categories[2]->id) as $moviee)
+                        <div class= "me-3 post-slide" style="width: 250px">
+                            <div class="card mb-3 " style="background-color: #181F3B">
+                                <img src="{{$moviee->poster_image}}" height="320PX" class="card-img-top post-img" alt="...">
+                                <div class="card-body">
+                                    <a class="nav-link active" href="{{route('movieDetail',$moviee->id)}}" title="{{$moviee->name}}">{{substr($moviee->name,0,15)}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
 
-    @include('components/footer')
-@endsection('content')
+            </div>
+
+    </div>
+ @endsection('content')
+@section('scripts')
+     <script src='https://code.jquery.com/jquery-1.12.0.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js'></script>
+    <script>
+
+
+        $(document).ready(function () {
+
+            $("#movies-slider").owlCarousel({
+                items: 5,
+                itemsDesktop: [1199, 5],
+                itemsDesktopSmall: [980, 3],
+                itemsMobile: [600, 2],
+                navigation: true,
+                navigationText: ["", ""],
+                pagination: true,
+                autoPlay: true });
+
+        });
+    </script>
+@endsection('scripts')

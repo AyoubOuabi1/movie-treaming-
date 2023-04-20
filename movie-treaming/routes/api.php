@@ -49,12 +49,12 @@ Route::middleware('authJWT')->group(function () {
 
    // Route::group(['middleware' => ['role:super-admin']], function () {
         //users routes
-        Route::get('/admin/users/{role}', [UserController::class, 'index'])->name('get-users')->middleware('permission:CRUD actors');
-        Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete-users')->middleware('permission:CRUD actors');;
+        Route::get('/admin/users/{role}', [UserController::class, 'index'])->name('get-users');
+        Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete-users');
 
         ////////permissions
-        Route::put('admin/users/assignRole/{id}', [RoleController::class,'assignRole'])->name('assignRole')->middleware('permission:CRUD actors');;
-        Route::post('admin/users/getPermission', [RoleController::class,'getPermissions'])->name('getPermissions')->middleware('permission:CRUD actors');
+        Route::put('admin/users/assignRole/{id}', [RoleController::class,'assignRole'])->name('assignRole');
+        Route::post('admin/users/getPermission', [RoleController::class,'getPermissions'])->name('getPermissions');
    // });
 
     // Favorite routes

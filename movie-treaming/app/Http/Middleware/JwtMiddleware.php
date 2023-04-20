@@ -24,6 +24,7 @@ class JwtMiddleware
         $token=$request->cookie('jwt_token');
         if($token){
             $request->headers->set('Authorization', 'Bearer ' . $token);
+            //dd($request,Auth::user());
             return $next($request);
         }
         return redirect()->route('login');
