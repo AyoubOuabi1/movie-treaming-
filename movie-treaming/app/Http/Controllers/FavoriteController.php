@@ -14,6 +14,7 @@ class FavoriteController extends Controller
 {
     //
     //
+
     public function __construct()
     {
         // $this->middleware('auth:api');
@@ -24,7 +25,7 @@ class FavoriteController extends Controller
     public function index()
     {
         //
-        $favorites = Favorite::where('user_id', auth()->id())->get();
+        $favorites = Favorite::where('user_id', request()->cookie('user_id'))->get();
         $movies = collect();
         foreach ($favorites as $favorite) {
             $movie = Movie::with('actors', 'categories')->find($favorite->movie_id);
@@ -36,24 +37,28 @@ class FavoriteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,string $id)
+    public function store(Request $request)
     {
-        //
-         $favorite=new Favorite;
-        try{
-            if($this::checkMovie($request->input('movie_id'))){
-                return response()->json(['message' =>'Movie Already added to favorites']);
-            }else {
-                $favorite->movie_id = $request->input('movie_id');
-                $favorite->user_id =$id;//Auth::id();
-                $favorite->save();
-                return response()->json($favorite);
-            }
-        }catch(Exception $ex){
-            return response()->json($ex->getMessage());
-        }
+        $user_id = auth()->id();
+        $movie_id = $request->input('movie_id');
 
+        try {
+            if ($this->checkMovie($movie_id, $user_id)) {
+                return redirect()->route('movieDetail', ['id' => $movie_id])->with('message', 'Movie already added to favorites');
+            } else {
+                $favorite = new Favorite;
+                $favorite->movie_id = $movie_id;
+                $favorite->user_id = $user_id; // or Auth::id();
+                $favorite->save();
+                return redirect()->route('movieDetail', ['id' => $movie_id])->with('message', 'Movie has been added to favorites');
+            }
+        } catch (Exception $ex) {
+            return redirect()->route('movieDetail', ['id' => $movie_id])->with('message', $ex->getMessage());
+        }
     }
+
+
+
 
     /**
      * Display the specified resource.
@@ -77,7 +82,7 @@ class FavoriteController extends Controller
     public function destroy(string $id): JsonResponse
     {
         try{
-            $favorite=DB::table('favorites')->where('movie_id', $id)->where('user_id', auth()->id())->delete();
+            $favorite=DB::table('favorites')->where('movie_id', $id)->where('user_id', request()->cookie('user_id'))->delete();
 
             if ($favorite) {
                 return response()->json(['message' => 'Movie has been deleted from favorites']);
@@ -91,11 +96,11 @@ class FavoriteController extends Controller
     }
 
 
-    public static function checkMovie(string $id)
+    public static function checkMovie( $movie_id,  $user_id)
 
     {
         //dd(auth()->id());
-        $favorite = DB::table('favorites')->where('movie_id', $id)->where('user_id', auth()->id())->get();
+        $favorite = DB::table('favorites')->where('movie_id', $movie_id)->where('user_id', $user_id)->get();
 
         return $favorite->isNotEmpty();
     }

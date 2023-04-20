@@ -58,10 +58,7 @@ Route::middleware('authJWT')->group(function () {
    // });
 
     // Favorite routes
-    Route::get('/favorites', [FavoriteController::class, 'index']);
-    Route::get('/favorite/{id}', [FavoriteController::class, 'show'])->name('show-favorite');
-    Route::post('/favorite/{id}', [FavoriteController::class, 'store'])->name('add-favorite');
-    Route::delete('/favorite/{id}', [FavoriteController::class, 'destroy'])->name('delete-favorite');
+
 
 
 

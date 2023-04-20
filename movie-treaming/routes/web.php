@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,13 +29,20 @@ Route::post('/save-login', [AuthController::class, 'login'])->name('save-login')
 Route::get('/register', function (){
     return view('Auth/register');
 })->name('register');
+
 Route::get('/user-id', function (){
-   // setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
-    if(\App\Http\Middleware\JwtMiddleware::checkLogin()){
-        return response()->json(auth()->id());
-    }else {
-        return response()->json('400');
+    $user_id = request()->cookie('user_id');
+
+// Check if the cookie exists
+    if ($user_id !== null) {
+        // Do something with the user ID
+        echo "User ID: " . $user_id;
+    } else {
+        // Create a new cookie with a 4-hour expiry time
+        Cookie::queue('user_id', auth()->id(), 60 * 4);
+        echo "User ID cookie created with a 4-hour expiry time.";
     }
+
 })->name('getId')->middleware('authJWT');
 
 //Users ///////////////////////////
@@ -87,6 +95,12 @@ Route::middleware('authJWT')->group(function () {
             return view('Admin/Categories/Categories');
 
         })->name("loadCategories");
+
+        //// favorite
+        Route::get('/favorites', [FavoriteController::class, 'index']);
+        Route::get('/favorite/{id}', [FavoriteController::class, 'show'])->name('show-favorite');
+        Route::post('/favorite', [FavoriteController::class, 'store'])->name('add-favorite');
+        Route::delete('/favorite/{id}', [FavoriteController::class, 'destroy'])->name('delete-favorite');
     });
     Route::group(['middleware' => ['role:super-admin|moderator']], function () {
         //

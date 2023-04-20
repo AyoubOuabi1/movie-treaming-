@@ -11,11 +11,16 @@
                     <div class="d-flex align-items-center flex-column">
                         <a class="btn btn-primary col-8 mt-3  mt-3" href="{{route('watchMovie',$movie->id)}}" role="button">Watch now</a>
                     <div id="btnConatiner">
-                        @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id))
-                            <button href="#" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
-                        @else
-                            <button href="#" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}" onclick="addToFav({{$movie->id}})" id="addToFavBtn">Add to favorite</Button>
-                        @endif
+                        <form action="{{route('add-favorite',$movie->id)}}" method="post" >
+                            @csrf
+                            <input value="{{$movie->id}}" type="text" class="d-none" name="movie_id">
+                            @if(\App\Http\Controllers\FavoriteController::checkMovie($movie->id,74))
+                                <button  type="submit" class="btn btn-danger col-8 mt-3" data-id="{{$movie->id}}" id="removeFromFav">Remove From  favorite</Button>
+                            @else
+                                <button   type="submit" class="btn btn-success col-8 mt-3" data-id="{{$movie->id}}"  id="addToFavBtn">Add to favorite</Button>
+                            @endif
+                        </form>
+
                     </div>
 
                     </div>
