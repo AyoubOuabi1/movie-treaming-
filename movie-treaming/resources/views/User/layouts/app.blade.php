@@ -50,7 +50,7 @@
                         <a class="nav-link" href="http://127.0.0.1:8000/favorites">My Favorite</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">My Ratings</a>
+                        <a class="nav-link" href="{{route('get-rated')}}">My Ratings</a>
                     </li>
 
                 </ul>

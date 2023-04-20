@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movie;
 use App\Models\Rating;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -18,17 +19,33 @@ class RatingController extends Controller
     }
     public function index()
     {
-        $ratings = Rating::with(['movie.categories', 'movie.actors'])->where('user_id', Auth::id())->get();
-        return response()->json($ratings);
+        //
+        $ratings = Rating::where('user_id',auth()->id())->get();
+        $movies = collect();
+        foreach ($ratings as $rating) {
+            $movie = Movie::with('actors', 'categories')->find($rating->movie_id);
+            $movies->push($movie);
+        }
+        return view('User/rate',compact('movies'));
     }
 
+    public static  function  getOldReview($id){
+        $user_id = auth()->id();
+        $movie_id = $id;
+        if(RatingController::checkRate($id)){
+            $rating = Rating::where('user_id', $user_id)
+                ->where('movie_id', $movie_id)
+                ->first();
+            return $rating->stars;
+        }
+        return  null;
+
+
+    }
     public function show(string $id)
     {
         $rating = Rating::with(['movie.categories', 'movie.actors'])->where('user_id', Auth::id())->find($id);
-        if(!$rating){
-            return response()->json('undefined');
-        }
-        return response()->json($rating);
+        return $rating;
     }
 
     public static function getRatingWithAvg(string $id)
@@ -50,65 +67,63 @@ class RatingController extends Controller
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
-        try{
-            if(!$this::checkRate($request->input('movie_id'))){
+        $user_id = auth()->id();
+        $movie_id = $request->input('movie_id');
+        $rating_value = $request->input('rating_value');
+
+        try {
+            if (!$this::checkRate($movie_id)) {
                 $rating = new Rating;
-                return $this->requestRating($request, $rating);
-            }else{
-                return response()->json('Already Rated');
+                $rating->movie_id = $movie_id;
+                $rating->user_id = $user_id;
+                $rating->stars = $rating_value;
+                //dd($rating);
+                $rating->save();
+
+                return redirect()->route('movieDetail', ['id' => $movie_id])->with('success', 'Rating has been added');
+            } else {
+                return redirect()->route('movieDetail', ['id' => $movie_id])->with('message', 'You have already rated this movie');
             }
-
-        }catch(Exception $ex){
-            return response()->json($ex->getMessage());
+        } catch (Exception $ex) {
+            return redirect()->route('movieDetail', ['id' => $movie_id])->with('message', $ex->getMessage());
         }
-
-
     }
+
 
 
     // Update the specified resource in storage.
     public function update(Request $request)
     {
-        $this->validate($request, [
-            'movie_id' => 'required|integer',
-            'stars' => 'required|integer|min:1|max:5',
-        ]);
-        $rating=DB::table('ratings')->where('movie_id', $request->input('movie_id'))->where('user_id', auth()->id())->update(['stars'=>$request->input('stars')]);
+        $id=$request->input('movie_id');
+
+        $rating=DB::table('ratings')->where('movie_id',$id )->where('user_id', auth()->id())->update(['stars'=>$request->input('stars')]);
         if (!$rating) {
-            return response()->json(['error' => 'You can only update your own rating for this movie.'], 403);
+            return redirect()->route('movieDetail', ['id' => $id])->with('error', 'You can only updqte your own rating for this movie');
         }
-        return response()->json($rating);
-    }
+        return redirect()->route('movieDetail', ['id' => $id])->with('success', 'Rating updated successfully');
+
+     }
 
 
     // Remove the specified resource from storage.
     public function destroy($id)
     {
-        try{
+         try{
             $rating=DB::table('ratings')->where('movie_id', $id)->where('user_id', auth()->id())->delete();
 
             if (!$rating) {
-                return response()->json(['error' => 'You can only delete your own rating for this movie.'], 403);
-            }
-            return response()->json(['message' => 'Rating deleted successfully']);
-        }catch(Exception $ex){
-            return response()->json($ex->getMessage());
+                return redirect()->route('movieDetail', ['id' => $id])->with('message', 'You can only delete your own rating for this movie');
+
+             }
+            return redirect()->route('movieDetail', ['id' => $id])->with('success', 'Rating deleted successfully');
+
+         }catch(Exception $ex){
+            return redirect()->route('movieDetail', ['id' => $id])->with('message', $ex->getMessage());
         }
 
     }
 
-    public function requestRating(Request $request, $rating): JsonResponse
-    {
-        $this->validate($request, [
-            'movie_id' => 'required|integer',
-            'stars' => 'required|integer|min:1|max:5',
-        ]);
-        $rating->movie_id = $request->input('movie_id');
-        $rating->user_id =auth()->id();//Auth::id();
-        $rating->stars = $request->input('stars');
-        $rating->save();
-        return response()->json($rating);
-    }
+
 
     public static function checkRate(string $movie_id){
         $rating = DB::table('ratings')->where('movie_id', $movie_id)->where('user_id', auth()->id())->get();

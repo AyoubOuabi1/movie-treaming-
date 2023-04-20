@@ -28,7 +28,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('authJWT')->group(function () {
-    //Route::group(['middleware' => ['role:super-admin|role:moderator']], function () {
         // Actor routes
         Route::get('/admin/actors', [ActorController::class, 'index'])->name('loadactors');
         Route::get('/actor/{name}', [ActorController::class, 'show'])->name('find-actor');
@@ -36,40 +35,22 @@ Route::middleware('authJWT')->group(function () {
 
 
         // Category routes
-        Route::get('/categories', [CategoryController::class, 'index'])->name('load-categories');
-        Route::get('/category/{name}', [CategoryController::class, 'show'])->name('find-category');
-        Route::post('/category', [CategoryController::class, 'store'])->name('add-category');
-        Route::put('/category/{id}', [CategoryController::class, 'update'])->name('update-category');
-        Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('delete-category');
+        Route::get('/admin/categories', [CategoryController::class, 'index'])->name('load-categories');
+        Route::get('/admin/category/{name}', [CategoryController::class, 'show'])->name('find-category');
+        Route::post('/admin/category', [CategoryController::class, 'store'])->name('add-category');
+        Route::put('/admin/category/{id}', [CategoryController::class, 'update'])->name('update-category');
+        Route::delete('/admin/category/{id}', [CategoryController::class, 'destroy'])->name('delete-category');
 
         // Movie routes
         Route::delete('admin/movies/movie/{id}', [MovieController::class, 'destroy'])->name('delete-movie');
 
-   // });
 
-   // Route::group(['middleware' => ['role:super-admin']], function () {
-        //users routes
         Route::get('/admin/users/{role}', [UserController::class, 'index'])->name('get-users');
         Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete-users');
 
         ////////permissions
         Route::put('admin/users/assignRole/{id}', [RoleController::class,'assignRole'])->name('assignRole');
         Route::post('admin/users/getPermission', [RoleController::class,'getPermissions'])->name('getPermissions');
-   // });
-
-    // Favorite routes
-
-
-
-
-
-// Rating routes
-    Route::get('/ratings', [RatingController::class, 'index']);
-    Route::get('/rating/{id}', [RatingController::class, 'show'])->name('show-rating');
-    Route::post('/rating', [RatingController::class, 'store'])->name('add-rate');
-    Route::put('/update-rating', [RatingController::class, 'update'])->name('update-rate');
-    Route::delete('/delete-rating/{id}', [RatingController::class, 'destroy'])->name('delete-rate');
-
 
 
 

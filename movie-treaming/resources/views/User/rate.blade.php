@@ -11,6 +11,17 @@
                             <img src="{{$movie->poster_image}}" height="320PX" class="card-img-top post-img" alt="...">
                             <div class="card-body">
                                 <a class="nav-link active" href="{{route('movieDetail',$movie->id)}}" title="{{$movie->name}}">{{substr($movie->name,0,15)}}</a>
+                                <div class="">
+                                    <div class=" d-flex  align-items-center">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= \App\Http\Controllers\RatingController::getOldReview($movie->id))
+                                                <i class="bi bi-star-fill" style=" color: gold" data-value="{{ $i }}"></i>
+                                            @else
+                                                <i class="bi bi-star-fill"  data-value="{{ $i }}"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -21,13 +32,15 @@
             <div class="row text-white text-center">
                 <h2 >Recommended to you</h2>
                 <div  id="movies-slider" class="owl-carousel">
-                    @foreach(\App\Http\Controllers\MovieController::getMoviesByCategory($movie->categories[1]->id) as $moviee)
+                    @foreach(\App\Http\Controllers\MovieController::getMoviesByCategory($movie->categories[0]->id) as $moviee)
                         <div class= "me-3 post-slide" style="width: 250px">
                             <div class="card mb-3 " style="background-color: #181F3B">
                                 <img src="{{$moviee->poster_image}}" height="320PX" class="card-img-top post-img" alt="...">
                                 <div class="card-body">
                                     <a class="nav-link active" href="{{route('movieDetail',$moviee->id)}}" title="{{$moviee->name}}">{{substr($moviee->name,0,15)}}</a>
+
                                 </div>
+
                             </div>
                         </div>
                     @endforeach

@@ -4,6 +4,7 @@ use App\Http\Controllers\ActorController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\RatingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
@@ -97,11 +98,15 @@ Route::middleware('authJWT')->group(function () {
         })->name("loadCategories");
     });
         //// favorite
-        Route::get('/favorites', [FavoriteController::class, 'index'])->name("get-favorites");
+        Route::get('/favorites', [FavoriteController::class, 'index'])->name('get-favorites');
         Route::get('/favorite/{id}', [FavoriteController::class, 'show'])->name('find-favorite');
         Route::post('/favorite', [FavoriteController::class, 'store'])->name('add-favorite');
         Route::delete('/favorite/{id}', [FavoriteController::class, 'destroy'])->name('delete-favorite');
-
+        //rating
+        Route::get('/rated', [RatingController::class, 'index'])->name('get-rated');
+        Route::post('/rating', [RatingController::class, 'store'])->name('add-rate');
+        Route::delete('/delete-rating/{id}', [RatingController::class, 'destroy'])->name('remove-rate');
+        Route::put('/update-rating', [RatingController::class, 'update'])->name('update-rate');
     Route::group(['middleware' => ['role:super-admin|moderator']], function () {
         //
         //users

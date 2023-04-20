@@ -51,17 +51,52 @@
                             <i class="bi bi-star-fill me-3" style="color:gold"></i>
                             <strong  class="mt-2" >{{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[0]}}  ({{\App\Http\Controllers\RatingController::getRatingWithAvg($movie->id)[2]}} users)</strong>
                         </h4>
+                        @php
+                            $has_rated=\App\Http\Controllers\RatingController::checkRate($movie->id);
+                            @endphp
+                        <form action="{{ $has_rated ? route('update-rate') : route('add-rate') }}" method="post">
+                            @csrf
+                            @if ($has_rated)
+                                @method('PUT') {{-- Use PUT method for update --}}
+                            @endif
+                            <div class="rate-star d-flex  align-items-center">
+                                <input type="hidden" name="movie_id" value="{{ $movie->id }}">
+                                <input type="hidden" name="rating_value" id="rating" value="">
 
-                        <div class="rate-star d-flex  align-items-center">
-                             <div class="stars pb-3 me-3" >
-                                <i class="bi bi-star-fill" ></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill" ></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
+                                <div class="stars pb-3 me-3">
+
+                                    @if(is_null(\App\Http\Controllers\RatingController::getOldReview($movie->id)))
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="bi bi-star-fill" data-value="{{ $i }}"></i>
+                                        @endfor
+                                    @else
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= \App\Http\Controllers\RatingController::getOldReview($movie->id))
+                                                <i class="bi bi-star-fill active" data-value="{{ $i }}"></i>
+                                            @else
+                                                <i class="bi bi-star-fill" data-value="{{ $i }}"></i>
+                                            @endif
+                                        @endfor
+                                    @endif
+
+                                </div>
+                                @if ($has_rated)
+                                    <button type="submit" class="btn btn-primary me-3">Update Rate</button>
+
+                                   @else
+                                    <button type="submit" class="btn btn-primary">Save Rate</button>
+                                @endif
                             </div>
-                            <button class="btn btn-primary">save Rate </button>
-                        </div>
+                        </form>
+                        @if ($has_rated)
+                             <form action="{{ route('remove-rate',$movie->id) }}" method="post" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Remove Rate</button>
+                            </form>
+                        @endif
+
+
                     </div>
 
 
@@ -135,12 +170,9 @@
     <script>
         const stars = document.querySelectorAll(".stars i");
         stars.forEach((star, index1) => {
-            // Add an event listener that runs a function when the "click" event is triggered
-            star.addEventListener("click", () => {
-                // Loop through the "stars" NodeList Again
+             star.addEventListener("click", () => {
+                 document.getElementById('rating').value = star.getAttribute('data-value');
                 stars.forEach((star, index2) => {
-                    // Add the "active" class to the clicked star and any stars with a lower index
-                    // and remove the "active" class from any stars with a higher index
                     index1 >= index2 ? star.classList.add("active") : star.classList.remove("active");
                 });
             });
