@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -43,8 +44,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'string|max:255',
             'email' => 'string|email|max:255|unique:users,email,' . $user->id,
-            'old_password' => 'required_with:old_password|string',
-            'password' => 'required_with:password|string|min:8',
+            'old_password' => 'nullable:old_password|string',
+            'password' => 'nullable:password|string|min:8',
             'image' =>  ['nullable', 'image', 'max:2048', 'mimes:jpg,jpeg,png,jfif']
         ]);
 
@@ -75,12 +76,28 @@ class UserController extends Controller
 
         $user->save(); // Save the updated user information
 
-        return redirect()->route('user-profile')->with('success', 'User information has been updated successfully.');
+        return redirect()->route('user-profile')->with('msg-success', 'your information has been updated successfully.');
     }
+    public function deleteMyprofile(Request $request){
+        try{
+            $user=DB::table('users')->where('id', '=',auth()->id())->delete();
 
+            if ($user) {
+                $token = $request->cookie('jwt_token');
+                JWTAuth::setToken($token)->invalidate();
+                cookie()->queue(cookie()->forget('jwt_token'));
+                return redirect()->route('home-page');
+            } else {
+                return redirect()->route('user-profile')->with('msg-error', 'please try later');
+
+            }
+        }catch (Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
     public function destroy(string $id){
         try{
-            $user=DB::table('users')->where('id', $id)->delete();
+            $user=DB::table('users')->where('id','=', $id)->delete();
 
             if ($user) {
                 return response()->json(['message' => 'User has been deleted ']);

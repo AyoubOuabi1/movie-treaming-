@@ -38,7 +38,8 @@ Route::middleware('authJWT')->group(function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/profile', [UserController::class, 'show'])->name('user-profile');
-    Route::get('/save-profile', [UserController::class, 'update'])->name('user-save-profile');
+    Route::delete('/delete-profile', [UserController::class, 'deleteMyprofile'])->name('user-delete-profile');
+    Route::put('/save-profile', [UserController::class, 'update'])->name('user-save-profile');
     Route::group(['middleware' => ['role:super-admin|moderator']], function () {
         //dashboard
         Route::get('/dashboard', function () {

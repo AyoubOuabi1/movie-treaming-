@@ -2,29 +2,31 @@
 @section('content')
     <div class="container" >
         <div class=" p-5"  >
-            @if(session('msg-error'))
-                <div class="alert alert-danger mb-3">
-                    {{ session('msg-error') }}
-                </div>
-            @endif
-            @if(session('success'))
-                    <div class="alert alert-success mb-3">
-                        {{ session('success') }}
-                    </div>
-                @endif
+
         <div class="row text-white" >
 
             <div class="card-body">
                 <div class="row mt-5 ">
                     <h2 class="text-center">Your Information</h2>
-                    <form action="{{route('user-save-profile')}}" method="POST" enctype="multipart/form-data">
+                    @if(session('msg-error'))
+                        <div class="alert alert-danger mb-3">
+                            {{ session('msg-error') }}
+                        </div>
+                    @endif
+                    @if(session('msg-success'))
+                        <div class="alert alert-success mb-3">
+                            {{ session('msg-success') }}
+                        </div>
+                    @endif
+                    <div class="form-group   rounded-3 p-3 mt-3 row" style="background-color: #181F3B">
+                    <form action="{{route('user-save-profile')}}" method="POST" class="row" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="_method" value="PUT">
 
-                        <div class="form-group   rounded-3 p-3 mt-3 row" style="background-color: #181F3B">
+
                             <div class="col-md-3 col-sm-12 d-flex justify-content-center">
-                                <img src="{{ $user->image }}" class="" alt="user image" height="200px" width="250px">
+                                <img src="{{ $user->image }}" class="" alt="user image" height="350px" width="250px">
                             </div>
 
                             <div class="col-md-9 col-sm-12">
@@ -62,18 +64,24 @@
 
                             </div>
                             <div class="d-flex justify-content-center mt-3">
-                                <button type="submit"  class="btn btn-primary me-3">Update my information</button>
-                                <form action="" method="post" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">delete my account</button>
-                                </form>
+                                <button type="submit"  class="btn btn-primary ms-4">Update my information</button>
                             </div>
-                        </div>
-
 
 
                     </form>
+
+                    <form action="{{route('user-delete-profile')}}" method="post" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit" class="btn btn-danger ">delete my account</button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
                 </div>
 
             </div>
