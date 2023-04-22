@@ -17,7 +17,10 @@ class UserController extends Controller
         $user=User::find(auth()->id());
         return view('User/profile',compact('user'));
     }
-
+    public static function userInfo(){
+        $user=User::find(auth()->id());
+        return $user;
+    }
     public function index(string $role,request $request){
         $name = $request->input('name');
         $query = User::role($role)->where('id', '<>', auth()->id());;

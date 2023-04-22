@@ -11,7 +11,7 @@
             <li class="nav-item"><a class="nav-link active" href="{{route('dashboard')}}"><i
                         class="bi bi-speedometer2"></i><span>Dashboard</span></a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('getMovies')}}"><i
-                        class="bi bi-film"></i><span>Movies</span></a></li>
+                        class="bi bi-file-play"></i><span>Movies</span></a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('getActors')}}"><i
                         class="bi bi-person-circle"></i><span>Actors</span></a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('loadCategories')}}"><i

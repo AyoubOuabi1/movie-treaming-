@@ -114,7 +114,7 @@
                 </div>
 
             </div>
-             <div class="row text-white text-center">
+             <div class="row text-white text-center mt-3">
             <h2 >your favorite</h2>
             <div  id="fav-slider" class="owl-carousel">
                 @foreach(\App\Http\Controllers\FavoriteController::getFavMovies() as $moviee)
