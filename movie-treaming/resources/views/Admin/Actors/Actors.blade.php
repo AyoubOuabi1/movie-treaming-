@@ -1,14 +1,14 @@
 @extends('Admin.layouts.baseLayout')
 @section('content')
     <div class="d-flex justify-content-between">
-        <h3 class="text-dark mb-4">Movies</h3>
+        <h3 class="text-dark mb-4">Actors/Directors</h3>
         <a href="{{ route('add-actor') }}"><button type="button" class="btn btn-primary" >Add new Actor/Director </button></a>
 
     </div>
 
     <div class="card shadow">
         <div class="card-header py-3">
-            <p class="text-primary m-0 fw-bold">Movies Info</p>
+            <p class="text-primary m-0 fw-bold">Actors/Directors Info</p>
 
         </div>
         <div class="card-body">

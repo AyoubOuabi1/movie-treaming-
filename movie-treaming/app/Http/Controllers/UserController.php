@@ -17,9 +17,10 @@ class UserController extends Controller
         $user=User::find(auth()->id());
         return view('User/profile',compact('user'));
     }
+
     public function index(string $role,request $request){
         $name = $request->input('name');
-        $query = User::role($role);
+        $query = User::role($role)->where('id', '<>', auth()->id());;
         if ($name) {
             $keywords = preg_split('/\s+/', trim($name));
             foreach ($keywords as $keyword) {

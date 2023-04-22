@@ -38,4 +38,16 @@ class JwtMiddleware
         }
         return false;
     }
+    public static  function  checkUser(){
+        if(JwtMiddleware::checkLogin()){
+            $user=\App\Models\User::find(auth()->id());
+            if($user->hasRole('simple-user')){
+                return 1;
+            }else if ($user->hasRole('moderator')){
+                return 2;
+            }else if ($user->hasRole('super-admin')){
+                return 3;
+            }
+        }
+    }
 }

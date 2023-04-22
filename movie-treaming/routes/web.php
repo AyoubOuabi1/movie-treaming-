@@ -34,7 +34,13 @@ Route::post('/save-register', [AuthController::class, 'register'])->name('save-r
 
 
 Route::middleware('authJWT')->group(function () {
-
+    Route::get('/test',function (){
+        $user=User::find(auth()->id());
+        if ($user->hasRole('simple-user')){
+            return 'true';
+        }
+        return  'false';
+    });
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/profile', [UserController::class, 'show'])->name('user-profile');
@@ -96,7 +102,7 @@ Route::middleware('authJWT')->group(function () {
         Route::post('/rating', [RatingController::class, 'store'])->name('add-rate');
         Route::delete('/delete-rating/{id}', [RatingController::class, 'destroy'])->name('remove-rate');
         Route::put('/update-rating', [RatingController::class, 'update'])->name('update-rate');
-    Route::group(['middleware' => ['role:super-admin|moderator']], function () {
+    Route::group(['middleware' => ['role:super-admin']], function () {
         //
         //users
         Route::get('admin/users/users', function (){

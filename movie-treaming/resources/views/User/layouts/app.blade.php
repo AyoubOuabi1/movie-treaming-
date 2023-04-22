@@ -34,7 +34,7 @@
 <div class="container-fluid">
     <nav class="navbar  w-100  navbar-expand-lg navbar-dark bg-transparent text-white  position-fixed" style="z-index: 2;margin-left: -12px">
         <div class="container pl-2">
-            <a class="navbar-brand pl-2" href="#">Drama House</a>
+            <a class="navbar-brand pl-2" href="{{route('home-page')}}">Drama House</a>
             <button class="navbar-toggler mr-2" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -42,20 +42,24 @@
             </button>
             <div class="collapse navbar-collapse d-lg-flex justify-content-lg-around g-2"   id="navbarSupportedContent">
                 <ul class="navbar-nav  mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{route('home-page')}}">Home</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://127.0.0.1:8000/favorites">My Favorite</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('get-rated')}}">My Ratings</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('user-profile')}}">My profile</a>
-                    </li>
-
+                    @if(\App\Http\Middleware\JwtMiddleware::checkLogin())
+                         <li class="nav-item">
+                             <a class="nav-link" aria-current="page" href="{{route('dashboard')}}">Dashboard</a>
+                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{route('home-page')}}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000/favorites">My Favorite</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('get-rated')}}">My Ratings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('user-profile')}}">My profile</a>
+                        </li>
+                    @endif
                 </ul>
                 <ul class="navbar-nav  mb-2 mb-lg-0">
                     <li class="nav-item me-lg-3 text-black">
@@ -80,11 +84,7 @@
                         @endif
 
                     </li>
-
-
                 </ul>
-
-
             </div>
         </div>
     </nav>
