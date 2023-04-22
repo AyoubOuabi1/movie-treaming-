@@ -52,6 +52,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('get-rated')}}">My Ratings</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('user-profile')}}">My profile</a>
+                    </li>
 
                 </ul>
                 <ul class="navbar-nav  mb-2 mb-lg-0">

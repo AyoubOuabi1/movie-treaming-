@@ -1,3 +1,81 @@
+
+@extends('User/layouts/app')
+@section('content')
+    <div class="p-5 text-white rounded-3 mb-3" style="background-color: #181F3B">
+        <div class="container mt-5">
+            <div class="row" >
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 ">
+                    <div class="d-flex justify-content-center">
+                        <img src="{{$actor->actor_image}}" class="img-fluid rounded"  />
+
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+                    <h1 class="display-4">{{$actor->full_name}} </h1>
+
+                    <h4 class="d-flex align-items-center">
+                        <i class="bi bi-calendar2-minus me-3" style="font-size: 25px;color: gold"></i>
+                        <strong id="yearr" class="mt-2" style="font-size: 25px">{{$actor->born_in}}</strong>
+                    </h4>
+                    <h4 class="d-flex align-items-center">
+                        <i class="bi bi-globe me-3" style="font-size: 25px;color: gold"></i>
+                        <strong id="duration" class="mt-2" style="font-size: 25px">{{$actor->nationality}} </strong>
+                    </h4>
+
+                    <p class="lead" >{!! $actor->description !!} </p>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row text-white text-center">
+            <h2>Movies By Actor</h2>
+            <div  id="movies-slider" class="owl-carousel">
+                @foreach($movies as $moviee)
+                    <div class= "me-3 post-slide" style="width: 250px">
+                        <div class="card mb-3 " style="background-color: #181F3B">
+                            <img src="{{$moviee->poster_image}}" height="320PX" class="card-img-top post-img" alt="...">
+                            <div class="card-body">
+                                <a class="nav-link active" href="{{route('movieDetail',$moviee->id)}}" title="{{$moviee->name}}">{{substr($moviee->name,0,15)}}</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
+    </div>
+@endsection('content')
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js"></script>
+    <script src='https://code.jquery.com/jquery-1.12.0.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js'></script>
+    <script>
+
+        $(document).ready(function () {
+
+
+            $("#movies-slider").owlCarousel({
+                items: 5,
+                itemsDesktop: [1199, 5],
+                itemsDesktopSmall: [980, 3],
+                itemsMobile: [600, 2],
+                navigation: true,
+                navigationText: ["", ""],
+                pagination: true,
+                autoPlay: true });
+
+        });
+    </script>
+@endsection('scripts')
+
+
+{{--
 @extends('User/layouts/app')
 @section('content')
     <div class="container">
@@ -38,3 +116,4 @@
     @include('components.footer')
 
 @endsection('content')
+--}}
