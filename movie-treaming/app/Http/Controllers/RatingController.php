@@ -28,6 +28,17 @@ class RatingController extends Controller
         }
         return view('User/rate',compact('movies'));
     }
+    public static function getRatedMoviesByUser()
+    {
+        //
+        $ratings = Rating::where('user_id',auth()->id())->get();
+        $movies = collect();
+        foreach ($ratings as $rating) {
+            $movie = Movie::with('actors', 'categories')->find($rating->movie_id);
+            $movies->push($movie);
+        }
+        return $movies;
+    }
 
     public static  function  getOldReview($id){
         $user_id = auth()->id();
@@ -96,7 +107,7 @@ class RatingController extends Controller
     {
         $id=$request->input('movie_id');
 
-        $rating=DB::table('ratings')->where('movie_id',$id )->where('user_id', auth()->id())->update(['stars'=>$request->input('stars')]);
+        $rating=DB::table('ratings')->where('movie_id',$id )->where('user_id', auth()->id())->update(['stars'=>$request->input('rating_value')]);
         if (!$rating) {
             return redirect()->route('movieDetail', ['id' => $id])->with('error', 'You can only updqte your own rating for this movie');
         }

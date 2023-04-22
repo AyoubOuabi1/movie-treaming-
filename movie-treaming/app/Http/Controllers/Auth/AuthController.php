@@ -38,7 +38,7 @@ class AuthController extends Controller
         $user->password=Hash::make($validateData['password']);
         $user->save();
        // dd($user);
-        $user->assignRole('moderator');
+        $user->assignRole('simple-user');
          try{
             $token=JWTAuth::attempt(['email' => $request->email, 'password' => $request->password]);
              $credentials = $request->only('email', 'password');
@@ -47,7 +47,7 @@ class AuthController extends Controller
         }catch(JWTException $e){
             return redirect()->back()->withErrors(['error' => 'could_not_create_token']);
         }
-        return redirect()->route('dashboard')->withCookie($cookie);
+        return redirect()->route('home-page')->withCookie($cookie);
     }
     public function login(Request $request){
         $credentials = $request->only('email', 'password');
@@ -59,7 +59,7 @@ class AuthController extends Controller
         }
         Auth()->attempt($credentials);
         $cookie = cookie('jwt_token', $token, config('jwt.ttl'), null, null, false, true);
-        return redirect()->route('dashboard')->withCookie($cookie);
+        return redirect()->route('home-page')->withCookie($cookie);
     }
 
 /*    public function ForgetPassword(Request $request){
@@ -127,11 +127,11 @@ class AuthController extends Controller
         try {
             $token = $request->cookie('jwt_token');
             JWTAuth::setToken($token)->invalidate();
-            cookie()->queue(cookie()->forget('jwt_token'));//coockie('jwt_token',-1)||queue()->sent with the response to client side.
+            cookie()->queue(cookie()->forget('jwt_token'));
         } catch (\Exception $e) {
             return response()->json(['error'=>$e->getMessage()]);
         }
-        return redirect()->route('welcome');
+        return redirect()->route('home-page');
     }
 }
 

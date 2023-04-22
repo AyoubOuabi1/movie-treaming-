@@ -71,7 +71,7 @@
                     <li class="nav-item">
 
                         @if(\App\Http\Middleware\JwtMiddleware::checkLogin())
-                            <button type="button" class="btn btn-primary ">logOut</button>
+                            <a type="button" href="{{route('logout')}}" class="btn btn-primary ">logOut</a>
                         @else
                             <a type="button" href="{{route('login')}}" class="btn btn-primary ">Login</a>
                         @endif

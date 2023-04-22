@@ -32,6 +32,17 @@ class FavoriteController extends Controller
         }
         return view('User/favorite',compact('movies'));
     }
+    public static function getFavMovies()
+    {
+        //
+        $favorites = Favorite::where('user_id',auth()->id())->get();
+        $movies = collect();
+        foreach ($favorites as $favorite) {
+            $movie = Movie::with('actors', 'categories')->find($favorite->movie_id);
+            $movies->push($movie);
+        }
+        return $movies;
+    }
 
     /**
      * Store a newly created resource in storage.

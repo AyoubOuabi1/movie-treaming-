@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
@@ -23,34 +25,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function (){
     return view('Auth/login');
 })->name('login');
-Route::post('/save-register', [AuthController::class, 'register'])->name('save-register');
-
 Route::post('/save-login', [AuthController::class, 'login'])->name('save-login');
 
 Route::get('/register', function (){
     return view('Auth/register');
 })->name('register');
+Route::post('/save-register', [AuthController::class, 'register'])->name('save-register');
 
-Route::get('/user-id', function (){
-    $user_id = request()->cookie('user_id');
 
-// Check if the cookie exists
-    if ($user_id !== null) {
-        // Do something with the user ID
-        echo "User ID: " . $user_id;
-    } else {
-        // Create a new cookie with a 4-hour expiry time
-        Cookie::queue('user_id', auth()->id(), 60 * 4);
-        echo "User ID cookie created with a 4-hour expiry time.";
-    }
-
-})->name('getId')->middleware('authJWT');
-
-//Users ///////////////////////////
 Route::middleware('authJWT')->group(function () {
 
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/profile', [UserController::class, 'show'])->name('user-profile');
+    Route::get('/save-profile', [UserController::class, 'update'])->name('user-save-profile');
     Route::group(['middleware' => ['role:super-admin|moderator']], function () {
         //dashboard
         Route::get('/dashboard', function () {
