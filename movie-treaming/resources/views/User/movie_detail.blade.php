@@ -123,7 +123,7 @@
             <div  id="actors-slider" class="owl-carousel ">
                 @foreach($movie->actors as $actor)
                     <div class= "me-3 post-slide" style="width: 250px">
-                        <div class="card mb-3 " style="background-color: #181F3B">
+                        <div class="card mb-3" style="background-color: #181F3B">
                             <img src="{{$actor->actor_image}}" height="320PX" class="card-img-top post-img" alt="...">
                             <div class="card-body">
                                 <a class="nav-link active" href="{{route('showActor',$actor->id)}}" title="{{$actor->full_name}}">{{substr($actor->full_name,0,20)}}</a>
