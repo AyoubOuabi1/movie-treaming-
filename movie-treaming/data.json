@@ -1,11 +1,11 @@
 {
     "ADS":{
-    "banner_type" : "applovin",
-    "inter_type" : "applovin",
-    "native_type" : "applovin",
-    "banner_id" : "e9fd4884c954b5a4",
-	"interstitial_id" : "5357eb0e07b7e777",
-    "native_id" : "279df56509650c45",
+    "banner_type" : "facebook",
+    "inter_type" : "facebook",
+    "native_type" : "facebook",
+    "banner_id" : "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID",
+	"interstitial_id" : "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID",
+    "native_id" : "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID",
     "newAppStatus" : "off",
 	"appPackage" : ""
     }
