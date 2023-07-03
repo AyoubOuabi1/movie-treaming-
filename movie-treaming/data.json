@@ -1,11 +1,11 @@
 {
     "ADS":{
-    "banner_type" : "applovin",
-    "inter_type" : "applovin",
-    "native_type" : "applovin",
-    "banner_id" : "7668642f551a3a5d",
-	"interstitial_id" : "7668642f551a3a5d",
-    "native_id" : "7668642f551a3a5d",
+    "banner_type" : "facebook",
+    "inter_type" : "facebook",
+    "native_type" : "facebook",
+    "banner_id" : "IMG_16_9_APP_INSTALL",
+	"interstitial_id" : "IMG_16_9_APP_INSTALL",
+    "native_id" : "IMG_16_9_APP_INSTALL",
     "newAppStatus" : "off",
 	"appPackage" : ""
     }
