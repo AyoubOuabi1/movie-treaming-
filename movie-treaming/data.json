@@ -1,12 +1,69 @@
 {
-    "ADS":{
-    "banner_type" : "facebook",
-    "inter_type" : "facebook",
-    "native_type" : "facebook",
-    "banner_id" : "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID",
-	"interstitial_id" : "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID",
-    "native_id" : "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID",
-    "newAppStatus" : "off",
-	"appPackage" : ""
-    }
+
+"ADS": {
+		 "rewarde_type": "applovin",
+		"native_type": "applovin",
+		"inter_type": "applovin",
+		"banner_type": "applovin",
+
+         
+		"unity_id": "98765",
+
+ 
+		"ironsource_id": "123467",
+
+	 
+
+		"banner_applovin": "ad9d6b5fad1c76ea",
+		"native_applovin": "2e5415b1e807ceff",
+		"interstitial_applovin": "5b9e3392372ad1ef",
+		"rewarde_applovin": "b98b3559fd3e1734",
+
+		"interstitial_admob": "x",
+		"banner_admob": "x",
+		"native_admob": "x",
+		"rewarde_admob": "x",
+
+		 
+		
+		"facebook_interstitial": "x",
+		"facebook_native": "x",
+		"facebook_banner": "x",
+		"facebook_rewarde": "x"
+
+		 
+	} 
+    ,
+    "skinsData": [
+      {
+        "image_link": "https://nenow.in/wp-content/uploads/2022/06/Free-Fire-Mars-Landcrusher-AUG-gun-skin.jpg",
+        "text_Content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+      },
+      {
+        "image_link": "https://nenow.in/wp-content/uploads/2022/06/Free-Fire-Mars-Landcrusher-AUG-gun-skin.jpg",
+        "text_Content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+      },
+      {
+        "image_link": "https://nenow.in/wp-content/uploads/2022/06/Free-Fire-Mars-Landcrusher-AUG-gun-skin.jpg",
+        "text_Content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+      },
+        {
+        "image_link": "https://nenow.in/wp-content/uploads/2022/06/Free-Fire-Mars-Landcrusher-AUG-gun-skin.jpg",
+        "text_Content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+      },
+        {
+        "image_link": "https://nenow.in/wp-content/uploads/2022/06/Free-Fire-Mars-Landcrusher-AUG-gun-skin.jpg",
+        "text_Content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+      },
+        {
+        "image_link": "https://nenow.in/wp-content/uploads/2022/06/Free-Fire-Mars-Landcrusher-AUG-gun-skin.jpg",
+        "text_Content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+      },
+        {
+        "image_link": "https://nenow.in/wp-content/uploads/2022/06/Free-Fire-Mars-Landcrusher-AUG-gun-skin.jpg",
+        "text_Content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+      }
+    ]
+  }
 }
+
